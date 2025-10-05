@@ -4,11 +4,12 @@ from crewai.agents.agent_builder.base_agent import BaseAgent
 from typing import List
 from .tools.FileStorageTool import FileStorageTool
 from .tools.DataFetchTool import DataFetchTool
-
+from .tools.DataNormalizationTool import DataNormalizationTool
 
 # Initialize shared tools
 storage_tool = FileStorageTool()
 data_fetch_tool = DataFetchTool()
+data_normalization_tool = DataNormalizationTool()
 
 
 @CrewBase
@@ -35,7 +36,7 @@ class SmartUrbanResilience():
         return Agent(
             config=self.agents_config['data_normalizer'],  # type: ignore[index]
             verbose=True,
-            tools=[storage_tool]
+            tools=[storage_tool, data_normalization_tool]
         )
 
     @agent
