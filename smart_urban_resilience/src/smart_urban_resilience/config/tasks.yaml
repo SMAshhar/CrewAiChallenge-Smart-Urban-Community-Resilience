@@ -1,17 +1,85 @@
-research_task:
+data_collection_task:
   description: >
-    Conduct a thorough research about {topic}
-    Make sure you find any interesting and relevant information given
-    the current year is {current_year}.
+    Collect live data from simulated or connected city sources — including weather APIs, IoT sensors, traffic systems, and citizen feedback reports.
+    Normalize this data into a consistent JSON format for downstream processing.
   expected_output: >
-    A list with 10 bullet points of the most relevant information about {topic}
-  agent: researcher
+    A structured JSON object containing aggregated sensor readings, citizen reports, and timestamped data streams.
+  agent: data_collector
 
-reporting_task:
+data_normalization_task:
   description: >
-    Review the context you got and expand each topic into a full section for a report.
-    Make sure the report is detailed and contains any and all relevant information.
+    Standardize units, timestamps, and location formats in the collected data.
+    Enrich raw records with geolocation data and unify schemas across sources.
   expected_output: >
-    A fully fledged report with the main topics, each with a full section of information.
-    Formatted as markdown without '```'
-  agent: reporting_analyst
+    A normalized dataset with consistent units, standardized keys, geocoded locations, and harmonized timestamps.
+  agent: data_normalizer
+
+data_validation_task:
+  description: >
+    Review and validate the normalized data for completeness, consistency, and logical accuracy.
+    Detect missing values, duplicates, and anomalies; flag or correct them where possible.
+  expected_output: >
+    A cleaned and validated dataset annotated with validation results and any corrections or imputations made.
+  agent: data_validator
+
+event_detection_task:
+  description: >
+    Identify patterns or anomalies within validated city data that correspond to urban events such as outages, traffic congestion, pollution spikes, or public safety incidents.
+  expected_output: >
+    A list of detected events, each tagged with type, location, time, and confidence score.
+  agent: event_detector
+
+impact_assessment_task:
+  description: >
+    Analyze detected events to evaluate their social, environmental, and infrastructural impact.
+    Prioritize incidents based on severity, affected population, and urgency.
+  expected_output: >
+    An event impact report with severity scores, affected zones, and suggested priority levels.
+  agent: impact_assessor
+
+resource_recommendation_task:
+  description: >
+    Recommend optimal allocation of urban resources and response teams based on assessed event impacts and available logistics data.
+  expected_output: >
+    A resource deployment plan specifying personnel, equipment, and locations for optimal response.
+  agent: resource_recommender
+
+logistics_planning_task:
+  description: >
+    Generate optimized travel routes and schedules for emergency or maintenance vehicles.
+    Factor in traffic, road closures, and proximity to event sites.
+  expected_output: >
+    A routing plan with optimized paths, estimated travel times, and scheduling recommendations.
+  agent: logistics_agent
+
+communication_task:
+  description: >
+    Generate clear, concise, and localized updates for citizens and departments regarding ongoing or resolved incidents.
+    Disseminate updates through appropriate channels such as apps, SMS, or social platforms.
+  expected_output: >
+    A set of citizen-ready message templates or alerts with approved language, recipients, and distribution channels.
+  agent: communicator
+
+incident_command_task:
+  description: >
+    Review automated event assessments, recommendations, and communication drafts for human oversight.
+    Validate or override AI-generated decisions and finalize actionable directives.
+  expected_output: >
+    An approved incident response directive reflecting human judgment and ethical oversight.
+  agent: incident_commander
+
+learning_feedback_task:
+  description: >
+    Evaluate post-action performance of all automated and human decisions.
+    Identify system weaknesses, retrain models, and update knowledge bases for continual improvement.
+  expected_output: >
+    A feedback report summarizing lessons learned, retraining data, and updated model configurations.
+  agent: learning_agent
+
+privacy_compliance_task:
+  description: >
+    Continuously monitor data pipelines for compliance with privacy, consent, and data protection rules.
+    Anonymize sensitive fields and ensure secure storage of personal data.
+  expected_output: >
+    A compliance report confirming anonymization, consent adherence, and privacy safeguards.
+  agent: privacy_manager
