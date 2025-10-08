@@ -1,99 +1,75 @@
 ```json
 {
-  "cleaned": [
+  "validated_data": [
     {
       "id": "unknown",
       "event_id": "unknown",
-      "lat": 24.865,
-      "lon": 67.015,
-      "timestamp": "2025-10-08T01:50:58.473642+00:00",
-      "temperature_c": 23.27,
+      "lat": 24.8607,
+      "lon": 67.0011,
+      "timestamp": "2025-10-08T14:46:34.268860+00:00",
+      "temperature_c": null,
       "location": {
-        "latitude": 24.865,
-        "longitude": 67.015,
-        "city": "Karachi Division"
-      },
-      "raw_temperature": {
-        "temp_f": null,
-        "temperature": 23.27
-      }
-    },
-    {
-      "id": "unknown",
-      "event_id": "unknown",
-      "lat": 24.865,
-      "lon": 67.015,
-      "timestamp": "2025-10-08T01:50:58.972978+00:00",
-      "temperature_c": 23.27,
-      "location": {
-        "latitude": 24.865,
-        "longitude": 67.015,
-        "city": "Karachi Division"
+        "latitude": 24.8607,
+        "longitude": 67.0011,
+        "city": "Embankment Road, Sarafa Bazaar, Lyari Town, Karachi District, Lyari Town, 75660, Pakistan"
       },
       "raw_temperature": {
         "temp_f": null,
         "temperature": null
-      }
-    },
-    {
-      "id": "unknown",
-      "event_id": "unknown",
-      "lat": 24.865,
-      "lon": 67.015,
-      "timestamp": "2025-10-08T01:51:00.697208+00:00",
-      "temperature_c": 23.27,
-      "location": {
-        "latitude": 24.865,
-        "longitude": 67.015,
-        "city": "Karachi Division"
       },
-      "raw_temperature": {
-        "temp_f": null,
-        "temperature": null
-      }
-    },
-    {
-      "id": "unknown",
-      "event_id": "unknown",
-      "lat": 24.865,
-      "lon": 67.015,
-      "timestamp": "2025-10-08T01:51:02.513296+00:00",
-      "temperature_c": 23.27,
-      "location": {
-        "latitude": 24.865,
-        "longitude": 67.015,
-        "city": "Karachi Division"
-      },
-      "raw_temperature": {
-        "temp_f": null,
-        "temperature": null
-      }
+      "validation_notes": [
+        "temperature_c, temp_f, and temperature are null - investigate sensor/data feed",
+        "id and event_id are 'unknown' - these fields should be populated with unique identifiers"
+      ]
     }
   ],
-  "report": {
-    "input_count": 4,
+  "validation_report": {
+    "input_count": 1,
     "schema_validations": [],
     "duplicate_ids": [],
     "missing_counts": {
-      "id": 0,
-      "timestamp": 0,
       "location": 0,
       "lon": 0,
       "event_id": 0,
-      "temperature_c": 3,
       "raw_temperature": 0,
-      "lat": 0
+      "id": 0,
+      "temperature_c": 1,
+      "lat": 0,
+      "timestamp": 0
     },
     "outliers": [],
-    "imputations": {
-      "temperature_c": {
-        "method": "median",
-        "filled": 3,
-        "value": 23.27
-      }
-    },
+    "imputations": {},
     "removed_by_missing": 0,
-    "kept": 4
+    "kept": 1,
+    "overall_data_quality": "Low - Missing temperature data and non-unique IDs severely impact data usability."
+  },
+  "weather": {
+    "temperature": 27.6,
+    "humidity": 34,
+    "precipitation": 2.58,
+    "cloud_cover": 55,
+    "wind_speed": 5.93,
+    "source": "Simulated",
+    "timestamp": "2025-10-08T14:46:09.166867"
+  },
+  "air_quality": {
+    "aqi": 89,
+    "pm10": 73.6,
+    "pm2_5": 31.2,
+    "carbon_monoxide": 716.0,
+    "ozone": 27.0,
+    "source": "Open-Meteo Air Quality",
+    "timestamp": "2025-10-08T14:46:09.942904"
+  },
+  "environment": {
+    "uv_index": 8.5,
+    "grass_pollen": 191,
+    "tree_pollen": 215,
+    "weed_pollen": 80,
+    "wildfire_risk": 95,
+    "flood_risk": 54,
+    "source": "Simulated",
+    "timestamp": "2025-10-08T14:46:10.682643"
   }
 }
 ```
