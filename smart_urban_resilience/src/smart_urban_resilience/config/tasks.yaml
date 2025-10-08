@@ -19,7 +19,7 @@ data_validation_task:
     Review and validate the normalized data for completeness, consistency, and logical accuracy.
     Detect missing values, duplicates, and anomalies; flag or correct them where possible.
   expected_output: >
-    A cleaned and validated dataset annotated with validation results and any corrections or imputations made.
+    A cleaned and validated dataset annotated with validation results and any corrections or imputations made. A validation report summarizing data quality issues and resolutions.
   agent: data_validator
 
 event_detection_task:

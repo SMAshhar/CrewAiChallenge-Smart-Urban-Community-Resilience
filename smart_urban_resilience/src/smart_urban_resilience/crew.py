@@ -5,11 +5,13 @@ from typing import List
 from .tools.FileStorageTool import FileStorageTool
 from .tools.DataFetchTool import DataFetchTool
 from .tools.DataNormalizationTool import DataNormalizationTool
+from .tools.ValidationTool import ValidationTool
 
 # Initialize shared tools
 storage_tool = FileStorageTool()
 data_fetch_tool = DataFetchTool()
 data_normalization_tool = DataNormalizationTool()
+validation_tool = ValidationTool()
 
 
 @CrewBase
@@ -44,7 +46,8 @@ class SmartUrbanResilience():
         """Validates data integrity, accuracy, and format."""
         return Agent(
             config=self.agents_config['data_validator'],  # type: ignore[index]
-            verbose=True
+            verbose=True,
+            tools=[validation_tool]
         )
 
     @agent
@@ -129,6 +132,7 @@ class SmartUrbanResilience():
     def data_validation_task(self) -> Task:
         return Task(
             config=self.tasks_config['data_validation_task'],  # type: ignore[index]
+            output_file='validation_report.md'
         )
 
     @task
