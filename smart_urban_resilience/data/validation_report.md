@@ -1,0 +1,98 @@
+```json
+{
+  "cleaned": [
+    {
+      "city": "Karachi",
+      "timestamp": "2025-10-12T10:47:09.721176",
+      "sensor_data": {
+        "weather": {
+          "temperature_celsius": 33.67,
+          "humidity_percent": 38,
+          "precipitation_mm": 5.63,
+          "cloud_cover_percent": 23,
+          "wind_speed_kmh": 1.91,
+          "source": "Simulated",
+          "timestamp": "2025-10-12T10:47:07.927031"
+        },
+        "air_quality": {
+          "aqi": 73,
+          "pm10_ugm3": 61.9,
+          "pm2_5_ugm3": 34.4,
+          "carbon_monoxide_ppm": 324.0,
+          "ozone_ppb": 167.0,
+          "source": "Open-Meteo Air Quality",
+          "timestamp": "2025-10-12T10:47:08.745231"
+        },
+        "environment": {
+          "uv_index": 4.4,
+          "grass_pollen_count": 131,
+          "tree_pollen_count": 64,
+          "weed_pollen_count": 46,
+          "wildfire_risk": 36,
+          "flood_risk": 56,
+          "source": "Simulated",
+          "timestamp": "2025-10-12T10:47:09.721176"
+        }
+      },
+      "citizen_reports": [
+        {
+          "report_id": "CR001",
+          "timestamp": "2025-10-12T10:42:00",
+          "location": "Clifton Beach",
+          "latitude": 24.8194,
+          "longitude": 67.0297,
+          "category": "Pollution",
+          "description": "Large amount of trash on the beach after the weekend.",
+          "urgency": "Medium"
+        },
+        {
+          "report_id": "CR002",
+          "timestamp": "2025-10-12T10:35:00",
+          "location": "I.I. Chundrigar Road",
+          "latitude": 24.8547,
+          "longitude": 67.0217,
+          "category": "Traffic",
+          "description": "Heavy traffic congestion due to ongoing construction.",
+          "urgency": "High"
+        },
+        {
+          "report_id": "CR003",
+          "timestamp": "2025-10-12T10:28:00",
+          "location": "Gulshan-e-Iqbal",
+          "latitude": 24.9036,
+          "longitude": 67.0784,
+          "category": "Water Supply",
+          "description": "Water shortage reported in Block 7.",
+          "urgency": "Medium"
+        }
+      ],
+      "event_id": "evt-c13462170843",
+      "_meta": {
+        "id_source": "generated"
+      }
+    }
+  ],
+  "report": {
+    "input_count": 1,
+    "auto_id_count": 1,
+    "inferred_examples": [],
+    "validator_issues": [],
+    "missing_counts": {
+      "timestamp": 0,
+      "sensor_data": 0,
+      "event_id": 0,
+      "citizen_reports": 0,
+      "_meta": 0,
+      "city": 0
+    },
+    "duplicate_examples": [],
+    "outliers": [],
+    "imputations": {},
+    "removed_by_missing": 0,
+    "kept": 1,
+    "recommendations": [
+      "Install pandas for faster & richer validation pipelines."
+    ]
+  }
+}
+```

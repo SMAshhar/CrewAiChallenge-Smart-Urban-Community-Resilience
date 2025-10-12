@@ -2,16 +2,25 @@ from crewai import Agent, Crew, Process, Task
 from crewai.project import CrewBase, agent, crew, task
 from crewai.agents.agent_builder.base_agent import BaseAgent
 from typing import List
+
+
+# Import tools
 from .tools.FileStorageTool import FileStorageTool
 from .tools.DataFetchTool import DataFetchTool
 from .tools.DataNormalizationTool import DataNormalizationTool
 from .tools.ValidationTool import ValidationTool
+from .tools.EventDetectionTool import EventDetectionTool
+
+# Import Schemas
+
+from .schema.DataNormalizationSchema import NormalizedEnvironmentalData
 
 # Initialize shared tools
 storage_tool = FileStorageTool()
 data_fetch_tool = DataFetchTool()
 data_normalization_tool = DataNormalizationTool()
 validation_tool = ValidationTool()
+event_detection_tool = EventDetectionTool()
 
 
 @CrewBase
@@ -38,7 +47,8 @@ class SmartUrbanResilience():
         return Agent(
             config=self.agents_config['data_normalizer'],  # type: ignore[index]
             verbose=True,
-            tools=[storage_tool, data_normalization_tool]
+            tools=[storage_tool, data_normalization_tool],
+            max_iter=3
         )
 
     @agent
@@ -55,7 +65,8 @@ class SmartUrbanResilience():
         """Detects anomalies or city-level events from validated data."""
         return Agent(
             config=self.agents_config['event_detector'],  # type: ignore[index]
-            verbose=True
+            verbose=True,
+            tools=[event_detection_tool]
         )
 
     @agent
@@ -126,63 +137,71 @@ class SmartUrbanResilience():
     def data_normalization_task(self) -> Task:
         return Task(
             config=self.tasks_config['data_normalization_task'],  # type: ignore[index]
+            # output_pydantic=NormalizedEnvironmentalData,
+            output_file='./data/1-normalized_data.json',       
         )
 
     @task
     def data_validation_task(self) -> Task:
         return Task(
             config=self.tasks_config['data_validation_task'],  # type: ignore[index]
-            output_file='validation_report.md'
+            output_file='./data/2-validation_report.md'
         )
 
     @task
     def event_detection_task(self) -> Task:
         return Task(
             config=self.tasks_config['event_detection_task'],  # type: ignore[index]
+            output_file="./data/3-detected_events.json"
         )
 
     @task
     def impact_assessment_task(self) -> Task:
         return Task(
             config=self.tasks_config['impact_assessment_task'],  # type: ignore[index]
+            output_file="./data/4-impact_assessment.json"
         )
 
     @task
     def resource_recommendation_task(self) -> Task:
         return Task(
             config=self.tasks_config['resource_recommendation_task'],  # type: ignore[index]
+            output_file="./data/5-resource_recommendations.json"
         )
 
     @task
     def logistics_planning_task(self) -> Task:
         return Task(
             config=self.tasks_config['logistics_planning_task'],  # type: ignore[index]
+            output_file="./data/6-logistics_plan.json"
         )
 
     @task
     def communication_task(self) -> Task:
         return Task(
             config=self.tasks_config['communication_task'],  # type: ignore[index]
+            output_file='./data/7-communications.md'
         )
 
     @task
     def incident_command_task(self) -> Task:
         return Task(
             config=self.tasks_config['incident_command_task'],  # type: ignore[index]
+            output_file='./data/8-incident_report.md'
         )
 
     @task
     def learning_feedback_task(self) -> Task:
         return Task(
             config=self.tasks_config['learning_feedback_task'],  # type: ignore[index]
-            output_file='feedback_report.md'
+            output_file='./data/9-feedback_report.md'
         )
 
     @task
     def privacy_compliance_task(self) -> Task:
         return Task(
             config=self.tasks_config['privacy_compliance_task'],  # type: ignore[index]
-            output_file='privacy_audit.md'
+            output_file='./data/10-privacy_audit.md'
         )
 
     # ============ CREW ============

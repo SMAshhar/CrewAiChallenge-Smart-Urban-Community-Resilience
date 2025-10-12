@@ -12,6 +12,7 @@ data_normalization_task:
     Enrich raw records with geolocation data and unify schemas across sources.
   expected_output: >
     A normalized dataset with consistent units, standardized keys, geocoded locations, and harmonized timestamps.
+    Output will be as per provided output pydantic schema.
   agent: data_normalizer
 
 data_validation_task:
