@@ -10,6 +10,7 @@ from .tools.DataFetchTool import DataFetchTool
 from .tools.DataNormalizationTool import DataNormalizationTool
 from .tools.ValidationTool import ValidationTool
 from .tools.EventDetectionTool import EventDetectionTool
+from .tools.ImpactAcessorTool import ImpactAssessmentTool
 
 # Import Schemas
 
@@ -21,6 +22,7 @@ data_fetch_tool = DataFetchTool()
 data_normalization_tool = DataNormalizationTool()
 validation_tool = ValidationTool()
 event_detection_tool = EventDetectionTool()
+impact_assessment_tool = ImpactAssessmentTool()
 
 
 @CrewBase
@@ -74,7 +76,8 @@ class SmartUrbanResilience():
         """Assesses the impact of detected events based on severity and population density."""
         return Agent(
             config=self.agents_config['impact_assessor'],  # type: ignore[index]
-            verbose=True
+            verbose=True,
+            tools=[impact_assessment_tool]
         )
 
     @agent

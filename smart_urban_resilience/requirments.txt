@@ -1,2 +1,5 @@
 timezonefinder
 geopy
+scikit-learn
+qdrant-client
+openai

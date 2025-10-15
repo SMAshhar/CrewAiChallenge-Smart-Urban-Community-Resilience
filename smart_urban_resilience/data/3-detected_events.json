@@ -1,0 +1,16 @@
+```json
+[
+  {
+    "type": "Flood Risk",
+    "location": "Karachi Division (24.86, 67.01)",
+    "time": "2025-10-13T01:12:24.491145",
+    "confidence_score": 0.97
+  },
+  {
+    "type": "High Pollen Count",
+    "location": "Karachi Division (24.86, 67.01)",
+    "time": "2025-10-13T01:12:24.491145",
+    "confidence_score": 0.85
+  }
+]
+```

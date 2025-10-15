@@ -1,0 +1,103 @@
+```json
+{
+  "routing_plan": {
+    "timestamp": "2025-10-13T01:12:24.491145",
+    "location": "Karachi Division (24.86, 67.01)",
+    "events": [
+      {
+        "event": "Flood Risk",
+        "priority": "High",
+        "routing": {
+          "objective": "Rapid deployment of resources to flood-affected zones, minimizing travel time and avoiding flooded areas.",
+          "constraints": [
+            "Identified flood zones (based on flood risk assessment)",
+            "Potential road closures due to flooding",
+            "Traffic congestion",
+            "Accessibility of staging areas"
+          ],
+          "vehicles": [
+            {
+              "type": "Emergency Vehicles (ERT)",
+              "quantity": 8,
+              "schedule": [
+                {
+                  "task": "Deploy to low-lying areas for evacuation assistance",
+                  "start_time": "Immediately",
+                  "estimated_travel_time": "Varies based on location and road conditions (aim for <30 minutes to primary zones)",
+                  "route_optimization": "Utilize real-time traffic data and flood zone maps to dynamically adjust routes. Prioritize routes through higher elevation areas and major roads that are less prone to flooding. Check for road closures before dispatch and reroute accordingly.",
+                  "staging_area": "Pre-designated public buildings (schools, community centers) outside immediate flood zones."
+                },
+                {
+                  "task": "Support search and rescue operations",
+                  "start_time": "As needed based on incident reports",
+                  "estimated_travel_time": "Varies based on location (aim for <15 minutes response time within affected zones)",
+                  "route_optimization": "Coordinate with central communication hub for incident locations and optimal routes. Utilize smaller, more maneuverable vehicles where possible to navigate flooded streets. Consider boat/raft deployment for inaccessible areas.",
+                  "staging_area": "ERT staging areas"
+                }
+              ]
+            },
+            {
+              "type": "Ambulances",
+              "quantity": 3,
+              "schedule": [
+                {
+                  "task": "Transport injured and manage medical emergencies",
+                  "start_time": "As needed based on incident reports",
+                  "estimated_travel_time": "Varies based on location and road conditions (prioritize critical cases)",
+                  "route_optimization": "Prioritize routes to major hospitals and medical centers. Coordinate with ERTs for patient handoff locations. Utilize real-time traffic data and avoid known flood zones.",
+                  "staging_area": "Centralized medical staging areas"
+                }
+              ]
+            },
+             {
+              "type": "Engineering Teams",
+              "quantity": 2,
+              "schedule": [
+                {
+                  "task": "Assess and repair critical infrastructure",
+                  "start_time": "Immediate dispatch to reported damage locations",
+                  "estimated_travel_time": "Varies significantly based on damage extent and location",
+                  "route_optimization": "Prioritize access to critical infrastructure (pumping stations, major roads, etc.). Coordinate with ERTs for safe access to affected areas. Use heavy-duty vehicles capable of navigating potentially flooded roads where necessary. If possible, make use of alternative routes.",
+                  "staging_area": "Pre-designated engineering team staging area, near major road arteries."
+                }
+              ]
+            }
+          ]
+        }
+      },
+      {
+        "event": "High Pollen Count",
+        "priority": "Medium",
+        "routing": {
+          "objective": "Efficient distribution of resources (air purifiers, allergy medication) to healthcare facilities and community centers.",
+          "constraints": [
+            "Traffic congestion",
+            "Accessibility of healthcare facilities and community centers"
+          ],
+          "vehicles": [
+            {
+              "type": "Delivery Vehicles",
+              "quantity": 2,
+              "schedule": [
+                {
+                  "task": "Deliver air purifiers and allergy medication to hospitals and community centers",
+                  "start_time": "Within 2 hours",
+                  "estimated_travel_time": "Varies based on location and traffic conditions",
+                  "route_optimization": "Utilize standard route optimization techniques to minimize travel time and fuel consumption. Prioritize deliveries to areas with historically high allergy rates. Avoid routes through areas known for heavy traffic during peak hours.",
+                  "staging_area": "Central distribution center"
+                }
+              ]
+            }
+          ]
+        }
+      }
+    ],
+    "general_recommendations": [
+      "Establish a real-time traffic monitoring system to dynamically adjust routes based on congestion and road closures.",
+      "Utilize GPS tracking for all vehicles to monitor location and progress.",
+      "Conduct regular communication checks with all deployed teams.",
+       "Use drone based arial views to monitor routes in real time."
+    ]
+  }
+}
+```
