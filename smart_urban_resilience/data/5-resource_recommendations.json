@@ -1,141 +1,88 @@
 ```json
 {
   "resource_deployment_plan": {
-    "timestamp": "2025-10-13T01:12:24.491145",
-    "location": "Karachi Division (24.86, 67.01)",
-    "events": [
+    "location": {
+      "latitude": 24.8607,
+      "longitude": 67.0011,
+      "city": "Embankment Road, Sarafa Bazaar, Lyari Town, Karachi District, Lyari Town, 75660, Pakistan"
+    },
+    "priority": "Medium",
+    "response_teams": [
       {
-        "event": "Flood Risk",
-        "priority": "High",
-        "resource_allocation": {
-          "personnel": [
-            {
-              "team": "Emergency Response Teams (ERT)",
-              "quantity": 5,
-              "responsibilities": [
-                "Evacuation assistance in low-lying areas",
-                "Search and rescue operations",
-                "Provision of temporary shelter and supplies"
-              ]
-            },
-            {
-              "team": "Medical Personnel",
-              "quantity": 3,
-              "responsibilities": [
-                "Treatment of injuries and waterborne diseases",
-                "Distribution of hygiene kits",
-                "Public health monitoring"
-              ]
-            },
-            {
-              "team": "Engineering Teams",
-              "quantity": 2,
-              "responsibilities": [
-                "Assessment of infrastructure damage",
-                "Repair of critical infrastructure (roads, drainage systems)",
-                "Operation of pumping stations"
-              ]
-            },
-              {
-              "team": "Law Enforcement",
-              "quantity": 4,
-              "responsibilities": [
-                "Assist with evacuation and traffic management"
-              ]
-            }
-          ],
-          "equipment": [
-            {
-              "item": "Flood Barriers",
-              "quantity": 200,
-              "deployment_location": "Vulnerable coastal and low-lying areas"
-            },
-            {
-              "item": "Water Pumps",
-              "quantity": 10,
-              "deployment_location": "Drainage channels and pumping stations"
-            },
-            {
-              "item": "Emergency Vehicles",
-              "quantity": 8,
-              "deployment_location": "ERT staging areas"
-            },
-            {
-              "item": "Ambulances",
-              "quantity": 3,
-              "deployment_location": "Centralized medical staging areas"
-            },
-            {
-              "item": "Boats/Inflatable Rafts",
-              "quantity": 4,
-              "deployment_location": "ERT staging areas, for use in flooded zones"
-            }
-          ],
-          "logistics": {
-            "staging_areas": [
-              "Designated public buildings (schools, community centers) in Karachi Division"
-            ],
-            "communication": "Establishment of a central communication hub for coordinating response efforts",
-            "supply_chain": "Ensure adequate supplies of food, water, and medical supplies are available"
-          },
-          "actions": [
-            "Issue flood warnings through multiple channels (TV, radio, SMS).",
-            "Activate evacuation plans for high-risk zones.",
-            "Deploy ERTs to assist with evacuations and provide immediate assistance.",
-            "Clear drainage channels and operate pumping stations to reduce flooding."
-          ]
-        }
+        "team_type": "Medical Support Team",
+        "personnel": 4,
+        "equipment": [
+          "Mobile medical unit",
+          "Respiratory masks",
+          "First aid kits"
+        ],
+        "location": "Sarafa Bazaar, central location",
+        "actions": [
+          "Provide medical assistance to individuals affected by air pollution.",
+          "Distribute respiratory masks to vulnerable populations.",
+          "Treat injuries related to potential flooding or accidents."
+        ]
       },
       {
-        "event": "High Pollen Count",
-        "priority": "Medium",
-        "resource_allocation": {
-          "personnel": [
-            {
-              "team": "Medical Personnel",
-              "quantity": 2,
-              "responsibilities": [
-                "Manage increased patient load due to allergic reactions",
-                "Provide guidance on pollen mitigation strategies"
-              ]
-            },
-            {
-              "team": "Public Health Educators",
-              "quantity": 2,
-              "responsibilities": [
-                "Disseminate information on pollen avoidance and management strategies",
-                "Conduct outreach programs in affected communities"
-              ]
-            }
-          ],
-          "equipment": [
-            {
-              "item": "Air purifiers",
-              "quantity": 50,
-              "deployment_location": "Hospitals and community centers"
-            },
-            {
-              "item": "Allergy medication",
-              "quantity": "Sufficient stock",
-              "deployment_location": "Pharmacies and healthcare facilities"
-            }
-          ],
-          "logistics": {
-            "staging_areas": [
-              "Healthcare facilities and community centers"
-            ],
-            "communication": "Public service announcements via media channels",
-            "supply_chain": "Ensure adequate supply of allergy medications and air purifiers"
-          },
-           "actions": [
-            "Issue public health advisories regarding high pollen levels.",
-            "Recommend precautions for vulnerable individuals (stay indoors, use air purifiers, take medication).",
-            "Monitor pollen levels and provide regular updates.",
-            "Ensure availability of allergy medications at healthcare facilities."
-          ]
-        }
+        "team_type": "Flood Response Team",
+        "personnel": 6,
+        "equipment": [
+          "Water pumps",
+          "Sandbags",
+          "Waders",
+          "Ropes"
+        ],
+        "location": "Low-lying areas near Embankment Road",
+        "actions": [
+          "Deploy water pumps to mitigate flooding.",
+          "Distribute sandbags to protect vulnerable infrastructure.",
+          "Assist in evacuation if necessary.",
+          "Clear drainage systems"
+        ]
+      },
+      {
+        "team_type": "Traffic Management Team",
+        "personnel": 3,
+        "equipment": [
+          "Traffic cones",
+          "Barricades",
+          "Signage"
+        ],
+        "location": "Key intersections around Sarafa Bazaar and Embankment Road",
+        "actions": [
+          "Manage traffic flow to prevent congestion.",
+          "Divert traffic away from flooded areas.",
+          "Ensure safe passage for emergency vehicles."
+        ]
+      },
+      {
+        "team_type": "Communication and Alert Team",
+        "personnel": 2,
+        "equipment": [
+          "Mobile communication devices",
+          "Loudspeakers"
+        ],
+        "location": "Central command post",
+        "actions": [
+          "Disseminate information about air quality and flood risks to the public.",
+          "Provide safety instructions and evacuation routes.",
+          "Coordinate communication between different response teams."
+        ]
       }
-    ]
+    ],
+    "logistics": {
+      "staging_area": "Lyari Town Community Center",
+      "transportation": "Vans and trucks for transporting personnel and equipment",
+      "communication": "Mobile communication network with backup generators",
+      "medical_supplies": "Stockpile of respiratory masks, first aid kits, and medications",
+      "food_and_water": "Emergency rations for response teams"
+    },
+    "monitoring_and_reporting": {
+      "air_quality_monitoring": "Continuously monitor air quality levels and provide updates to the public.",
+      "flood_level_monitoring": "Monitor water levels in low-lying areas and provide timely warnings.",
+      "incident_reporting": "Establish a system for reporting incidents and coordinating responses.",
+      "communication_channels": "Utilize social media, local radio stations, and community leaders to disseminate information."
+    }
   }
 }
 ```

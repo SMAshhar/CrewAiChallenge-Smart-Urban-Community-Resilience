@@ -23,7 +23,8 @@ def run():
     }
     
     try:
-        SmartUrbanResilience().crew().kickoff(inputs=inputs)
+        report = SmartUrbanResilience().crew().kickoff(inputs=inputs)
+        print("Crew run completed. Token usage report:", report.token_usage)
     except Exception as e:
         raise Exception(f"An error occurred while running the crew: {e}")
 

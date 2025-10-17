@@ -1,103 +1,186 @@
 ```json
 {
   "routing_plan": {
-    "timestamp": "2025-10-13T01:12:24.491145",
-    "location": "Karachi Division (24.86, 67.01)",
-    "events": [
+    "city": "Karachi",
+    "timestamp": "2025-10-17T14:28:00Z",
+    "objective": "Optimize routes for emergency and maintenance vehicles to address Air Quality Alert (Elevated Carbon Monoxide), Environmental Alert (High UV Index), and Environmental Alert (Elevated Pollen Levels).",
+    "environmental_conditions": {
+      "temperature": 24.86,
+      "humidity": 77,
+      "precipitation": 4.05,
+      "wind_speed": 1.96,
+      "air_quality_index": 74,
+      "carbon_monoxide": 970.0
+    },
+    "traffic_considerations": "Account for typical Friday afternoon traffic patterns in Karachi. Prioritize routes avoiding known congestion zones.",
+    "response_teams": [
       {
-        "event": "Flood Risk",
-        "priority": "High",
-        "routing": {
-          "objective": "Rapid deployment of resources to flood-affected zones, minimizing travel time and avoiding flooded areas.",
-          "constraints": [
-            "Identified flood zones (based on flood risk assessment)",
-            "Potential road closures due to flooding",
-            "Traffic congestion",
-            "Accessibility of staging areas"
-          ],
-          "vehicles": [
-            {
-              "type": "Emergency Vehicles (ERT)",
-              "quantity": 8,
-              "schedule": [
-                {
-                  "task": "Deploy to low-lying areas for evacuation assistance",
-                  "start_time": "Immediately",
-                  "estimated_travel_time": "Varies based on location and road conditions (aim for <30 minutes to primary zones)",
-                  "route_optimization": "Utilize real-time traffic data and flood zone maps to dynamically adjust routes. Prioritize routes through higher elevation areas and major roads that are less prone to flooding. Check for road closures before dispatch and reroute accordingly.",
-                  "staging_area": "Pre-designated public buildings (schools, community centers) outside immediate flood zones."
-                },
-                {
-                  "task": "Support search and rescue operations",
-                  "start_time": "As needed based on incident reports",
-                  "estimated_travel_time": "Varies based on location (aim for <15 minutes response time within affected zones)",
-                  "route_optimization": "Coordinate with central communication hub for incident locations and optimal routes. Utilize smaller, more maneuverable vehicles where possible to navigate flooded streets. Consider boat/raft deployment for inaccessible areas.",
-                  "staging_area": "ERT staging areas"
-                }
-              ]
-            },
-            {
-              "type": "Ambulances",
-              "quantity": 3,
-              "schedule": [
-                {
-                  "task": "Transport injured and manage medical emergencies",
-                  "start_time": "As needed based on incident reports",
-                  "estimated_travel_time": "Varies based on location and road conditions (prioritize critical cases)",
-                  "route_optimization": "Prioritize routes to major hospitals and medical centers. Coordinate with ERTs for patient handoff locations. Utilize real-time traffic data and avoid known flood zones.",
-                  "staging_area": "Centralized medical staging areas"
-                }
-              ]
-            },
-             {
-              "type": "Engineering Teams",
-              "quantity": 2,
-              "schedule": [
-                {
-                  "task": "Assess and repair critical infrastructure",
-                  "start_time": "Immediate dispatch to reported damage locations",
-                  "estimated_travel_time": "Varies significantly based on damage extent and location",
-                  "route_optimization": "Prioritize access to critical infrastructure (pumping stations, major roads, etc.). Coordinate with ERTs for safe access to affected areas. Use heavy-duty vehicles capable of navigating potentially flooded roads where necessary. If possible, make use of alternative routes.",
-                  "staging_area": "Pre-designated engineering team staging area, near major road arteries."
-                }
-              ]
-            }
-          ]
-        }
+        "team_type": "Mobile Health Units",
+        "number_of_teams": 3,
+        "priority_alert": "Air Quality Alert (Elevated Carbon Monoxide)",
+        "routing": [
+          {
+            "route_id": "MHU-1",
+            "start_location": "Central Coordination Center",
+            "end_locations": [
+              "I.I. Chundrigar Road (High-traffic area)",
+              "Saddar (Densely populated residential zone)",
+              "Korangi Industrial Area (Near industrial activity)"
+            ],
+            "estimated_travel_times": [
+              "Coordination Center to I.I. Chundrigar Road: 25 minutes",
+              "I.I. Chundrigar Road to Saddar: 15 minutes",
+              "Saddar to Korangi Industrial Area: 40 minutes"
+            ],
+            "schedule": "Depart Coordination Center at 15:00. Allocate 1 hour per location for on-site assessments and mask distribution. Return to Coordination Center by 20:00.",
+            "route_notes": "Utilize main roads to minimize travel time. Coordinate with traffic police for potential lane closures if needed."
+          },
+          {
+            "route_id": "MHU-2",
+            "start_location": "Central Coordination Center",
+            "end_locations": [
+              "Gulistan-e-Jauhar (Densely populated residential zone)",
+              "Landhi Industrial Area (Near industrial activity)",
+              "Shahrah-e-Faisal (High-traffic area)"
+            ],
+            "estimated_travel_times": [
+              "Coordination Center to Gulistan-e-Jauhar: 35 minutes",
+              "Gulistan-e-Jauhar to Landhi Industrial Area: 30 minutes",
+              "Landhi Industrial Area to Shahrah-e-Faisal: 20 minutes"
+            ],
+            "schedule": "Depart Coordination Center at 15:15. Allocate 1 hour per location for on-site assessments and mask distribution. Return to Coordination Center by 20:15.",
+            "route_notes": "Anticipate heavier traffic on Shahrah-e-Faisal. Consider alternative routes if congestion is significant."
+          },
+          {
+            "route_id": "MHU-3",
+            "start_location": "Central Coordination Center",
+            "end_locations": [
+              "Lyari (Densely populated residential zone)",
+              "SITE Industrial Area (Near industrial activity)",
+              "Clifton (High-traffic area)"
+            ],
+            "estimated_travel_times": [
+              "Coordination Center to Lyari: 20 minutes",
+              "Lyari to SITE Industrial Area: 35 minutes",
+              "SITE Industrial Area to Clifton: 30 minutes"
+            ],
+            "schedule": "Depart Coordination Center at 14:45. Allocate 1 hour per location for on-site assessments and mask distribution. Return to Coordination Center by 19:45.",
+            "route_notes": "Exercise caution when navigating through Lyari. Ensure team safety and security."
+          }
+        ]
       },
       {
-        "event": "High Pollen Count",
-        "priority": "Medium",
-        "routing": {
-          "objective": "Efficient distribution of resources (air purifiers, allergy medication) to healthcare facilities and community centers.",
-          "constraints": [
-            "Traffic congestion",
-            "Accessibility of healthcare facilities and community centers"
-          ],
-          "vehicles": [
-            {
-              "type": "Delivery Vehicles",
-              "quantity": 2,
-              "schedule": [
-                {
-                  "task": "Deliver air purifiers and allergy medication to hospitals and community centers",
-                  "start_time": "Within 2 hours",
-                  "estimated_travel_time": "Varies based on location and traffic conditions",
-                  "route_optimization": "Utilize standard route optimization techniques to minimize travel time and fuel consumption. Prioritize deliveries to areas with historically high allergy rates. Avoid routes through areas known for heavy traffic during peak hours.",
-                  "staging_area": "Central distribution center"
-                }
-              ]
-            }
-          ]
-        }
+        "team_type": "Air Quality Monitoring Teams",
+        "number_of_teams": 2,
+        "priority_alert": "Air Quality Alert (Elevated Carbon Monoxide)",
+        "routing": [
+          {
+            "route_id": "AQM-1",
+            "start_location": "Central Coordination Center",
+            "end_locations": [
+              "Korangi Industrial Area (Source Investigation)",
+              "DHA Phase VIII (Residential Area)",
+              "Karachi Port (Potential Source)"
+            ],
+            "estimated_travel_times": [
+              "Coordination Center to Korangi Industrial Area: 40 minutes",
+              "Korangi Industrial Area to DHA Phase VIII: 30 minutes",
+              "DHA Phase VIII to Karachi Port: 35 minutes"
+            ],
+            "schedule": "Depart Coordination Center at 15:00. Allocate 1.5 hours per location for air quality sampling. Return to Coordination Center by 22:00.",
+            "route_notes": "Coordinate with industrial facilities and port authorities for access. Prioritize areas downwind from potential sources."
+          },
+          {
+            "route_id": "AQM-2",
+            "start_location": "Central Coordination Center",
+            "end_locations": [
+              "SITE Industrial Area (Source Investigation)",
+              "Gulshan-e-Iqbal (Residential Area)",
+              "Northern Bypass (Traffic Emissions)"
+            ],
+            "estimated_travel_times": [
+              "Coordination Center to SITE Industrial Area: 35 minutes",
+              "SITE Industrial Area to Gulshan-e-Iqbal: 25 minutes",
+              "Gulshan-e-Iqbal to Northern Bypass: 45 minutes"
+            ],
+            "schedule": "Depart Coordination Center at 15:15. Allocate 1.5 hours per location for air quality sampling. Return to Coordination Center by 22:15.",
+            "route_notes": "Monitor traffic conditions on the Northern Bypass. Consider alternative routes if congestion is severe."
+          }
+        ]
+      },
+      {
+        "team_type": "Public Awareness Teams",
+        "number_of_teams": 4,
+        "priority_alert": "All Alerts",
+        "routing": [
+          {
+            "route_id": "PAT-1",
+            "start_location": "Central Coordination Center",
+            "end_locations": [
+              "Empress Market (Public Transport Hub)",
+              "Atrium Mall (Market)",
+              "Karachi University (Community Center)"
+            ],
+            "estimated_travel_times": [
+              "Coordination Center to Empress Market: 20 minutes",
+              "Empress Market to Atrium Mall: 15 minutes",
+              "Atrium Mall to Karachi University: 30 minutes"
+            ],
+            "schedule": "Depart Coordination Center at 14:30. Allocate 2 hours per location for disseminating information. Return to Coordination Center by 22:30.",
+            "route_notes": "Focus on high-traffic areas. Coordinate with security personnel at each location."
+          },
+           {
+            "route_id": "PAT-2",
+            "start_location": "Central Coordination Center",
+            "end_locations": [
+              "Landhi Town (Public Transport Hub)",
+              "Saddar Town (Market)",
+              "North Nazimabad (Community Center)"
+            ],
+            "estimated_travel_times": [
+              "Coordination Center to Landhi Town: 35 minutes",
+              "Landhi Town to Saddar Town: 25 minutes",
+              "Saddar Town to North Nazimabad: 20 minutes"
+            ],
+            "schedule": "Depart Coordination Center at 15:00. Allocate 2 hours per location for disseminating information. Return to Coordination Center by 23:00.",
+            "route_notes": "Focus on high-traffic areas. Coordinate with security personnel at each location."
+          },
+          {
+            "route_id": "PAT-3",
+            "start_location": "Central Coordination Center",
+            "end_locations": [
+              "Orangi Town (Public Transport Hub)",
+              "Gulshan-e-Iqbal Town (Market)",
+              "Malir Town (Community Center)"
+            ],
+            "estimated_travel_times": [
+              "Coordination Center to Orangi Town: 40 minutes",
+              "Orangi Town to Gulshan-e-Iqbal Town: 30 minutes",
+              "Gulshan-e-Iqbal Town to Malir Town: 15 minutes"
+            ],
+            "schedule": "Depart Coordination Center at 15:15. Allocate 2 hours per location for disseminating information. Return to Coordination Center by 23:15.",
+            "route_notes": "Focus on high-traffic areas. Coordinate with security personnel at each location."
+          },
+          {
+            "route_id": "PAT-4",
+            "start_location": "Central Coordination Center",
+            "end_locations": [
+              "Korangi Town(Public Transport Hub)",
+              "Lyari Town (Market)",
+              "Defence Housing Authority (Community Center)"
+            ],
+            "estimated_travel_times": [
+              "Coordination Center to Korangi Town: 40 minutes",
+              "Korangi Town to Lyari Town: 30 minutes",
+              "Lyari Town to Defence Housing Authority: 15 minutes"
+            ],
+            "schedule": "Depart Coordination Center at 14:45. Allocate 2 hours per location for disseminating information. Return to Coordination Center by 22:45.",
+            "route_notes": "Focus on high-traffic areas. Coordinate with security personnel at each location."
+          }
+        ]
       }
     ],
-    "general_recommendations": [
-      "Establish a real-time traffic monitoring system to dynamically adjust routes based on congestion and road closures.",
-      "Utilize GPS tracking for all vehicles to monitor location and progress.",
-      "Conduct regular communication checks with all deployed teams.",
-       "Use drone based arial views to monitor routes in real time."
-    ]
+    "general_notes": "All teams should monitor real-time traffic conditions and adjust routes as needed. Prioritize safety and security in all operations. Maintain constant communication with the central coordination center. Consider the 4.05mm precipitation in travel times."
   }
 }
 ```

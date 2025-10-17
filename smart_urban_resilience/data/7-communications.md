@@ -2,42 +2,127 @@
 {
   "alerts": [
     {
-      "alert_id": "flood-risk-karachi-20251013",
-      "event": "Flood Risk",
-      "location": "Karachi Division",
-      "severity": "Moderate",
-      "message_citizen": "Flood Alert: Moderate flood risk in Karachi Division. Stay informed, avoid low-lying areas near drainage channels and the coast. Move to higher ground if necessary. Report flooding to emergency services. Monitor official channels for updates.",
-      "message_department": "Flood Risk Alert: Moderate flood risk. Deploy ERTs to low-lying areas. Clear drainage channels, ensure pumping stations are operational. Prepare for potential evacuations. Coordinate with Law Enforcement to assist with evacuation and traffic management.",
-      "recipients_citizen": "Residents of Karachi Division, particularly those in low-lying areas.",
-      "recipients_department": "Karachi Metropolitan Corporation, Disaster Management Authority, Fire Department, Police Department, Health Department, Engineering Department",
-      "distribution_channels": [
-        "Mobile App (push notification)",
-        "SMS (targeted to affected areas)",
-        "Social Media (official city accounts)",
-        "Local Radio/TV broadcasts",
-        "City Website"
-      ],
-      "timestamp": "2025-10-13T01:12:24.491145",
-      "urgency": "High"
+      "alert_id": "AQ-CO-20251017-001",
+      "timestamp": "2025-10-17T14:28:00Z",
+      "type": "Air Quality Alert",
+      "severity": "High",
+      "subject": "High Carbon Monoxide Levels Detected in Karachi",
+      "message": "ALERT: Elevated carbon monoxide levels detected in Karachi. Potential health risk, especially for children, elderly, and those with respiratory issues. Stay indoors when possible. Ensure proper ventilation. Seek medical attention if experiencing symptoms like headache, dizziness, or nausea.",
+      "location": "Karachi",
+      "affected_areas": "Karachi (General)",
+      "recipients": {
+        "citizens": {
+          "channel": [
+            "Mobile App",
+            "SMS",
+            "Social Media (Facebook, Twitter)",
+            "Local Radio",
+            "Local TV"
+          ],
+          "segments": [
+            "All Residents",
+            "Registered Users with Respiratory Conditions",
+            "Residents in High-Traffic Areas"
+          ]
+        },
+        "departments": [
+          {
+            "department_name": "Karachi Metropolitan Corporation (KMC)",
+            "channel": [
+              "Internal Communication System"
+            ],
+            "responsibility": "Coordinate public awareness campaigns and resource deployment."
+          },
+          {
+            "department_name": "Health Department",
+            "channel": [
+              "Internal Communication System"
+            ],
+            "responsibility": "Prepare healthcare facilities for potential increase in respiratory cases."
+          },
+          {
+            "department_name": "Traffic Police",
+            "channel": [
+              "Internal Communication System"
+            ],
+            "responsibility": "Manage traffic flow to reduce emissions in congested areas."
+          }
+        ]
+      },
+       "expiry": "2025-10-18T02:00:00Z"
     },
     {
-      "alert_id": "pollen-alert-karachi-20251013",
-      "event": "High Pollen Count",
-      "location": "Karachi Division",
-      "severity": "Moderate",
-      "message_citizen": "Pollen Alert: High pollen levels in Karachi Division. Individuals with allergies or respiratory issues should stay indoors, use air purifiers, and take prescribed medication. Consult your doctor if symptoms worsen.",
-      "message_department": "High Pollen Count Advisory: Monitor pollen levels. Ensure adequate allergy medication supplies at healthcare facilities. Public Health Educators to disseminate information on pollen avoidance and management strategies.",
-      "recipients_citizen": "All residents of Karachi Division, especially those with allergies, asthma, or other respiratory conditions.",
-      "recipients_department": "Health Department, Hospitals, Clinics, Pharmacies, Schools",
-      "distribution_channels": [
-        "Mobile App (push notification)",
-        "Social Media (Health Department accounts)",
-        "Local News Outlets",
-        "City Website",
-        "SMS (opt-in allergy alert service)"
-      ],
-      "timestamp": "2025-10-13T01:12:24.491145",
-      "urgency": "Medium"
+      "alert_id": "ENV-UV-20251017-002",
+      "timestamp": "2025-10-17T14:28:00Z",
+      "type": "Environmental Alert",
+      "severity": "Medium",
+      "subject": "High UV Index Warning for Karachi",
+      "message": "WARNING: High UV Index (8.3) in Karachi today. Increased risk of sunburn and skin damage. Limit sun exposure, especially between 10 AM and 4 PM. Wear sunscreen, hats, and protective clothing.",
+      "location": "Karachi",
+      "affected_areas": "Karachi (General)",
+      "recipients": {
+        "citizens": {
+          "channel": [
+            "Mobile App",
+            "Social Media (Facebook, Twitter)",
+            "Local Radio"
+          ],
+          "segments": [
+            "All Residents",
+            "Parents of Young Children",
+            "Outdoor Workers"
+          ]
+        },
+        "departments": [
+          {
+            "department_name": "Parks and Recreation Department",
+            "channel": [
+              "Internal Communication System"
+            ],
+            "responsibility": "Post advisories at parks and recreational facilities."
+          },
+          {
+            "department_name": "Education Department",
+            "channel": [
+              "Internal Communication System"
+            ],
+            "responsibility": "Inform schools about sun safety precautions for outdoor activities."
+          }
+        ]
+      },
+      "expiry": "2025-10-17T20:00:00Z"
+    },
+    {
+      "alert_id": "ENV-PL-20251017-003",
+      "timestamp": "2025-10-17T14:28:00Z",
+      "type": "Environmental Alert",
+      "severity": "Medium",
+      "subject": "Elevated Pollen Levels in Karachi",
+      "message": "ADVISORY: Elevated grass and tree pollen levels in Karachi. Allergy sufferers should take preventative measures such as medication and limiting outdoor exposure. Monitor pollen forecasts for updates.",
+      "location": "Karachi",
+      "affected_areas": "Karachi (General)",
+      "recipients": {
+        "citizens": {
+          "channel": [
+            "Mobile App",
+            "Social Media (Facebook, Twitter)"
+          ],
+          "segments": [
+            "Registered Users with Allergies",
+            "Residents near Parks and Green Spaces"
+          ]
+        },
+        "departments": [
+          {
+            "department_name": "Health Department",
+            "channel": [
+              "Internal Communication System"
+            ],
+            "responsibility": "Alert clinics and pharmacies about potential increase in allergy-related visits and medication demand."
+          }
+        ]
+      },
+      "expiry": "2025-10-19T14:28:00Z"
     }
   ]
 }

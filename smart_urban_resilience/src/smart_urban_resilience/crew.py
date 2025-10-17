@@ -59,7 +59,8 @@ class SmartUrbanResilience():
         return Agent(
             config=self.agents_config['data_validator'],  # type: ignore[index]
             verbose=True,
-            tools=[validation_tool]
+            tools=[validation_tool],
+            max_iter=3
         )
 
     @agent
@@ -77,7 +78,7 @@ class SmartUrbanResilience():
         return Agent(
             config=self.agents_config['impact_assessor'],  # type: ignore[index]
             verbose=True,
-            tools=[impact_assessment_tool]
+            # tools=[impact_assessment_tool]
         )
 
     @agent
@@ -141,7 +142,7 @@ class SmartUrbanResilience():
         return Task(
             config=self.tasks_config['data_normalization_task'],  # type: ignore[index]
             # output_pydantic=NormalizedEnvironmentalData,
-            output_file='./data/1-normalized_data.json',       
+            # output_file='./data/1-normalized_data.json',       
         )
 
     @task
@@ -155,21 +156,21 @@ class SmartUrbanResilience():
     def event_detection_task(self) -> Task:
         return Task(
             config=self.tasks_config['event_detection_task'],  # type: ignore[index]
-            output_file="./data/3-detected_events.json"
+            # output_file="./data/3-detected_events.json"
         )
 
     @task
     def impact_assessment_task(self) -> Task:
         return Task(
             config=self.tasks_config['impact_assessment_task'],  # type: ignore[index]
-            output_file="./data/4-impact_assessment.json"
+            # output_file="./data/4-impact_assessment.json"
         )
 
     @task
     def resource_recommendation_task(self) -> Task:
         return Task(
             config=self.tasks_config['resource_recommendation_task'],  # type: ignore[index]
-            output_file="./data/5-resource_recommendations.json"
+            # output_file="./data/5-resource_recommendations.json"
         )
 
     @task
@@ -183,7 +184,8 @@ class SmartUrbanResilience():
     def communication_task(self) -> Task:
         return Task(
             config=self.tasks_config['communication_task'],  # type: ignore[index]
-            output_file='./data/7-communications.md'
+            output_file='./data/7-communications.md',
+            human_input=True
         )
 
     @task

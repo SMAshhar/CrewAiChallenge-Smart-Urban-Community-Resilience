@@ -1,47 +1,47 @@
 ```json
 {
-  "event_impact_report": [
-    {
-      "event": "Flood Risk",
-      "location": "Karachi Division (24.86, 67.01)",
-      "time": "2025-10-13T01:12:24.491145",
-      "severity": "Moderate",
-      "affected_zones": "Low-lying areas in Karachi Division, particularly those near drainage channels and the coast.",
-      "potential_impacts": [
-        "Displacement of residents",
-        "Damage to infrastructure (roads, buildings)",
-        "Contamination of water sources",
-        "Increased risk of waterborne diseases"
-      ],
-      "priority": "High",
-      "rationale": "High confidence score (0.97) indicates a significant risk. Karachi is particularly vulnerable to flooding due to its infrastructure and coastal location. Immediate action is required to mitigate potential damage and protect the population.",
-      "suggested_actions": [
-        "Issue flood warnings to residents in vulnerable areas.",
-        "Deploy emergency response teams and equipment.",
-        "Clear drainage channels and ensure proper functioning of pumping stations.",
-        "Prepare evacuation plans for residents in high-risk zones."
-      ]
+  "event_impact_report": {
+    "location": {
+      "latitude": 24.8607,
+      "longitude": 67.0011,
+      "description": "Embankment Road, Sarafa Bazaar, Lyari Town, Karachi District, Lyari Town, 75660, Pakistan - Densely populated area"
     },
-    {
-      "event": "High Pollen Count",
-      "location": "Karachi Division (24.86, 67.01)",
-      "time": "2025-10-13T01:12:24.491145",
-      "severity": "Moderate",
-      "affected_zones": "Karachi Division, particularly areas with high vegetation density.",
-      "potential_impacts": [
-        "Increased incidence of allergic reactions (hay fever, asthma)",
-        "Strain on healthcare facilities",
-        "Reduced productivity due to illness"
-      ],
-      "priority": "Medium",
-      "rationale": "High pollen count can significantly impact public health, particularly for individuals with allergies and respiratory conditions. Confidence score of 0.85 suggests a high likelihood. Monitoring and preventative measures are necessary.",
-      "suggested_actions": [
-        "Issue public health advisories regarding pollen levels.",
-        "Recommend that vulnerable individuals take precautions (e.g., stay indoors, use air purifiers, take medication).",
-        "Monitor pollen levels and provide regular updates to the public.",
-        "Ensure adequate supplies of allergy medications are available at healthcare facilities."
-      ]
-    }
-  ]
+    "environmental_conditions": {
+      "weather": {
+        "temperature_celsius": 25.47,
+        "humidity": 44,
+        "precipitation": 7.08,
+        "description": "Moderate temperature and humidity with precipitation"
+      },
+      "air_quality": {
+        "aqi": 61,
+        "pm2_5": 32.4,
+        "carbon_monoxide": 931.0,
+        "description": "Moderate air quality with elevated PM2.5 and Carbon Monoxide levels"
+      },
+      "environment": {
+        "uv_index": 6.2,
+        "flood_risk": 60,
+        "description": "Moderate UV index and flood risk"
+      }
+    },
+    "potential_impacts": {
+      "social": "Potential health risks due to air pollution, especially for vulnerable populations (children, elderly, individuals with respiratory issues).",
+      "environmental": "Precipitation may exacerbate existing flood risk in the low lying area.",
+      "infrastructural": "Possible disruption of traffic and business activity due to precipitation and potential flooding. Impact on informal infrastructure could be significant."
+    },
+    "severity_assessment": {
+      "overall_severity": "Moderate",
+      "justification": "Densely populated area with moderate air pollution and flood risk. Precipitation could worsen conditions."
+    },
+    "recommended_priority": "Medium",
+    "suggested_actions": [
+      "Monitor air quality and flood levels closely.",
+      "Alert vulnerable populations about potential health risks and safety measures.",
+      "Prepare for potential traffic disruptions and provide alternative routes if necessary.",
+      "Inspect and reinforce vulnerable infrastructure in low-lying areas.",
+       "Deploy water pumps in case of flooding"
+    ]
+  }
 }
 ```

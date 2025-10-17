@@ -1,0 +1,30 @@
+{
+  "weather": {
+    "temperature": 29.3,
+    "humidity": 35,
+    "precipitation": 0.81,
+    "cloud_cover": 82,
+    "wind_speed": 5.39,
+    "source": "Simulated",
+    "timestamp": "2025-10-17T14:03:20.941105"
+  },
+  "air_quality": {
+    "aqi": 74,
+    "pm10": 40.4,
+    "pm2_5": 35.7,
+    "carbon_monoxide": 909.0,
+    "ozone": 95.0,
+    "source": "Open-Meteo Air Quality",
+    "timestamp": "2025-10-17T14:03:21.771500"
+  },
+  "environment": {
+    "uv_index": 5.3,
+    "grass_pollen": 144,
+    "tree_pollen": 219,
+    "weed_pollen": 15,
+    "wildfire_risk": 51,
+    "flood_risk": 65,
+    "source": "Simulated",
+    "timestamp": "2025-10-17T14:03:22.551444"
+  }
+}
