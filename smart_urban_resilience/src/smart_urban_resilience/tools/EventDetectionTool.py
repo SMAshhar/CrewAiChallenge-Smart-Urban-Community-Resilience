@@ -46,6 +46,8 @@ class EventDetectionTool(BaseTool):
             event = "High Pollen Alert"
         else:
             return None
+        
+        print(f"Detected event: {event} for record: {record}")
 
         return {
             "event_id": str(uuid.uuid4()),

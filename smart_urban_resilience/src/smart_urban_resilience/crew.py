@@ -11,6 +11,7 @@ from .tools.DataNormalizationTool import DataNormalizationTool
 from .tools.ValidationTool import ValidationTool
 from .tools.EventDetectionTool import EventDetectionTool
 from .tools.ImpactAcessorTool import ImpactAssessmentTool
+from .tools.ResourcePlannerTool import ResourcePlannerTool
 
 # Import Schemas
 
@@ -23,6 +24,7 @@ data_normalization_tool = DataNormalizationTool()
 validation_tool = ValidationTool()
 event_detection_tool = EventDetectionTool()
 impact_assessment_tool = ImpactAssessmentTool()
+resource_planner_tool = ResourcePlannerTool()   
 
 
 @CrewBase
@@ -40,7 +42,7 @@ class SmartUrbanResilience():
         return Agent(
             config=self.agents_config['data_collector'],  # type: ignore[index]
             verbose=True,
-            tools=[storage_tool, data_fetch_tool]
+            tools=[data_fetch_tool]
         )
 
     @agent
@@ -49,7 +51,7 @@ class SmartUrbanResilience():
         return Agent(
             config=self.agents_config['data_normalizer'],  # type: ignore[index]
             verbose=True,
-            tools=[storage_tool, data_normalization_tool],
+            tools=[data_normalization_tool],
             max_iter=3
         )
 
@@ -78,7 +80,8 @@ class SmartUrbanResilience():
         return Agent(
             config=self.agents_config['impact_assessor'],  # type: ignore[index]
             verbose=True,
-            # tools=[impact_assessment_tool]
+            max_iter=3,
+            tools=[impact_assessment_tool]
         )
 
     @agent
@@ -86,7 +89,9 @@ class SmartUrbanResilience():
         """Recommends optimal resources and response priorities."""
         return Agent(
             config=self.agents_config['resource_recommender'],  # type: ignore[index]
-            verbose=True
+            verbose=True,
+            tools=[resource_planner_tool],
+            max_iter=3
         )
 
     @agent

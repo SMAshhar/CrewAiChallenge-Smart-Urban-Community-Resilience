@@ -2,57 +2,103 @@
 {
   "cleaned": [
     {
-      "weather": {
-        "temperature": 24.86,
-        "humidity": 77,
-        "precipitation": 4.05,
-        "cloud_cover": 30,
-        "wind_speed": 1.96,
-        "source": "Simulated",
-        "timestamp": "2025-10-17T14:28:11.772681"
+      "id": "unknown",
+      "event_id": "unknown",
+      "lat": 24.86,
+      "lon": 67.01,
+      "timestamp": "2025-10-20T07:52:42.198433+00:00",
+      "temperature_c": 26.81,
+      "location": {
+        "latitude": 24.86,
+        "longitude": 67.01,
+        "city": "Karachi Division"
       },
-      "air_quality": {
-        "aqi": 74,
-        "pm10": 40.5,
-        "pm2_5": 36.1,
-        "carbon_monoxide": 970.0,
-        "ozone": 86.0,
-        "source": "Open-Meteo Air Quality",
-        "timestamp": "2025-10-17T14:28:12.751712"
+      "raw_temperature": {
+        "temp_f": null,
+        "temperature": 26.81
       },
-      "environment": {
-        "uv_index": 8.3,
-        "grass_pollen": 104,
-        "tree_pollen": 238,
-        "weed_pollen": 44,
-        "wildfire_risk": 74,
-        "flood_risk": 18,
-        "source": "Simulated",
-        "timestamp": "2025-10-17T14:28:12.756714"
-      },
-      "event_id": "evt-b32e27256339",
       "_meta": {
-        "id_source": "generated"
+        "id_source": "original"
+      }
+    },
+    {
+      "id": "unknown",
+      "event_id": "unknown",
+      "lat": 24.86,
+      "lon": 67.01,
+      "timestamp": "2025-10-20T07:52:43.088446+00:00",
+      "temperature_c": 26.81,
+      "location": {
+        "latitude": 24.86,
+        "longitude": 67.01,
+        "city": "Karachi Division"
+      },
+      "raw_temperature": {
+        "temp_f": null,
+        "temperature": null
+      },
+      "_meta": {
+        "id_source": "original"
+      }
+    },
+    {
+      "id": "unknown",
+      "event_id": "unknown",
+      "lat": 24.86,
+      "lon": 67.01,
+      "timestamp": "2025-10-20T07:52:43.832152+00:00",
+      "temperature_c": 26.81,
+      "location": {
+        "latitude": 24.86,
+        "longitude": 67.01,
+        "city": "Karachi Division"
+      },
+      "raw_temperature": {
+        "temp_f": null,
+        "temperature": null
+      },
+      "_meta": {
+        "id_source": "original"
       }
     }
   ],
   "report": {
-    "input_count": 1,
-    "auto_id_count": 1,
+    "input_count": 3,
+    "auto_id_count": 0,
     "inferred_examples": [],
     "validator_issues": [],
     "missing_counts": {
-      "weather": 0,
-      "air_quality": 0,
-      "environment": 0,
+      "id": 0,
       "event_id": 0,
+      "lat": 0,
+      "lon": 0,
+      "timestamp": 0,
+      "temperature_c": 2,
+      "location": 0,
+      "raw_temperature": 0,
       "_meta": 0
     },
     "duplicate_examples": [],
     "outliers": [],
-    "imputations": {},
+    "imputations": {
+      "lat": {
+        "method": "median",
+        "filled": 0,
+        "value": 24.86
+      },
+      "lon": {
+        "method": "median",
+        "filled": 0,
+        "value": 67.01
+      },
+      "temperature_c": {
+        "method": "median",
+        "filled": 2,
+        "value": 26.81
+      }
+    },
     "removed_by_missing": 0,
-    "kept": 1,
+    "kept": 3,
     "recommendations": [
       "Add sensor registration metadata when possible to reduce inference reliance."
     ]

@@ -188,6 +188,7 @@ class ImpactAssessmentTool(BaseTool):
                 "assessed_at": datetime.now(timezone.utc).isoformat()
             }
             results.append(result)
+        print(f"ImpactAssessmentTool results: {results}")
 
         return {"assessments": results, "meta": {"method": "ImpactAssessmentTool", "count": len(results)}}
 

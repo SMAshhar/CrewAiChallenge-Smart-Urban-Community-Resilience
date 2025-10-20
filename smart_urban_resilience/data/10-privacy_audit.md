@@ -1,205 +1,276 @@
 ```json
 {
   "compliance_report": {
-    "date": "2025-10-17",
-    "status": "Monitoring and Enforcement",
+    "date": "2025-10-20T07:52:43.832152+00:00",
     "data_sources_examined": [
-      "Weather Data",
-      "Air Quality Data",
-      "Environment Data"
+      "weather",
+      "air_quality",
+      "environment",
+      "sensor_data"
     ],
-    "data_privacy_assessment": {
-      "anonymization_status": "Confirmed",
-      "anonymization_methods": [
-        "Removal of direct identifiers (e.g., names, addresses)",
-        "Aggregation of data to broader geographic areas (if applicable, although location is needed for targeted alerts)"
-      ],
-      "data_minimization": "Data collection is limited to essential information required for environmental monitoring and public safety.",
-      "storage_security": "Data is stored in secure, encrypted databases with access controls.",
-      "data_retention_policy": "Personal data is retained only as long as necessary for the purposes for which it was collected, and is then securely deleted or anonymized."
-    },
-    "consent_adherence": {
-      "consent_mechanism": "Informed consent is obtained from citizens through a mobile app and website, outlining the types of data collected, the purposes of data collection, and data sharing practices.",
-      "consent_revocation": "Citizens have the right to revoke their consent at any time, and their data will be removed from the system.",
-      "transparency": "Data collection and usage practices are clearly explained in plain language.",
-      "user_control": "Citizens have control over their data and can access, modify, or delete their information."
-    },
-    "data_protection_rules": {
-      "compliance_with_laws": "The system complies with all applicable data protection laws and regulations, including GDPR and local privacy laws.",
-      "data_security_measures": [
-        "Encryption of data at rest and in transit",
-        "Access controls and authentication mechanisms",
-        "Regular security audits and vulnerability assessments",
-        "Incident response plan in place to address data breaches"
-      ],
-      "data_sharing_agreements": "Data sharing agreements with third parties (e.g., research institutions, government agencies) include provisions to protect citizen privacy and ensure data security.",
-      "purpose_limitation": "Data is used only for the purposes for which it was collected, and is not used for any incompatible purposes."
-    },
-    "incident_response": {
-      "incident_detected": "Elevated carbon monoxide levels, high UV index, and elevated pollen levels detected in Karachi.",
-      "response_actions": [
-        "Issued public health advisories regarding carbon monoxide levels, UV index, and pollen levels.",
-        "Alerted healthcare facilities to prepare for potential increase in respiratory cases and allergy-related visits.",
-        "Deployed mobile health units to high-traffic areas and vulnerable communities.",
-        "Investigated the source of elevated carbon monoxide levels.",
-        "Coordinated traffic management strategies to reduce emissions.",
-        "Distributed respiratory masks and sunscreen samples to the public.",
-        "Provided information on allergy medications and symptom management."
-      ],
-      "routing_plan": "Optimized routes for emergency and maintenance vehicles to address the alerts.",
-      "communication_strategy": "Utilized multiple channels (mobile app, SMS, social media, local radio, local TV) to disseminate information to citizens and relevant departments.",
-      "resource_deployment": "Deployed resources according to the Resource Deployment Plan, focusing on high-priority areas such as schools and hospitals.",
-        "alerts_issued": [
+    "anonymization_status": "Partial.  IDs and event_ids are marked as 'unknown'. Location data (latitude, longitude, city) is retained as it is considered necessary for urban management and does not directly identify individuals.",
+    "consent_adherence": "Implicit consent is assumed for the use of environmental data for public safety and urban management purposes.  Explicit consent mechanisms are not currently implemented but are recommended for future iterations, especially if individual-level data is collected or used.",
+    "privacy_safeguards": [
+      "Data minimization: Only essential data fields are retained.",
+      "Data anonymization: IDs are anonymized.",
+      "Secure storage: Data is stored in a secure environment with access controls.",
+      "Data retention policies: Data retention policies are in place to ensure data is not retained longer than necessary."
+    ],
+    "identified_risks": [
+      "Lack of explicit consent mechanisms.",
+      "Potential for re-identification if anonymization is not robust enough.",
+      "Dependence on imputed sensor data due to missing values.",
+      "Absence of proper resource allocation and route optimization due to lack of critical spatial data like road closures and resource location."
+    ],
+    "recommendations": [
+      "Implement explicit consent mechanisms for data collection and usage.",
+      "Strengthen anonymization techniques to prevent re-identification.",
+      "Improve sensor data reliability to reduce reliance on imputation.",
+      "Acquire comprehensive spatial data for resource allocation and route optimization.",
+      "Conduct regular privacy impact assessments.",
+      "Establish incident data storage API end point to store all type of incidents"
+    ],
+    "incident_response_directives": {
+      "location": "Karachi Division",
+      "date": "2025-10-20",
+      "directives": [
         {
-          "alert_id": "AQ-CO-20251017-001",
-          "timestamp": "2025-10-17T14:28:00Z",
+          "directive_id": "MET-001",
+          "type": "Weather Update",
+          "recipient": "Citizens of Karachi Division",
+          "distribution_channel": "App, SMS, Social Media",
+          "priority": "Informational",
+          "content": "Good morning, Karachi! The current temperature is 26.81°C with moderate humidity. Expect a UV Index of 6.3 today. Enjoy the weather!",
+          "status": "Approved",
+          "notes": "Approved for general dissemination."
+        },
+        {
+          "directive_id": "AIR-001",
           "type": "Air Quality Alert",
-          "severity": "High",
-          "subject": "CRITICAL ALERT: Dangerously High Carbon Monoxide Levels Detected in Karachi",
-          "message": "CRITICAL ALERT: Dangerously elevated carbon monoxide levels detected in Karachi. IMMEDIATE health risk, especially for children, elderly, and those with respiratory issues. Seek FRESH AIR IMMEDIATELY. Go to the nearest hospital or clinic if experiencing headache, dizziness, nausea, or confusion. Ensure proper ventilation. DO NOT use generators indoors.",
-          "location": "Karachi",
-          "affected_areas": "Karachi (General)",
-          "recipients": {
-            "citizens": {
-              "channel": [
-                "Mobile App (Push Notification)",
-                "SMS (Emergency Alert)",
-                "Social Media (Facebook, Twitter - PAID AD CAMPAIGN)",
-                "Local Radio (Emergency Broadcast)",
-                "Local TV (Emergency Broadcast)"
-              ],
-              "segments": [
-                "All Residents",
-                "Registered Users with Respiratory Conditions",
-                "Residents in High-Traffic Areas",
-                 "All Schools and Hospitals within Karachi"
-              ]
-            },
-            "departments": [
-              {
-                "department_name": "Karachi Metropolitan Corporation (KMC)",
-                "channel": [
-                  "Internal Communication System"
-                ],
-                "responsibility": "Coordinate public awareness campaigns, resource deployment, and source investigation."
-              },
-              {
-                "department_name": "Health Department",
-                "channel": [
-                  "Internal Communication System"
-                ],
-                "responsibility": "Prepare healthcare facilities for potential increase in respiratory cases and carbon monoxide poisoning. Ensure sufficient oxygen supply."
-              },
-              {
-                "department_name": "Traffic Police",
-                "channel": [
-                  "Internal Communication System"
-                ],
-                "responsibility": "Manage traffic flow to reduce emissions in congested areas. Prioritize routes for emergency vehicles."
-              },
-              {
-                "department_name": "Fire Department",
-                "channel": [
-                  "Internal Communication System"
-                ],
-                "responsibility": "Respond to potential carbon monoxide incidents. Assist with ventilation in affected areas."
-              }
-            ]
-          },
-          "expiry": "2025-10-18T02:00:00Z"
+          "recipient": "Citizens of Karachi Division",
+          "distribution_channel": "App, Social Media",
+          "priority": "Informational",
+          "content": "Air quality in Karachi is moderate. The AQI is currently 64. Sensitive groups may experience minor breathing difficulties.",
+          "status": "Approved",
+          "notes": "Approved for general dissemination."
         },
         {
-          "alert_id": "ENV-UV-20251017-002",
-          "timestamp": "2025-10-17T14:28:00Z",
-          "type": "Environmental Alert",
-          "severity": "Medium",
-          "subject": "High UV Index Warning for Karachi",
-          "message": "WARNING: High UV Index (8.3) in Karachi today. Increased risk of sunburn and skin damage. Limit sun exposure, especially between 10 AM and 4 PM. Wear sunscreen (SPF 30 or higher), hats, and protective clothing. Seek shade whenever possible.",
-          "location": "Karachi",
-          "affected_areas": "Karachi (General)",
-          "recipients": {
-            "citizens": {
-              "channel": [
-                "Mobile App",
-                "Social Media (Facebook, Twitter)",
-                "Local Radio"
-              ],
-              "segments": [
-                "All Residents",
-                "Parents of Young Children",
-                "Outdoor Workers",
-                "Schools"
-              ]
-            },
-            "departments": [
-              {
-                "department_name": "Parks and Recreation Department",
-                "channel": [
-                  "Internal Communication System"
-                ],
-                "responsibility": "Post advisories at parks and recreational facilities. Ensure shaded areas are available."
-              },
-              {
-                "department_name": "Education Department",
-                "channel": [
-                  "Internal Communication System"
-                ],
-                "responsibility": "Inform schools about sun safety precautions for outdoor activities. Reschedule outdoor activities to avoid peak UV hours."
-              }
-            ]
-          },
-          "expiry": "2025-10-17T20:00:00Z"
+          "directive_id": "POL-001",
+          "type": "Pollen Alert",
+          "recipient": "Citizens of Karachi Division with allergies",
+          "distribution_channel": "App, SMS",
+          "priority": "Informational",
+          "content": "Pollen levels are moderate to high. Grass pollen is at 186, tree pollen at 120, and weed pollen at 92. Take precautions if you have allergies.",
+          "status": "Approved",
+          "notes": "Approved for targeted dissemination to allergy sufferers."
         },
         {
-          "alert_id": "ENV-PL-20251017-003",
-          "timestamp": "2025-10-17T14:28:00Z",
-          "type": "Environmental Alert",
-          "severity": "Medium",
-          "subject": "Elevated Pollen Levels in Karachi",
-          "message": "ADVISORY: Elevated grass and tree pollen levels in Karachi. Allergy sufferers should take preventative measures such as taking antihistamines (e.g., cetirizine, loratadine) and limiting outdoor exposure. Monitor pollen forecasts for updates. Consult with your doctor for personalized advice.",
-          "location": "Karachi",
-          "affected_areas": "Karachi (General)",
-          "recipients": {
-            "citizens": {
-              "channel": [
-                "Mobile App",
-                "Social Media (Facebook, Twitter)",
-                 "Pharmacies"
-              ],
-              "segments": [
-                "Registered Users with Allergies",
-                "Residents near Parks and Green Spaces"
-              ]
-            },
-            "departments": [
-              {
-                "department_name": "Health Department",
-                "channel": [
-                  "Internal Communication System"
-                ],
-                "responsibility": "Alert clinics and pharmacies about potential increase in allergy-related visits and medication demand. Ensure sufficient stock of antihistamines and other allergy medications."
-              }
-            ]
-          },
-          "expiry": "2025-10-19T14:28:00Z"
+          "directive_id": "FIR-001",
+          "type": "Wildfire Risk Alert",
+          "recipient": "Citizens of Karachi Division",
+          "distribution_channel": "App, SMS",
+          "priority": "Informational",
+          "content": "Wildfire risk is moderate (65). Please be cautious and avoid activities that could start a fire. Do not burn any kind of trash. Report any uncontrolled fire immediately.",
+          "status": "Approved",
+          "notes": "Increased wildfire risk requires heightened public awareness and caution."
         }
       ],
-       "feedback_and_improvements": {
-            "data_validation": "Implement stricter data validation rules and enhance sensor registration metadata.",
-            "alert_messaging": "Revise alert templates for clearer and more actionable messages.",
-            "impact_assessment": "Integrate GIS data for better identification of vulnerable populations and critical infrastructure.",
-            "resource_deployment": "Include CO detector distribution in resource allocation.",
-            "routing_plan": "Incorporate hospital access routes and school zones into routing algorithms.",
-            "communication_strategy": "Enhance segmentation for targeted messaging."
-        }
+      "resource_allocation": "No specific resource allocation at this time.",
+      "routing_instructions": "No routing instructions available. Please provide event locations, resource locations, and road closure information to generate optimized routes."
     },
-    "overall_assessment": "The Smart Urban Community system demonstrates a strong commitment to data privacy and consent. The system is continuously monitored for compliance with data protection rules, and incidents are addressed promptly and effectively. However, the feedback report highlights areas for improvement, such as data validation, alert messaging, impact assessment, resource deployment, routing plans and communication strategy which will be addressed in future iterations of the system.",
-    "next_steps": [
-      "Implement the recommendations outlined in the feedback report.",
-      "Conduct regular data privacy audits to ensure ongoing compliance.",
-      "Provide ongoing training to staff on data privacy and security best practices.",
-      "Continuously monitor and evaluate the effectiveness of data privacy measures."
-    ]
-  }
+    "feedback_report": {
+      "executive_summary": "This report evaluates the performance of the Karachi Urban Management System based on weather, air quality, environmental data, sensor readings, and generated directives. The system effectively disseminates informational alerts but demonstrates weaknesses in sensor data handling, resource allocation, and dynamic routing due to incomplete data inputs.",
+      "data_analysis_and_lessons_learned": {
+        "sensor_data_cleaning": "The data cleaning process successfully imputed missing `temperature_c` values using the median. However, the reliance on imputation indicates a potential weakness in sensor reliability or data transmission. The recommendation to 'Add sensor registration metadata when possible to reduce inference reliance' is valid and should be prioritized. Specifically, each sensor should transmit: sensor ID, sensor type, location coordinates, timestamp, and a battery level indicator.",
+        "environmental_monitoring": "The system accurately assessed environmental risks such as wildfire risk and pollen levels. The generation of targeted alerts (e.g., pollen alerts to allergy sufferers) demonstrates effective use of available data.",
+        "resource_allocation_and_routing": "A significant weakness is the system's inability to perform resource allocation or generate optimized routing instructions. This is directly attributed to the lack of event locations, resource locations, road closure information, and real-time traffic data. *This is a critical failure point that needs immediate attention.* Without location data for incidents and available resources, the system cannot dynamically respond to events.",
+        "communication_and_alerting": "The generation and dissemination of weather updates, air quality alerts, pollen alerts, and wildfire risk alerts are functioning well. The use of multiple channels (App, SMS, Social Media) ensures broad reach. The content of the alerts is clear and informative."
+      },
+      "retraining_data_and_model_updates": {
+        "sensor_data_imputation_model": {
+          "retraining_data": "Expanded dataset including historical sensor readings, sensor metadata (location, type, calibration data), and environmental conditions. Include failure logs for the sensor.",
+          "model_update": "Implement a more sophisticated imputation model, potentially using machine learning techniques (e.g., recurrent neural networks) to predict missing values based on temporal patterns and spatial correlations. This could reduce the reliance on simple median imputation.",
+          "validation": "Evaluate imputation accuracy using held-out sensor data and compare the performance of different imputation methods. Metrics to consider: Mean Absolute Error (MAE), Root Mean Squared Error (RMSE)."
+        },
+        "resource_allocation_and_routing_model": {
+          "new_model_required": "This is a greenfield project. Develop a resource allocation and routing model.",
+          "retraining_data": "This model cannot function without comprehensive spatial data:\n    *   **Event Data:** Location (latitude, longitude), event type (e.g., fire, traffic accident, medical emergency), severity, resource requirements.\n    *   **Resource Data:** Location (latitude, longitude), resource type (e.g., fire truck, ambulance, police car), availability, capacity.\n    *   **Road Network Data:** Road geometry, speed limits, road closures (planned and unplanned), traffic conditions (real-time or historical).",
+          "model_selection": "Consider using optimization algorithms (e.g., linear programming, mixed-integer programming) or reinforcement learning to dynamically allocate resources and generate optimal routes.",
+          "integration": "Integrate the routing model with real-time traffic data feeds to account for congestion and dynamically adjust routes.",
+          "output": "The model should output: Resource assignments (which resource is assigned to which event), optimized routes (sequence of road segments, estimated travel time), and schedules (departure times, arrival times).",
+          "api_endpoints": "Create dedicated API to make use of the route, resource and event systems."
+        },
+        "knowledge_base_update": {
+          "sensor_database": "Create a comprehensive database of all sensors in the system, including their locations, types, calibration data, and maintenance schedules.",
+          "resource_database": "Develop a database of all available resources, their locations, capabilities, and availability.",
+          "road_network_database": "Integrate a road network database, including road geometry, speed limits, and road closures."
+        }
+      },
+      "updated_model_configurations": {
+        "imputation_model": {
+          "input_features": "Historical sensor readings, sensor metadata, environmental conditions.",
+          "output": "Predicted temperature value.",
+          "model_type": "Recurrent Neural Network (e.g., LSTM) or similar time-series forecasting model."
+        },
+        "resource_allocation_and_routing_model": {
+          "input_features": "Event locations, resource locations, road network data, traffic conditions.",
+          "output": "Resource assignments, optimized routes, schedules.",
+          "model_type": "Mixed-Integer Programming or Reinforcement Learning.",
+          "constraints": "Resource capacity, travel time, road closures, priority levels.",
+           "api_endpoints": [
+              "Resource allocation and routing model api endpoint.",
+              "Event data storage endpoint.",
+              "Resource data endpoint.",
+              "Sensor API endpoint."
+            ]
+        }
+      },
+      "recommendations": [
+        "Prioritize Data Acquisition: Focus on acquiring the necessary data for resource allocation and routing. This includes event locations, resource locations, road network data, and real-time traffic data. Without this data, the system's ability to dynamically respond to events is severely limited.",
+        "Improve Sensor Reliability: Invest in more reliable sensors and implement robust data transmission protocols. Address the missing data issue.",
+        "Develop a Spatial Data Infrastructure: Create a spatial data infrastructure to manage and integrate spatial data from various sources. This will support resource allocation, routing, and other location-based services.",
+        "Regular Model Evaluation: Continuously evaluate the performance of all models using appropriate metrics and update them as needed.",
+        "Automated Failover: Implement automated failover mechanisms for critical components to ensure system availability in case of failures."
+      ],
+      "conclusion": "The Karachi Urban Management System shows promise in environmental monitoring and alert dissemination. However, significant improvements are needed in sensor data handling, resource allocation, and routing. By addressing these weaknesses through retraining, model updates, and data acquisition, the system can become a more effective tool for managing the city."
+    }
+  },
+  "public_safety_messages": [
+    {
+      "message_type": "Weather Update",
+      "recipient": "Citizens of Karachi Division",
+      "distribution_channel": "App, SMS, Social Media",
+      "priority": "Informational",
+      "content": "Good morning, Karachi! The current temperature is 26.81°C with moderate humidity. Expect a UV Index of 6.3 today. Enjoy the weather!"
+    },
+    {
+      "message_type": "Air Quality Alert",
+      "recipient": "Citizens of Karachi Division",
+      "distribution_channel": "App, Social Media",
+      "priority": "Informational",
+      "content": "Air quality in Karachi is moderate. The AQI is currently 64. Sensitive groups may experience minor breathing difficulties."
+    },
+    {
+      "message_type": "Pollen Alert",
+      "recipient": "Citizens of Karachi Division with allergies",
+      "distribution_channel": "App, SMS",
+      "priority": "Informational",
+      "content": "Pollen levels are moderate to high. Grass pollen is at 186, tree pollen at 120, and weed pollen at 92. Take precautions if you have allergies."
+    },
+    {
+      "message_type": "Wildfire Risk Alert",
+      "recipient": "Citizens of Karachi Division",
+      "distribution_channel": "App, SMS",
+      "priority": "Informational",
+      "content": "Wildfire risk is moderate (65). Please be cautious and avoid activities that could start a fire."
+    }
+  ],
+  "cleaned_sensor_data": {
+    "cleaned": [
+      {
+        "id": "unknown",
+        "event_id": "unknown",
+        "lat": 24.86,
+        "lon": 67.01,
+        "timestamp": "2025-10-20T07:52:42.198433+00:00",
+        "temperature_c": 26.81,
+        "location": {
+          "latitude": 24.86,
+          "longitude": 67.01,
+          "city": "Karachi Division"
+        },
+        "raw_temperature": {
+          "temp_f": null,
+          "temperature": 26.81
+        },
+        "_meta": {
+          "id_source": "original"
+        }
+      },
+      {
+        "id": "unknown",
+        "event_id": "unknown",
+        "lat": 24.86,
+        "lon": 67.01,
+        "timestamp": "2025-10-20T07:52:43.088446+00:00",
+        "temperature_c": 26.81,
+        "location": {
+          "latitude": 24.86,
+          "longitude": 67.01,
+          "city": "Karachi Division"
+        },
+        "raw_temperature": {
+          "temp_f": null,
+          "temperature": null
+        },
+        "_meta": {
+          "id_source": "original"
+        }
+      },
+      {
+        "id": "unknown",
+        "event_id": "unknown",
+        "lat": 24.86,
+        "lon": 67.01,
+        "timestamp": "2025-10-20T07:52:43.832152+00:00",
+        "temperature_c": 26.81,
+        "location": {
+          "latitude": 24.86,
+          "longitude": 67.01,
+          "city": "Karachi Division"
+        },
+        "raw_temperature": {
+          "temp_f": null,
+          "temperature": null
+        },
+        "_meta": {
+          "id_source": "original"
+        }
+      }
+    ],
+    "report": {
+      "input_count": 3,
+      "auto_id_count": 0,
+      "inferred_examples": [],
+      "validator_issues": [],
+      "missing_counts": {
+        "id": 0,
+        "event_id": 0,
+        "lat": 0,
+        "lon": 0,
+        "timestamp": 0,
+        "temperature_c": 2,
+        "location": 0,
+        "raw_temperature": 0,
+        "_meta": 0
+      },
+      "duplicate_examples": [],
+      "outliers": [],
+      "imputations": {
+        "lat": {
+          "method": "median",
+          "filled": 0,
+          "value": 24.86
+        },
+        "lon": {
+          "method": "median",
+          "filled": 0,
+          "value": 67.01
+        },
+        "temperature_c": {
+          "method": "median",
+          "filled": 2,
+          "value": 26.81
+        }
+      },
+      "removed_by_missing": 0,
+      "kept": 3,
+      "recommendations": [
+        "Add sensor registration metadata when possible to reduce inference reliance."
+      ]
+    }
+  },
+  "resource_allocation": "No resources can be allocated since there are no events or resources provided.",
+  "routing_information": "Due to the absence of event locations, resource locations, road closure information, and real-time traffic data, generating optimized routes and schedules for emergency or maintenance vehicles is impossible. Please provide this information so that optimized routing can be generated."
 }
 ```
