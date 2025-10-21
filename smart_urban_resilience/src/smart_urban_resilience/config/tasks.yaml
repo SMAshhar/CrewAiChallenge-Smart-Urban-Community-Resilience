@@ -1,6 +1,6 @@
 data_collection_task:
   description: >
-    Collect live data from simulated or connected city sources — including weather APIs, IoT sensors, traffic systems, and citizen feedback reports.
+    Collect live data from simulated or connected city sources for the given {location} — including weather APIs, IoT sensors, traffic systems, and citizen feedback reports.
     Normalize this data into a consistent JSON format for downstream processing.
   expected_output: >
     A structured JSON object containing aggregated sensor readings, citizen reports, and timestamped data streams.

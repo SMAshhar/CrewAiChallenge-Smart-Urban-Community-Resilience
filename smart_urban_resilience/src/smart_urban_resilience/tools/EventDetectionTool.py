@@ -61,8 +61,8 @@ class EventDetectionTool(BaseTool):
 # Test harness
 if __name__ == "__main__":
     sample_records = [
-        {"aqi": 190, "uv_index": 6, "pollen_index": 5, "location": {"city": "Lahore"}},
-        {"aqi": 80, "uv_index": 9, "pollen_index": 3, "location": {"city": "Karachi"}}
+        {"aqi": 190, "uv_index": 6, "pollen_index": 5, "location": {"latitude": 24.8607, "longitude": 67.0011}},
+        {"aqi": 80, "uv_index": 9, "pollen_index": 3, "location": {"latitude": 24.8607, "longitude": 67.0011}}
     ]
     tool = EventDetectionTool()
     print(tool._run(sample_records))

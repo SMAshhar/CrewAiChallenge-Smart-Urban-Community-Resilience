@@ -95,6 +95,7 @@ class DataNormalizationTool(BaseTool):
                 "errors": len(errors)
             }
         }
+        print("results from Normalizing tool: ", result)
         return result
 
     # ----------------- Helper Methods -----------------

@@ -18,7 +18,7 @@ def run():
     Run the crew.
     """
     inputs = {
-        'city':'Karachi',
+        'location':{"latitude": 24.8607, "longitude": 67.0011},
         'current_year': str(datetime.now().year)
     }
     
