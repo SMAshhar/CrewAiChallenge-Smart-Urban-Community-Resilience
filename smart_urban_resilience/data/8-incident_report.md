@@ -1,52 +1,76 @@
 ```json
 {
-  "incident_response_directive": {
-    "location": "Karachi Division",
-    "date": "2025-10-20",
-    "directives": [
-      {
-        "directive_id": "MET-001",
-        "type": "Weather Update",
-        "recipient": "Citizens of Karachi Division",
-        "distribution_channel": "App, SMS, Social Media",
-        "priority": "Informational",
-        "content": "Good morning, Karachi! The current temperature is 26.81°C with moderate humidity. Expect a UV Index of 6.3 today. Enjoy the weather!",
-        "status": "Approved",
-        "notes": "Approved for general dissemination."
-      },
-      {
-        "directive_id": "AIR-001",
-        "type": "Air Quality Alert",
-        "recipient": "Citizens of Karachi Division",
-        "distribution_channel": "App, Social Media",
-        "priority": "Informational",
-        "content": "Air quality in Karachi is moderate. The AQI is currently 64. Sensitive groups may experience minor breathing difficulties.",
-        "status": "Approved",
-        "notes": "Approved for general dissemination."
-      },
-      {
-        "directive_id": "POL-001",
-        "type": "Pollen Alert",
-        "recipient": "Citizens of Karachi Division with allergies",
-        "distribution_channel": "App, SMS",
-        "priority": "Informational",
-        "content": "Pollen levels are moderate to high. Grass pollen is at 186, tree pollen at 120, and weed pollen at 92. Take precautions if you have allergies.",
-        "status": "Approved",
-        "notes": "Approved for targeted dissemination to allergy sufferers."
-      },
-      {
-        "directive_id": "FIR-001",
-        "type": "Wildfire Risk Alert",
-        "recipient": "Citizens of Karachi Division",
-        "distribution_channel": "App, SMS",
-        "priority": "Informational",
-        "content": "Wildfire risk is moderate (65). Please be cautious and avoid activities that could start a fire. Do not burn any kind of trash. Report any uncontrolled fire immediately.",
-        "status": "Approved",
-        "notes": "Increased wildfire risk requires heightened public awareness and caution."
-      }
-    ],
-    "resource_allocation": "No specific resource allocation at this time.",
-    "routing_instructions": "No routing instructions available. Please provide event locations, resource locations, and road closure information to generate optimized routes."
-  }
+  "incident": "Extreme UV Alert",
+  "location": {
+    "city": "Karachi",
+    "country": "Pakistan",
+    "latitude": 24.8607,
+    "longitude": 67.0011
+  },
+  "time": "2025-10-22T07:26:43.089307+00:00",
+  "severity": "Moderate",
+  "updates": [
+    {
+      "type": "Citizen Alert",
+      "message": "Extreme UV Alert in Karachi! The UV index is currently 8.1. Protect yourself by wearing sunscreen (SPF 30+), seeking shade (10 AM - 4 PM), and wearing protective clothing. Stay hydrated! Shade and sunscreen are being distributed in Empress Market, Frere Hall Park and University Road.",
+      "recipients": "General Public (Karachi residents and visitors)",
+      "distribution_channels": [
+        "Mobile App Notifications (City of Karachi App)",
+        "SMS Broadcast (opt-in subscribers)",
+        "Social Media (City of Karachi official accounts - Facebook, Twitter)",
+        "Local Radio Announcements (Urdu and English)",
+        "Digital Billboards (high-traffic areas)"
+      ],
+      "priority": "High",
+      "schedule": "Immediate and repeat every 2 hours until UV index decreases",
+        "approved_language": true
+    },
+    {
+      "type": "Departmental Update",
+      "message": "Extreme UV Alert: Resource Deployment in Progress. Sunscreen Distribution Teams deployed to Empress Market, University Road, and Landhi. Shade Provision Teams deployed to Frere Hall Park, Karachi Zoo and Clifton Beach. Monitor public health and report any heat-related incidents.",
+      "recipients": [
+        "Karachi Metropolitan Corporation (KMC)",
+        "Health Department",
+        "Disaster Management Authority",
+        "Local Police",
+        "Fire Department"
+      ],
+      "distribution_channels": [
+        "Email",
+        "Internal Communication System",
+        "Emergency Response Coordination Platform"
+      ],
+      "priority": "High",
+      "schedule": "Immediate and hourly updates on resource deployment status",
+        "approved_language": true
+    },
+    {
+      "type": "Targeted SMS Alert",
+      "message": "UV Alert: High risk to outdoor workers in Landhi Industrial Area. Wear protective clothing, sunscreen, and stay hydrated. Report any signs of heatstroke to supervisors immediately.",
+      "recipients": "Registered businesses and worker unions in Landhi Industrial Area",
+      "distribution_channels": [
+        "SMS Broadcast (registered contacts)",
+        "Email (to company HR departments)"
+      ],
+      "priority": "High",
+      "schedule": "Immediate and repeat at 11:00 AM and 1:00 PM",
+        "approved_language": true
+    },
+        {
+      "type": "Follow-up Citizen Alert",
+      "message": "Update: Extreme UV Alert remains in effect. Remember to protect children and elderly from prolonged sun exposure. Visit designated shade locations for respite. Stay safe, Karachi!",
+      "recipients": "General Public (Karachi residents and visitors)",
+      "distribution_channels": [
+        "Mobile App Notifications (City of Karachi App)",
+        "Social Media (City of Karachi official accounts)",
+        "Local Radio Announcements"
+      ],
+      "priority": "Medium",
+      "schedule": "4 hours after initial alert",
+          "approved_language": true
+    }
+  ],
+  "additional_notes": "Monitor weather conditions and UV index for potential escalation or de-escalation of the alert. Coordinate with local hospitals for heat-related illness monitoring. All messaging has been pre-approved by the Karachi Communications Office.",
+    "disclaimer": "This is a simulated alert for demonstration purposes only."
 }
 ```
