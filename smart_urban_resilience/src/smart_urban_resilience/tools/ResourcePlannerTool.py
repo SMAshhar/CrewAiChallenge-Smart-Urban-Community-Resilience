@@ -1,19 +1,17 @@
 # src/smart_urban_resilience/tools/ResourcePlannerTool.py
 """
-ResourcePlannerTool — CrewAI BaseTool
+ResourcePlannerTool — CrewAI BaseTool (defensive/parsing hardened)
 
-One-file, production-ready resource planner for the Resource Recommender & Logistics agents.
-Features:
-- CrewAI-compatible BaseTool subclass (crewai.tools.BaseTool)
-- Greedy solver (fast, explainable)
-- Optional LP solver using pulp (guarded import, time-limited)
-- Optional OSRM routing for realistic ETAs (guarded requests)
-- Configurable constraints: resource_type_map, max_travel_minutes, capacity handling, multi-resource requirements
-- Returns JSON-serializable plan, metadata, and diagnostics for observability / judge scoring.
+Improvements:
+- Defensive parsing: accepts lists/dicts or JSON strings for assessed_events, resources, constraints.
+- Accepts single dict for events/resources and converts to list.
+- Canonicalizes multi_resource_requirements and merges with constraints.
+- Retains greedy solver and optional pulp LP solver fallback.
+- Clear errors when input types are invalid.
 """
-
 from __future__ import annotations
 import math
+import uuid
 import time
 import logging
 import json
@@ -52,11 +50,10 @@ class ResourcePlannerInput(BaseModel):
     constraints: Optional[Dict[str, Any]] = Field(None)
     max_assignments_per_resource: Optional[int] = Field(1)
     consider_capacity: Optional[bool] = Field(True)
-    # NEW: accept multi_resource_requirements as dict[str, Union[int, List[Union[str,int]], dict[str,int]]]
     multi_resource_requirements: Optional[Dict[str, Union[int, List[Union[str, int]], Dict[str, int]]]] = Field(
         None,
         description=(
-            "Event-level required resource counts by type; flexible forms allowed:\n"
+            "Event-level required resource counts by type; allowed forms:\n"
             " {'flood': 2}  OR  {'flood': ['pump', 2]}  OR {'flood': {'pump':2, 'boat':1}}"
         )
     )
@@ -85,15 +82,32 @@ def haversine_minutes(lat1: float, lon1: float, lat2: float, lon2: float, speed_
     return hours * 60.0
 
 
-def extract_latlon(obj: Dict[str, Any]) -> Tuple[Optional[float], Optional[float]]:
-    if not obj:
+def extract_latlon(obj: Any) -> Tuple[Optional[float], Optional[float]]:
+    """
+    Accept dicts like {'location': {...}} or {'latitude':..,'longitude':..}
+    Defensive: if obj is a JSON string, try to parse; if wrong type return (None, None)
+    """
+    if not obj or isinstance(obj, (str, bytes)) and not obj.strip().startswith("{"):
+        # if it's a plain string that is not JSON object, bail early
         return None, None
+
+    if isinstance(obj, (str, bytes)):
+        try:
+            obj = json.loads(obj)
+        except Exception:
+            return None, None
+
+    if not isinstance(obj, dict):
+        return None, None
+
+    # prefer nested 'location' dict
     if "location" in obj and isinstance(obj["location"], dict):
         lat = obj["location"].get("latitude") or obj["location"].get("lat")
         lon = obj["location"].get("longitude") or obj["location"].get("lon")
     else:
         lat = obj.get("latitude") or obj.get("lat")
         lon = obj.get("longitude") or obj.get("lon")
+
     try:
         return (float(lat), float(lon)) if lat is not None and lon is not None else (None, None)
     except Exception:
@@ -139,6 +153,44 @@ def _canonicalize_multi_req(mr_raw: Any) -> Dict[str, Dict[str, int]]:
     return canonical
 
 
+def _ensure_list_of_dicts(obj: Any, name: str) -> List[Dict[str, Any]]:
+    """
+    Accept list[dict], single dict, or JSON string of list/dict.
+    Raise ValueError on irrecoverable types.
+    """
+    if obj is None:
+        return []
+    if isinstance(obj, str):
+        # try parse JSON
+        try:
+            parsed = json.loads(obj)
+        except Exception as e:
+            raise ValueError(f"{name} expected list/dict or JSON string; failed to parse JSON: {e}")
+        obj = parsed
+
+    # now obj could be list or dict
+    if isinstance(obj, dict):
+        return [obj]
+    if isinstance(obj, list):
+        # ensure elements are dicts where possible: try parsing string elements
+        normalized = []
+        for i, el in enumerate(obj):
+            if isinstance(el, str):
+                try:
+                    elp = json.loads(el)
+                except Exception:
+                    raise ValueError(f"{name}[{i}] is a string and not valid JSON object")
+                if not isinstance(elp, dict):
+                    raise ValueError(f"{name}[{i}] JSON parsed but is not an object")
+                normalized.append(elp)
+            elif isinstance(el, dict):
+                normalized.append(el)
+            else:
+                raise ValueError(f"{name}[{i}] expected object/dict, got {type(el)}")
+        return normalized
+    raise ValueError(f"{name} must be a list of dicts or a dict (or JSON string). Got {type(obj)}")
+
+
 # ----------------------------
 # Tool implementation
 # ----------------------------
@@ -152,40 +204,83 @@ class ResourcePlannerTool(BaseTool):
 
     def _run(
         self,
-        assessed_events: List[Dict[str, Any]],
-        resources: List[Dict[str, Any]],
+        assessed_events: Any,
+        resources: Any,
         osrm_url: Optional[str] = None,
         avg_speed_kmph: float = 40.0,
         solver: Optional[str] = "greedy",
-        constraints: Optional[Dict[str, Any]] = None,
+        constraints: Any = None,
         max_assignments_per_resource: int = 1,
         consider_capacity: bool = True,
-        multi_resource_requirements: Optional[Dict[str, Union[int, List[Union[str, int]], Dict[str, int]]]] = None,
+        multi_resource_requirements: Any = None,
         time_limit_s: int = 8,
     ) -> Dict[str, Any]:
         """Main entry point used by CrewAI agents."""
-        t0 = time.time()
-        solver = (solver or "greedy").lower()
-        constraints = constraints or {}
-        max_travel = float(constraints.get("max_travel_minutes", 99999))
-        resource_type_map = constraints.get("resource_type_map", {})  # e.g., {"flood": ["pump","engine"]}
 
-        # merge multi_resource_requirements from direct param and constraints (param overrides)
-        mr_raw = {}
+        # -------------------------
+        # Defensive parsing of inputs
+        # -------------------------
+        try:
+            events_list = _ensure_list_of_dicts(assessed_events, "assessed_events")
+        except ValueError as e:
+            LOG.error("Invalid assessed_events input: %s", e)
+            raise
+
+        try:
+            resources_list = _ensure_list_of_dicts(resources, "resources")
+        except ValueError as e:
+            LOG.error("Invalid resources input: %s", e)
+            raise
+
+        # constraints may be dict or JSON string; parse safely
+        if isinstance(constraints, str):
+            try:
+                constraints = json.loads(constraints)
+            except Exception:
+                LOG.warning("constraints provided as string but failed JSON parse; treating as empty dict")
+                constraints = {}
+        if constraints is None:
+            constraints = {}
+        if not isinstance(constraints, dict):
+            LOG.warning("constraints expected dict, got %s; coercing to empty dict", type(constraints))
+            constraints = {}
+
+        # merge multi_resource_requirements from both constraint and parameter (param overrides)
+        mr_raw: Dict[str, Any] = {}
         if isinstance(constraints.get("multi_resource_requirements"), dict):
-            mr_raw.update(constraints.get("multi_resource_requirements"))
+            mr_raw.update(constraints.get("multi_resource_requirements") or {})
+        if isinstance(multi_resource_requirements, str):
+            try:
+                multi_resource_requirements = json.loads(multi_resource_requirements)
+            except Exception:
+                multi_resource_requirements = None
         if isinstance(multi_resource_requirements, dict):
             mr_raw.update(multi_resource_requirements)
         canonical_mr = _canonicalize_multi_req(mr_raw)
 
-        # Defensive copies
-        events = [dict(e) for e in assessed_events]
-        res = [dict(r) for r in resources]
+        t0 = time.time()
+        solver = (solver or "greedy").lower()
+        max_travel = float(constraints.get("max_travel_minutes", 99999))
+        resource_type_map = constraints.get("resource_type_map", {}) or {}
 
-        # Basic normalization
+        LOG.info(
+            "[ResourcePlannerTool] Starting planner: %d events, %d resources, solver=%s",
+            len(events_list),
+            len(resources_list),
+            solver,
+        )
+
+        # Defensive copies
+        events = [dict(e) for e in events_list]
+        res = [dict(r) for r in resources_list]
+
+        # Basic normalization: ensure numeric fields exist
         for e in events:
-            e.setdefault("priority", safe_float(e.get("severity", 0.0)) * (1.0 + math.log1p(max(0, int(e.get("estimated_population") or 0)))))
-            # If event had required_resources (legacy), keep it but canonical_mr takes precedence
+            try:
+                est_pop = int(e.get("estimated_population") or 0)
+            except Exception:
+                est_pop = 0
+            e.setdefault("priority", safe_float(e.get("severity", 0.0)) * (1.0 + math.log1p(max(0, est_pop))))
             if "required_resources" not in e:
                 e["required_resources"] = 1
 
@@ -223,10 +318,13 @@ class ResourcePlannerTool(BaseTool):
 
         # Resource availability & capacity
         available_idx = []
-        capacity = {}
+        capacity: Dict[int, int] = {}
         for i, r in enumerate(res):
-            status = (r.get("status") or "").lower()
-            cap = int(r.get("capacity") or max_assignments_per_resource)
+            status = (r.get("status") or "").lower() if isinstance(r, dict) else ""
+            try:
+                cap = int(r.get("capacity") or max_assignments_per_resource)
+            except Exception:
+                cap = max_assignments_per_resource
             capacity[i] = cap
             if status in ("available", "idle", "ready", "") or cap > 0:
                 available_idx.append(i)
@@ -234,7 +332,10 @@ class ResourcePlannerTool(BaseTool):
         # Helper scoring (higher is better)
         def score_pair(i: int, j: int) -> float:
             sev = safe_float(events[j].get("severity", 0.0))
-            pop = int(events[j].get("estimated_population") or 0)
+            try:
+                pop = int(events[j].get("estimated_population") or 0)
+            except Exception:
+                pop = 0
             base = sev * (1.0 + math.log1p(pop))
             eta = etas[i][j] if (etas[i][j] is not None) else 99999.0
             eta_factor = 1.0 / (1.0 + eta / 30.0)  # 30-min scale
@@ -250,33 +351,26 @@ class ResourcePlannerTool(BaseTool):
             LOG.info("Running pulp LP solver")
             try:
                 prob = pulp.LpProblem("resource_assignment", pulp.LpMinimize)
-                # binary vars x_i_j
                 x = {}
                 for i in range(n_res):
                     for j in range(n_ev):
                         x[(i, j)] = pulp.LpVariable(f"x_{i}_{j}", cat="Binary")
-                # objective: minimize weighted ETA (weight = severity * (1+log(pop)))
                 prob += pulp.lpSum([safe_float(events[j].get("severity", 0.0)) * (etas[i][j] or 99999.0) * x[(i, j)]
                                      for i in range(n_res) for j in range(n_ev)])
-                # each event assigned at least required count (legacy uses required_resources)
                 for j in range(n_ev):
                     required = int(events[j].get("required_resources") or 1)
                     prob += pulp.lpSum([x[(i, j)] for i in range(n_res)]) >= min(required, n_res)
-                # resource capacity
                 for i in range(n_res):
                     cap = int(res[i].get("capacity") or max_assignments_per_resource)
                     prob += pulp.lpSum([x[(i, j)] for j in range(n_ev)]) <= cap
-                # travel limit constraints
                 for i in range(n_res):
                     for j in range(n_ev):
                         if etas[i][j] is None or etas[i][j] > max_travel:
                             prob += x[(i, j)] == 0
-                # Solve with time limit
-                solver_cmd = pulp.PULP_CBC_CMD(msg=False, timeLimit=int(time_limit_s))
+                solver_cmd = pulp.PULP_CBC_CMD(msg=False, timeLimit=int(time_limit_s or 8))
                 prob.solve(solver_cmd)
                 status = pulp.LpStatus.get(prob.status, str(prob.status))
                 diagnostic["lp_status"] = status
-                # parse assignments
                 for i in range(n_res):
                     for j in range(n_ev):
                         val = pulp.value(x[(i, j)])
@@ -303,22 +397,20 @@ class ResourcePlannerTool(BaseTool):
         used = {i: 0 for i in range(n_res)}
         event_assigned = {j: [] for j in range(n_ev)}
 
-        # event priority order (high first)
         priorities = sorted([(events[j].get("priority", 0.0), j) for j in range(n_ev)], reverse=True)
         for _, j in priorities:
-            # Determine required mapping for this event: type -> count
             etype = (events[j].get("detected_type") or events[j].get("type") or "").lower()
             if etype in canonical_mr:
-                required_map = canonical_mr[etype]  # e.g., {"pump":2} or {"any":2}
+                required_map = canonical_mr[etype]
             else:
-                # fallback to per-event required_resources (generic)
                 required_map = {"any": int(events[j].get("required_resources") or 1)}
 
-            # For each required resource type, pick up to count best candidates
             for req_rtype, req_count in required_map.items():
-                req_count = int(req_count or 1)
+                try:
+                    req_count = int(req_count or 1)
+                except Exception:
+                    req_count = 1
                 assigned_for_this_type = 0
-                # build candidates list for this requirement
                 candidates = []
                 for i in list(available_idx):
                     if used[i] >= capacity.get(i, max_assignments_per_resource):
@@ -326,21 +418,18 @@ class ResourcePlannerTool(BaseTool):
                     eta = etas[i][j]
                     if eta is None or eta > max_travel:
                         continue
-                    # if req_rtype == 'any', allow any resource; else match resource.type
                     if req_rtype != "any":
                         rtype = (res[i].get("type") or "").lower()
-                        if rtype != req_rtype and req_rtype not in [a.lower() for a in resource_type_map.get(etype, [])]:
+                        allowed = [a.lower() for a in resource_type_map.get(etype, [])] if resource_type_map.get(etype) else []
+                        if rtype != req_rtype and req_rtype not in allowed:
                             continue
                     candidates.append((score_pair(i, j), i, eta))
-                # sort and pick top req_count, but skip already assigned resources for this event
                 candidates.sort(reverse=True, key=lambda x: x[0])
                 for score_val, i, eta in candidates:
                     if assigned_for_this_type >= req_count:
                         break
-                    # double check resource not already used up
                     if used[i] >= capacity.get(i, max_assignments_per_resource):
                         continue
-                    # assign
                     used[i] += 1
                     event_assigned[j].append(i)
                     assigned_for_this_type += 1
@@ -352,13 +441,12 @@ class ResourcePlannerTool(BaseTool):
                         "eta_min": round(float(eta), 2),
                         "score": round(float(score_val), 3),
                     })
-                    # respect capacity: if used up, remove from available
                     if used[i] >= capacity.get(i, max_assignments_per_resource) and i in available_idx:
                         available_idx.remove(i)
 
         elapsed = time.time() - t0
         meta = {"algorithm": "greedy", "pulp_available": HAVE_PULP, "assignments": len(assignments)}
-        print(f"Resource assignments completed. Results: \n1-plans_recommended: {assignments}\n2-meta: {meta}\ndiagnostic: {diagnostic}", )
+        LOG.info("ResourcePlannerTool completed: %d assignments, elapsed %.3fs", len(assignments), elapsed)
         return {"plans_recommended": assignments, "meta": meta, "diagnostic": diagnostic, "elapsed_s": round(elapsed, 3)}
 
 
@@ -366,27 +454,36 @@ class ResourcePlannerTool(BaseTool):
 # Test harness
 # ----------------------------
 if __name__ == "__main__":
-    # Synthetic events and resources for quick local testing
+    # Proper Python lists
     sample_events = [
         {"event_id": "ev1", "detected_type": "flood", "severity": 0.92, "estimated_population": 1200,
          "location": {"latitude": 24.8607, "longitude": 67.0011}, "required_resources": 1},
         {"event_id": "ev2", "detected_type": "wildfire", "severity": 0.8, "estimated_population": 300,
          "location": {"latitude": 24.95, "longitude": 67.10}, "required_resources": 1},
-        {"event_id": "ev3", "detected_type": "air_quality", "severity": 0.6, "estimated_population": 500,
-         "location": {"latitude": 24.87, "longitude": 67.02}, "required_resources": 1},
     ]
     sample_resources = [
         {"id": "res1", "type": "pump", "status": "available", "capacity": 1, "location": {"latitude": 24.86, "longitude": 67.00}},
         {"id": "res2", "type": "fire_truck", "status": "available", "capacity": 1, "location": {"latitude": 24.96, "longitude": 67.11}},
-        {"id": "res3", "type": "ambulance", "status": "available", "capacity": 1, "location": {"latitude": 24.865, "longitude": 67.02}},
     ]
-
     tool = ResourcePlannerTool()
     out = tool._run(
         assessed_events=sample_events,
         resources=sample_resources,
         osrm_url=None,
         solver="greedy",
-        constraints={"max_travel_minutes": 120, "multi_resource_requirements": {"flood": ["pump", 1]}}
+        constraints={"max_travel_minutes": 120, "multi_resource_requirements": {"flood": ["pump", 1]}},
     )
     print(json.dumps(out, indent=2, ensure_ascii=False))
+
+    # Also demonstrate accepting JSON string inputs (defensive)
+    events_json_str = json.dumps(sample_events)
+    resources_json_str = json.dumps(sample_resources)
+    out2 = tool._run(
+        assessed_events=events_json_str,
+        resources=resources_json_str,
+        osrm_url=None,
+        solver="greedy",
+        constraints=json.dumps({"max_travel_minutes": 120, "multi_resource_requirements": {"flood": ["pump", 1]}}),
+    )
+    print("Result with JSON-string inputs:")
+    print(json.dumps(out2, indent=2, ensure_ascii=False))

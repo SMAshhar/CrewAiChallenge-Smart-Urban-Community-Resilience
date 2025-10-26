@@ -74,6 +74,7 @@ communication_task:
   expected_output: >
     A set of citizen-ready message templates or alerts with approved language, recipients, and distribution channels.
   agent: communicator
+  context: ['event_detection_task','logistics_planning_task','incident_command_task']
 
 learning_feedback_task:
   description: >
