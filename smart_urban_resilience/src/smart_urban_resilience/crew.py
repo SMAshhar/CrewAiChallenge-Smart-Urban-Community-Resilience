@@ -186,18 +186,30 @@ class SmartUrbanResilience():
         )
 
     @task
+    def incident_command_task(self) -> Task:
+        return Task(
+            config=self.tasks_config['incident_command_task'],  # type: ignore[index]
+            output_file='./data/8-incident_report.md',
+            expected_output="""{
+                "approval":"approve|reject|modify",
+                "comments":"optional human notes",
+                "approved_messages":[
+                    {
+                        "channel":"sms",
+                        "text":"...",
+                        "recipients":[...]
+                    }, ...
+                ]
+            }""",
+            human_input=True
+        )
+    @task
     def communication_task(self) -> Task:
         return Task(
             config=self.tasks_config['communication_task'],  # type: ignore[index]
             output_file='./data/7-communications.md',
-            human_input=True
-        )
-
-    @task
-    def incident_command_task(self) -> Task:
-        return Task(
-            config=self.tasks_config['incident_command_task'],  # type: ignore[index]
-            output_file='./data/8-incident_report.md'
+            context=['event_detection_task','logistics_planning_task','incident_command_task']
+            # human_input=True
         )
 
     @task

@@ -8,7 +8,7 @@ data_collection_task:
 
 data_normalization_task:
   description: >
-    Standardize units, timestamps, and location formats in the collected data.
+    Standardize units, timexstamps, and location formats in the collected data.
     Enrich raw records with geolocation data and unify schemas across sources.
   expected_output: >
     A normalized dataset with consistent units, standardized keys, geocoded locations, and harmonized timestamps.
@@ -53,6 +53,20 @@ logistics_planning_task:
     A routing plan with optimized paths, estimated travel times, and scheduling recommendations.
   agent: logistics_agent
 
+
+incident_command_task:
+  description: >
+    Review automated event assessments, recommendations, and cdrafted communications.
+    Produce an approval decision (approve/modify/reject) along with any edited message text or instructions.
+  expected_output: >
+    {
+      "approval":"approve|reject|modify",
+      "comments":"optional human notes",
+      "approved_messages":[{"channel":"sms", "text":"...", "recipients":[...}, ...]
+    }
+  agent: incident_commander
+  
+
 communication_task:
   description: >
     Generate clear, concise, and localized updates for citizens and departments regarding ongoing or resolved incidents.
@@ -60,14 +74,6 @@ communication_task:
   expected_output: >
     A set of citizen-ready message templates or alerts with approved language, recipients, and distribution channels.
   agent: communicator
-
-incident_command_task:
-  description: >
-    Review automated event assessments, recommendations, and communication drafts for human oversight.
-    Validate or override AI-generated decisions and finalize actionable directives.
-  expected_output: >
-    An approved incident response directive reflecting human judgment and ethical oversight.
-  agent: incident_commander
 
 learning_feedback_task:
   description: >
