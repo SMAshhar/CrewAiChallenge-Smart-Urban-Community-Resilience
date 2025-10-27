@@ -109,7 +109,8 @@ class SmartUrbanResilience():
         """Crafts and distributes citizen and department communications."""
         return Agent(
             config=self.agents_config['communicator'],  # type: ignore[index]
-            verbose=True
+            verbose=True,
+            tools=[storage_tool, logistics_routing_tool],
         )
 
     @agent
@@ -211,8 +212,8 @@ class SmartUrbanResilience():
             config=self.tasks_config['communication_task'],  # type: ignore[index]
             output_file='./data/7-communications.md',
             # context=['event_detection_task','logistics_planning_task','incident_command_task']
-            tools=[storage_tool, logistics_routing_tool],
-            # human_input=True
+
+            human_input=True
         )
 
     @task
