@@ -122,75 +122,60 @@ The system comprises 11 specialized agents:
 - Redis (for caching)
 - Docker (optional)
 
-### Installation
 
-1. Clone the repository:
+
+Of course. Here is the rewritten "Installation and Running" portion of the README.md file, based on your simplified instructions.
+
+---
+
+## 🚀 Installation and Running
+
+Follow these simple steps to get the Smart Urban Resilience System up and running.
+
+### 1. Clone the Repository
+
+First, clone the project repository to your local machine:
+
 ```bash
 git clone https://github.com/yourusername/smart-urban-resilience.git
 cd smart-urban-resilience
 ```
 
-2. Create and activate virtual environment:
+### 2. Install `uv`
+
+Ensure you have `uv`, the fast Python package installer, installed on your system. If you don't have it, you can install it with the following command:
+
 ```bash
-python -m venv .venv
-# Windows
-.venv\Scripts\activate
-# Linux/Mac
-source .venv/bin/activate
+curl -LsSf https://astral.sh/uv/install.sh | sh
 ```
 
-3. Install dependencies:
+### 3. Install CrewAI
+
+Make sure the CrewAI command-line tool is installed. If it's not already installed globally, you can add it with pip:
+
 ```bash
-pip install -r requirements.txt
+pip install crewai
 ```
 
-4. Set up environment variables:
+### 4. Set Up Environment Variables
+
+Configure your environment variables by creating a `.env` file from the provided example.
+
 ```bash
 cp .env.example .env
-# Edit .env with your configuration
 ```
 
-5. Initialize the database:
-```bash
-python scripts/init_db.py
-```
+Edit the newly created `.env` file with your specific API keys and configuration values.
 
-### Configuration
+### 5. Run the System
 
-Create a `config.yaml` file with your service credentials:
-
-```yaml
-apis:
-  weather:
-    provider: "openweathermap"
-    api_key: "your_key_here"
-  geocoding:
-    provider: "mapbox"
-    api_key: "your_key_here"
-  messaging:
-    provider: "twilio"
-    account_sid: "your_sid"
-    auth_token: "your_token"
-```
-
-## 🔧 Usage
-
-The system can be run in several modes:
-
-### Running the Crew
-
-To run the Smart Urban Resilience System with predefined inputs (e.g., for a specific city):
+You are now ready to run the system. Execute the following command from the root folder of the project:
 
 ```bash
-python smart_urban_resilience/src/smart_urban_resilience/main.py run
+crewai run
 ```
 
-Or using the project script:
-```bash
-smart_urban_resilience
-```
-
-The default `city` input is 'Karachi'. You can modify the `inputs` dictionary in `main.py` to test with different cities or parameters.
+This command will automatically handle the project dependencies (using `uv` and the `pyproject.toml` file) and start the Smart Urban Resilience System.
 
 ### Training the Crew
 
@@ -278,6 +263,7 @@ CrewAiChallenge-Smart-Urban-Community-Resilience/
                 ├── EventDetectionTool.py
                 ├── FileStorageTool.py
                 ├── ImpactAcessorTool.py
+                ├── Logistics_RoutingTool.py
                 ├── QDrantToo.py
                 ├── ResourcePlannerTool.py
                 └── ValidationTool.py

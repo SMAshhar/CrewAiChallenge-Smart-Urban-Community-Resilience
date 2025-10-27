@@ -1,6 +1,7 @@
+# FIRST DRAFT
 # Smart Urban Community Resilience — Agent & Tools Architecture
 
-Nice — I built a professional, production-minded architecture for the “Smart Urban Community Resilience Crew.”
+
 Below you’ll find: a high-level system diagram (text), a precise list of agents (what each does, inputs/outputs, tools), the tooling / infra choices with justifications, data schemas, reliability & security design patterns, observability + testing strategy, and a short rollout plan you can execute quickly.
 
 I used CrewAI’s observability model and public, reliable civic-data APIs as reference points while designing this (links at the end). ([CrewAI Documentation][1])

@@ -6,8 +6,8 @@
       "event_id": "unknown",
       "lat": 24.0,
       "lon": 67.0,
-      "timestamp": "2025-10-27T11:26:10.562813+00:00",
-      "temperature_c": null,
+      "timestamp": "2025-10-27T20:31:08.282177+00:00",
+      "temperature_c": NaN,
       "location": {
         "latitude": 24.0,
         "longitude": 67.0,
@@ -44,7 +44,7 @@
       "temperature_c": {
         "method": "median",
         "filled": 0,
-        "value": "nan"
+        "value": NaN
       }
     },
     "removed_by_missing": 0,

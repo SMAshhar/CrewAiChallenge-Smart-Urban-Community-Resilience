@@ -1,41 +1,39 @@
 ```json
 {
-  "routing_plan": {
-    "date": "2025-10-27T11:26:40.104062+00:00",
-    "location": {
-      "latitude": 24,
-      "longitude": 67
-    },
-    "teams": [
-      {
-        "team_id": "ozone_team_1",
-        "event_id": "ev-0e0f620060",
-        "event_description": "High flood risk (76)",
-        "resource_type": "air_quality_monitoring",
-        "estimated_travel_time_minutes": 15.06,
-        "route": "No route available. Please provide resource locations and event details for route optimization.",
-        "schedule": "Deploy immediately to assess flood risk."
-      },
-      {
-        "team_id": "wildfire_team_1",
-        "event_id": "ev-e5fd21aec0",
-        "event_description": "High wildfire risk (93)",
-        "resource_type": "wildfire_response",
-        "estimated_travel_time_minutes": 15.06,
-        "route": "No route available. Please provide resource locations and event details for route optimization.",
-        "schedule": "Deploy immediately to assess wildfire risk."
-      },
-      {
-        "team_id": "flood_team_1",
-        "event_id": "ev-8f2b1da690",
-        "event_description": "Elevated ozone levels detected (154.0)",
-        "resource_type": "flood_control",
-        "estimated_travel_time_minutes": 30.11,
-        "route": "No route available. Please provide resource locations and event details for route optimization.",
-        "schedule": "Deploy immediately to assess ozone levels."
+  "dispatch_results": [
+    {
+      "command": {
+        "resource_id": "flood_team_1",
+        "event_id": "ev-adfa5eb779",
+        "eta_min": null,
+        "route": null,
+        "metadata": {
+          "resource_type": null,
+          "resource_contact": null,
+          "event_summary": null,
+          "raw_assignment": {
+            "event_id": "ev-adfa5eb779",
+            "resource_id": "flood_team_1",
+            "resource_type": "flood_response_team",
+            "location": {
+              "latitude": 24,
+              "longitude": 67
+            },
+            "estimated_time_of_arrival_minutes": 22.59
+          },
+          "idempotency_token": "98764a96c1ceef055763857e4dfc7844fd6b8a7b30f3c8da84209c64978e047c"
+        },
+        "status": "dry_run",
+        "response": null
       }
-    ],
-    "notes": "The routing plan is based on the provided resource deployment plan and environmental alerts. Optimized routes are not available as resource and event locations have not been defined."
-  }
+    }
+  ],
+  "diagnostic": {
+    "commands": 1,
+    "sent": 0,
+    "failed": 0,
+    "dry_run": true
+  },
+  "elapsed_s": 0.0
 }
 ```
