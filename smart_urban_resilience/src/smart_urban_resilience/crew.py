@@ -13,6 +13,7 @@ from .tools.EventDetectionTool import EventDetectionTool
 from .tools.ImpactAcessorTool import ImpactAssessmentTool
 from .tools.ResourcePlannerTool import ResourcePlannerTool
 from .tools.Logistics_RoutingTool import LogisticsRoutingTool
+from .tools.CommunicationTool import CommunicationTool
 
 # Import Schemas
 
@@ -27,6 +28,7 @@ event_detection_tool = EventDetectionTool()
 impact_assessment_tool = ImpactAssessmentTool()
 resource_planner_tool = ResourcePlannerTool()  
 logistics_routing_tool = LogisticsRoutingTool() 
+communication_tool = CommunicationTool()
 
 
 @CrewBase
@@ -103,16 +105,6 @@ class SmartUrbanResilience():
             config=self.agents_config['logistics_agent'],  # type: ignore[index]
             verbose=True
         )
-
-    @agent
-    def communicator(self) -> Agent:
-        """Crafts and distributes citizen and department communications."""
-        return Agent(
-            config=self.agents_config['communicator'],  # type: ignore[index]
-            verbose=True,
-            tools=[storage_tool, logistics_routing_tool],
-        )
-
     @agent
     def incident_commander(self) -> Agent:
         """Oversees AI-generated actions for human approval and ethical validation."""
@@ -120,6 +112,16 @@ class SmartUrbanResilience():
             config=self.agents_config['incident_commander'],  # type: ignore[index]
             verbose=True
         )
+
+    @agent
+    def communicator(self) -> Agent:
+        """Crafts and distributes citizen and department communications."""
+        return Agent(
+            config=self.agents_config['communicator'],  # type: ignore[index]
+            verbose=True,
+            tools=[storage_tool],
+        )
+
 
     @agent
     def learning_agent(self) -> Agent:
@@ -185,7 +187,8 @@ class SmartUrbanResilience():
     def logistics_planning_task(self) -> Task:
         return Task(
             config=self.tasks_config['logistics_planning_task'],  # type: ignore[index]
-            output_file="./data/6-logistics_plan.json"
+            output_file="./data/6-logistics_plan.json",
+            tools=[logistics_routing_tool]
         )
 
     @task
@@ -193,17 +196,6 @@ class SmartUrbanResilience():
         return Task(
             config=self.tasks_config['incident_command_task'],  # type: ignore[index]
             output_file='./data/8-incident_report.md',
-            # expected_output="""{
-            #     "approval":"approve|reject|modify",
-            #     "comments":"optional human notes",
-            #     "approved_messages":[
-            #         {
-            #             "channel":"sms",
-            #             "text":"...",
-            #             "recipients":[...]
-            #         }, ...
-            #     ]
-            # }""",
             human_input=True
         )
     @task
@@ -212,7 +204,7 @@ class SmartUrbanResilience():
             config=self.tasks_config['communication_task'],  # type: ignore[index]
             output_file='./data/7-communications.md',
             # context=['event_detection_task','logistics_planning_task','incident_command_task']
-
+            tools=[communication_tool],
             human_input=True
         )
 
@@ -241,5 +233,5 @@ class SmartUrbanResilience():
             tasks=self.tasks,    # Automatically created by the @task decorator
             process=Process.sequential,
             verbose=True,
-            tracing=True
+            # tracing=True
         )

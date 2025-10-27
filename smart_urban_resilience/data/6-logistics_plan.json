@@ -1,71 +1,41 @@
-## Optimized Routing Plan for Emergency/Maintenance Vehicles
-
-**Central Dispatch Location:** Latitude 34, Longitude 118
-
-**Environmental Context:** High Wildfire Risk, High Flood Risk, High Pollen Levels, High UV Index, Light Precipitation.
-
-**Traffic Conditions:** Assume moderate traffic based on the time (morning rush hour might be starting).
-
-**Vehicle Speed Assumptions:**
-
-*   Emergency Vehicles (Medical, Fire): Assume an average speed of 40 mph (64 km/h) in moderate traffic, reduced by 20% due to precipitation and potential localized flooding (32 mph or 51.2 km/h).
-*   Maintenance Vehicles (Water Tanker, Flood Control): Assume an average speed of 30 mph (48 km/h) in moderate traffic, reduced by 20% due to precipitation and potential localized flooding (24 mph or 38.4 km/h).
-
-**Routing Plan:**
-
-**1. Medical Team 1 (medical) - High Wildfire Risk**
-
-*   **Objective:** Immediate response to potential wildfire ignition or escalation.
-*   **Route:** Direct route from dispatch to the identified wildfire risk zone (assumed to be within a 1km radius of Latitude 34, Longitude 118).
-*   **Estimated Travel Time:**
-    *   Distance: Assuming a short distance within the 1km radius (approx. 4 miles), adjust based on actual location if available
-    *   Speed: 32 mph (51.2 km/h)
-    *   ETA: 4 miles / 32 mph = 0.125 hours = 7.5 minutes. (Adjusted to 7.5 minutes to account for initial dispatch).
-
-**2. Flood Team 1 (flood_control) - High Flood Risk**
-
-*   **Objective:** Assess flood risk areas, clear drainage, and prepare for potential evacuations.
-*   **Route:** Prioritize routes to low-lying areas and critical infrastructure (power substations, major roads) within a 1km radius. Use routes avoiding already flooded areas (requires real-time flood reporting).
-*   **Estimated Travel Time:**
-    *   Distance: Assuming a short distance within the 1km radius (approx. 4 miles), adjust based on actual location if available.
-    *   Speed: 24 mph (38.4 km/h).
-    *   ETA: 4 miles / 24 mph = 0.166 hours = 10 minutes. Add 4.5 minutes to scout flooded areas. Estimated to 14.5 minutes
-
-**3. Fire Crew 1 (firefighter) - High UV Index**
-
-*   **Objective:** Address heat-related emergencies in public spaces
-*   **Route:** Prioritize routes to area with sun exposure within the 1km radius.
-*   **Estimated Travel Time:**
-    *   Distance: Assuming a short distance within the 1km radius (approx. 4 miles), adjust based on actual location if available.
-    *   Speed: 32 mph (51.2 km/h).
-    *   ETA: 4 miles / 32 mph = 0.125 hours = 7.5 minutes. Add 7 minutes to scout the area. Estimated to 14.5 minutes
-
-**4. Water Tanker 1 (water_tanker) - High Pollen Levels**
-
-*   **Objective:** Reduce pollen levels in parks and residential zones by flushing pollen with water.
-*   **Route:** Focus on parks and residential areas within a 1km radius.
-*   **Estimated Travel Time:**
-    *   Distance: Assuming a short distance within the 1km radius (approx. 4 miles), adjust based on actual location if available
-    *   Speed: 24 mph (38.4 km/h)
-    *   ETA: 4 miles / 24 mph = 0.166 hours = 10 minutes. Add 19 minutes to scout high pollen areas. Estimated to 29 minutes
-
-**Scheduling Recommendations:**
-
-*   **Priority 1 (Immediate):** Dispatch Medical Team 1 to the High Wildfire Risk area.
-*   **Priority 2 (Within 15 Minutes):** Dispatch Flood Team 1 to assess and mitigate High Flood Risk areas. Fire Crew 1 should be deployed after assessing the area to manage heat-related emergencies
-*   **Priority 3 (Within 30 Minutes):** Dispatch Water Tanker 1 to address High Pollen Levels in affected zones.
-
-**Contingency Planning:**
-
-*   **Real-time Monitoring:** Continuously monitor weather updates, flood reports, and traffic conditions.
-*   **Route Diversions:** Pre-plan alternative routes in case of road closures due to flooding or wildfire activity.
-*   **Resource Coordination:** Maintain constant communication between teams for coordinated response and resource allocation.
-*   **Evacuation Planning:** Be prepared for potential evacuations if the wildfire or flood risk escalates.
-
-**Important Notes:**
-
-*   This plan is based on limited information. Precise coordinates of event locations and real-time road conditions are crucial for accurate routing.
-*   Adjust speed estimations based on actual traffic and weather conditions.
-*   Ensure all vehicles are equipped with GPS navigation and communication devices.
-
-This optimized plan prioritizes the most critical risks and provides a framework for efficient resource deployment. Continuous monitoring and adaptive adjustments are necessary for successful execution.
+```json
+{
+  "routing_plan": {
+    "date": "2025-10-27T11:26:40.104062+00:00",
+    "location": {
+      "latitude": 24,
+      "longitude": 67
+    },
+    "teams": [
+      {
+        "team_id": "ozone_team_1",
+        "event_id": "ev-0e0f620060",
+        "event_description": "High flood risk (76)",
+        "resource_type": "air_quality_monitoring",
+        "estimated_travel_time_minutes": 15.06,
+        "route": "No route available. Please provide resource locations and event details for route optimization.",
+        "schedule": "Deploy immediately to assess flood risk."
+      },
+      {
+        "team_id": "wildfire_team_1",
+        "event_id": "ev-e5fd21aec0",
+        "event_description": "High wildfire risk (93)",
+        "resource_type": "wildfire_response",
+        "estimated_travel_time_minutes": 15.06,
+        "route": "No route available. Please provide resource locations and event details for route optimization.",
+        "schedule": "Deploy immediately to assess wildfire risk."
+      },
+      {
+        "team_id": "flood_team_1",
+        "event_id": "ev-8f2b1da690",
+        "event_description": "Elevated ozone levels detected (154.0)",
+        "resource_type": "flood_control",
+        "estimated_travel_time_minutes": 30.11,
+        "route": "No route available. Please provide resource locations and event details for route optimization.",
+        "schedule": "Deploy immediately to assess ozone levels."
+      }
+    ],
+    "notes": "The routing plan is based on the provided resource deployment plan and environmental alerts. Optimized routes are not available as resource and event locations have not been defined."
+  }
+}
+```

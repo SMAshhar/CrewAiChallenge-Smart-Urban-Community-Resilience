@@ -417,6 +417,7 @@ class ResourcePlannerTool(BaseTool):
                         continue
                     eta = etas[i][j]
                     if eta is None or eta > max_travel:
+                        eta = float('inf')
                         continue
                     if req_rtype != "any":
                         rtype = (res[i].get("type") or "").lower()

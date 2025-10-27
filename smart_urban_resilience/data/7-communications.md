@@ -2,23 +2,24 @@
 [
   {
     "channel": "sms",
-    "text": "Emergency Alert: High Wildfire Risk! Medical Team dispatched to your area. Be prepared to evacuate if necessary. Monitor local news for updates.",
-    "recipients": []
+    "text": "Attention Residents: Elevated ozone levels detected. Sensitive groups should take precautions. More info at [link]",
+    "recipients": [
+      "affected_residents"
+    ]
   },
   {
     "channel": "sms",
-    "text": "Flood Alert: High Flood Risk. Flood Team dispatched to assess and mitigate. Avoid low-lying areas and standing water.",
-    "recipients": []
+    "text": "Attention Residents: High wildfire risk. Avoid open flames and report any smoke or fire. Prepare for potential evacuations. More info at [link]",
+    "recipients": [
+      "affected_residents"
+    ]
   },
   {
     "channel": "sms",
-    "text": "Pollen Alert: High Pollen Levels. Water Tanker dispatched. Limit outdoor activities if you have allergies.",
-    "recipients": []
-  },
-  {
-    "channel": "sms",
-    "text": "UV Alert: High UV Index. Fire Crew dispatched. Limit sun exposure and use protection.",
-    "recipients": []
+    "text": "Attention Residents: High flood risk. Assess flood defenses and prepare for potential flooding. Stay informed. More info at [link]",
+    "recipients": [
+      "affected_residents"
+    ]
   }
 ]
 ```

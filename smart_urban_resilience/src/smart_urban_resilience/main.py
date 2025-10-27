@@ -18,7 +18,8 @@ def run():
     Run the crew.
     """
     inputs = {
-        'location':{"latitude": 34, "longitude": 118},  # Example: Los Angeles, CA .0549 .2426
+        # 'location':{"latitude": 34, "longitude": 118},  # Example: Los Angeles, CA .0549 .2426
+        'location':{"latitude": 24, "longitude": 67},  # Example: KHI, S .8607 .0011
         'current_year': str(datetime.now().year)
     }
     
