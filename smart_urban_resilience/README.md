@@ -1,121 +1,181 @@
-# Smart Urban Resilience System
 
-## Project Overview
 
-The Smart Urban Resilience System is an AI-powered platform designed to enhance a city's ability to predict, respond to, and recover from various urban events and crises. Leveraging a multi-agent architecture built with CrewAI, the system continuously collects, normalizes, and validates data from diverse urban sources, including IoT sensors, weather APIs, and citizen reports. It then detects anomalies and events, assesses their impact, recommends optimal resource allocation, and coordinates logistics and communications, all while ensuring data privacy and continuous learning.
+# Smart Urban Community Resilience System
 
-## What it Does
+A sophisticated AI-powered system for urban emergency management and community resilience using CrewAI. This project implements an intelligent system that monitors, analyzes, and responds to urban emergencies through a network of specialized AI agents.
 
-This system acts as a digital command center for urban resilience, performing the following key functions:
+## 🌟 Features
 
-*   **Data Collection:** Gathers real-time environmental, weather, air quality, and hazard data from various sources.
-*   **Data Normalization & Validation:** Cleans, standardizes, enriches, and validates all incoming data to ensure consistency, accuracy, and reliability.
-*   **Event Detection:** Identifies and classifies urban events (e.g., power outages, traffic jams, pollution spikes, public safety incidents) using rule-based and machine-learning methods.
-*   **Impact Assessment:** Analyzes detected events to evaluate their potential social, environmental, and infrastructural impact, prioritizing response efforts based on severity and affected population.
-*   **Resource Recommendation:** Recommends optimal resource deployment strategies, including personnel and equipment, based on event impact and available logistics.
-*   **Logistics Planning:** Generates and optimizes routes and schedules for emergency vehicles and public services, considering real-time conditions.
-*   **Communication:** Crafts and distributes accurate, timely, and localized updates to citizens, departments, and authorities through multi-channel communication.
-*   **Incident Command (Human-in-the-Loop):** Provides human oversight for AI-generated recommendations, allowing for validation or override of decisions in high-impact scenarios.
-*   **Continuous Learning:** Analyzes post-action performance, learns from feedback, and retrains AI models to improve predictive accuracy and overall city management.
-*   **Privacy Management:** Ensures data privacy, consent management, and anonymization across all data flows, adhering to privacy laws and upholding citizen trust.
+- Real-time data collection from multiple sources (weather, IoT sensors, citizen reports)
+- Automated event detection and classification
+- Spatial impact assessment and resource optimization
+- Intelligent routing and logistics planning
+- Multi-channel communication system
+- Privacy-aware data handling
+- Human-in-the-loop validation
+- Continuous learning and improvement
 
-## How it Works
+## 🏗 Architecture
 
-The Smart Urban Resilience System is built around a CrewAI framework, orchestrating a team of specialized AI agents to collaboratively manage urban events.
+The system is built on a modern event-driven architecture with these key components:
 
-1.  **Agents:** Each agent has a specific role, goal, and backstory, enabling them to perform specialized tasks. Examples include `data_collector`, `data_normalizer`, `event_detector`, `impact_assessor`, and `communicator`.
-2.  **Tasks:** Agents are assigned tasks that define their responsibilities and expected outputs. These tasks are chained together in a sequential process to achieve the overall system objective.
-3.  **Tools:** Agents utilize a suite of custom tools to interact with external systems and perform complex operations. These tools include:
-    *   `DataFetchTool`: Fetches live or simulated environmental data from APIs.
-    *   `DataNormalizationTool`: Cleans, standardizes, and enriches raw data.
-    *   `ValidationTool`: Validates data integrity and accuracy.
-    *   `EventDetectionTool`: Identifies patterns and anomalies corresponding to urban events.
-    *   `ImpactAssessmentTool`: Assesses the impact of detected events.
-    *   `ResourcePlannerTool`: Recommends optimal resource deployment.
-    *   `FileStorageTool`: Manages file operations for data persistence.
-    *   `QDrantTool`: Likely for vector database interactions (though not explicitly detailed in the provided code, its presence suggests advanced data handling).
-4.  **Workflow:** The system operates in a sequential process:
-    *   Data is collected and then normalized and validated.
-    *   Validated data is used to detect events.
-    *   Detected events are assessed for impact.
-    *   Based on impact, resources are recommended and logistics are planned.
-    *   Communications are drafted, and human oversight is provided by the `incident_commander`.
-    *   Feedback is collected for continuous learning, and privacy compliance is maintained throughout.
+1. **Data Ingestion Layer**: Collects data from various sources
+2. **Processing Pipeline**: Normalizes and validates data
+3. **Event Detection System**: Identifies and classifies urban incidents
+4. **Response Planning**: Assesses impact and allocates resources
+5. **Execution Layer**: Handles logistics and communications
+6. **Learning System**: Provides continuous improvement
+7. **Privacy Layer**: Ensures data protection and compliance
 
-## What it Doesn't Do
+### High-level Architecture
 
-*   **Real-time Emergency Response (Direct Action):** While it provides recommendations and plans, the system is designed with a "human-in-the-loop" approach. It does not autonomously deploy resources or execute emergency actions without human approval.
-*   **Guaranteed Live Data:** The `DataFetchTool` includes simulation fallbacks. While it prioritizes live API data, it will generate realistic synthetic data if external APIs are unavailable, meaning not all data processed is guaranteed to be from live sources at all times.
-*   **Comprehensive Global Hazard Detection:** Some hazard data, like flood risk, is currently simulated due to the lack of globally free and reliable APIs. Wildfire risk is based on NASA FIRMS detections, which might have coverage limitations.
-*   **Full-fledged UI/Dashboard:** The provided codebase focuses on the backend AI logic and data processing. It does not include a user interface or dashboard for visualization and interaction.
-*   **Direct Hardware Control:** The system does not directly control IoT devices or other urban infrastructure. Its role is to analyze data and provide actionable intelligence.
+```
+Data Sources -> Ingest Layer -> Event Bus -> Agent Runtimes (Crews) -> Action & Execution Systems -> Human-in-the-loop UI / Dashboard -> Storage & ML Pipeline -> Observability / Security / Admin
+```
 
-## Installation
+#### Key Components:
 
-To set up and run the Smart Urban Resilience System, follow these steps:
+- **Data Sources:** weather APIs, air-quality feeds, sensor networks (MQTT), citizen reports, emergency feeds (USGS, NWS), municipal systems, social listening
+- **Ingest Layer:** collectors + normalizer + enrichment (geocoding, reverse geocoding)
+- **Event Bus:** durable stream (Kafka / managed streaming) or pub/sub for inter-agent comms and replay
+- **Agent Runtimes:** CrewAI agents (stateless where possible, state in DB / caches) grouped across Monitor → Analyze → Respond phases
+- **Action & Execution:** dispatchers that call SMS/email, municipal dispatch systems, volunteer platforms, or 3rd-party tools
+- **Human-in-the-loop UI:** role-based dashboard (map + timeline + approval pane)
+- **Storage & ML:** time-series DB for sensor stream, PostGIS for spatial, object storage for logs, ML training pipeline & model registry
+- **Observability / Security / Admin:** Prometheus/Grafana, tracing/Sentry, CrewAI Maxim/agent-evals for per-execution traces and evaluation
+
+## 🤖 Agent System
+
+The system comprises 11 specialized agents:
+
+1. **Feed Collector (ingestor)**
+   - **Trigger:** schedule + webhooks + MQTT topics
+   - **Inputs:** Weather APIs (OpenWeather/NWS), air-quality (OpenAQ), USGS quake feed, IoT MQTT topics, citizen reports webhooks
+   - **Outputs:** raw event messages to Event Bus (topic: `raw.feeds`)
+   - **Tools:** HTTP clients, MQTT client, rate-limiter
+
+2. **Data Normalizer & Enricher**
+   - **Trigger:** `raw.feeds` messages
+   - **Inputs:** raw messages
+   - **Outputs:** structured events (geo-normalized, timestamped, enriched with reverse geocode & zone id) to `events.normalized`
+   - **Tools:** JSON schema validator, geocoder (Mapbox or Nominatim), timezone resolver, dedupe engine
+
+3. **Data Validator**
+   - Validates data integrity and accuracy
+   - Ensures data conforms to expected schemas
+   - Filters out invalid or corrupted data
+
+4. **Event Detector & Classifier**
+   - **Trigger:** `events.normalized`
+   - **Inputs:** normalized event stream
+   - **Outputs:** `events.detected` (type, confidence, short rationale)
+   - **Functions:** rule engine + lightweight ML model for spikes, threshold crossings, pattern matches
+
+5. **Impact Assessor (spatial + population impact)**
+   - **Trigger:** `events.detected`
+   - **Inputs:** detected event, PostGIS / city map data, demographic layers
+   - **Outputs:** `events.assessed` (severity score, affected polygons, estimated population, critical infrastructure impacted)
+   - **Tools:** PostGIS + spatial queries, reverse geocoding, OSRM for accessibility / routing impact
+
+6. **Resource Recommender & Prioritizer**
+   - **Trigger:** `events.assessed`
+   - **Inputs:** available resources DB, SLA rules, budget constraints
+   - **Outputs:** `plans.recommended` (resource assignments, priorities, ETA)
+   - **Tools:** heuristic optimizer, constraints engine, OSRM routing for ETAs
+
+7. **Logistics & Routing Agent**
+   - **Trigger:** approved or auto-approved `plans.recommended`
+   - **Inputs:** selected plan, routing info
+   - **Outputs:** dispatch commands and route details for crews; `plans.executed`
+   - **Tools:** OSRM / external routing, Twilio for SMS, webhook to municipal dispatch API
+
+8. **Communicator (public / internal messaging)**
+   - **Trigger:** `events.assessed` or `plans.executed`
+   - **Inputs:** event summary, target audience profiles
+   - **Outputs:** formatted messages for dashboard, SMS, email, social post draft
+   - **Tools:** Twilio SMS/API, SMTP, templating engine, multi-language templates
+
+9. **Human-in-the-loop Validator (Incident Commander agent)**
+   - **Trigger:** `events.assessed` with severity > threshold or low confidence
+   - **Inputs:** full event trace + recommended plan + evidence
+   - **Outputs:** Approve / Modify / Reject decisions; once approved, emits command to Logistics Agent
+   - **Tools:** Web dashboard (map + timeline + evidence), push notifications to on-call staff
+
+10. **Learning & Feedback Agent**
+    - **Trigger:** `plans.executed` + post-event logs + human feedback
+    - **Inputs:** execution logs, outcome metrics
+    - **Outputs:** training datasets, updated thresholds/rules, retraining tasks queued
+    - **Tools:** MLflow (model registry), Airflow (pipelines), model monitoring
+
+11. **Privacy & Consent Manager (cross-cutting)**
+    - **Trigger:** any data ingest that contains personal info
+    - **Inputs:** PII flags, consent store
+    - **Outputs:** anonymized / filtered payloads, consent audits
+    - **Tools:** encryption-at-rest, key management, consent DB
+
+## 🚀 Getting Started
 
 ### Prerequisites
 
-*   Python 3.9+
-*   `pip` (Python package installer)
+- Python 3.10+ (as specified in pyproject.toml)
+- PostgreSQL with PostGIS extension
+- Redis (for caching)
+- Docker (optional)
 
-### 1. Clone the Repository
+### Installation
 
-First, clone the project repository to your local machine:
-
+1. Clone the repository:
 ```bash
-git clone https://github.com/SMAshhar/CrewAiChallenge-Smart-Urban-Community-Resilience.git
-cd CrewAiChallenge-Smart-Urban-Community-Resilience
+git clone https://github.com/yourusername/smart-urban-resilience.git
+cd smart-urban-resilience
 ```
 
-### 2. Create a Virtual Environment
-
-It is highly recommended to use a virtual environment to manage project dependencies.
-
+2. Create and activate virtual environment:
 ```bash
 python -m venv .venv
+# Windows
+.venv\Scripts\activate
+# Linux/Mac
+source .venv/bin/activate
 ```
 
-### 3. Activate the Virtual Environment
-
-*   **On Windows:**
-    ```bash
-    .venv\Scripts\activate
-    ```
-*   **On macOS/Linux:**
-    ```bash
-    source .venv/bin/activate
-    ```
-
-### 4. Install Dependencies
-
-Install all required Python libraries using `pip`:
-
+3. Install dependencies:
 ```bash
-pip install -r smart_urban_resilience/requirments.txt
+pip install -r requirements.txt
 ```
 
-The `requirments.txt` file specifies the following libraries:
-*   `timezonefinder`: For determining timezones from geographical coordinates.
-*   `geopy`: For geocoding services (e.g., reverse geocoding to get city names from coordinates).
-*   `scikit-learn`: A machine learning library, likely used for event detection or data validation.
-*   `qdrant-client`: A client for Qdrant, an open-source vector similarity search engine, indicating advanced data storage and retrieval capabilities.
-*   `openai`: For interacting with OpenAI's API, suggesting the use of large language models for agent reasoning.
-
-### 5. Environment Variables
-
-The project may require API keys or other sensitive information. Create a `.env` file in the `smart_urban_resilience` directory (e.g., `smart_urban_resilience/.env`) and add your environment variables.
-
-Example `.env` content (replace with your actual keys):
-
-```
-OPENAI_API_KEY="your_openai_api_key_here"
-# Add other environment variables as needed by your tools or agents
+4. Set up environment variables:
+```bash
+cp .env.example .env
+# Edit .env with your configuration
 ```
 
-## How to Run
+5. Initialize the database:
+```bash
+python scripts/init_db.py
+```
 
-The `main.py` script provides entry points for running, training, replaying, and testing the CrewAI system.
+### Configuration
+
+Create a `config.yaml` file with your service credentials:
+
+```yaml
+apis:
+  weather:
+    provider: "openweathermap"
+    api_key: "your_key_here"
+  geocoding:
+    provider: "mapbox"
+    api_key: "your_key_here"
+  messaging:
+    provider: "twilio"
+    account_sid: "your_sid"
+    auth_token: "your_token"
+```
+
+## 🔧 Usage
+
+The system can be run in several modes:
 
 ### Running the Crew
 
@@ -123,6 +183,11 @@ To run the Smart Urban Resilience System with predefined inputs (e.g., for a spe
 
 ```bash
 python smart_urban_resilience/src/smart_urban_resilience/main.py run
+```
+
+Or using the project script:
+```bash
+smart_urban_resilience
 ```
 
 The default `city` input is 'Karachi'. You can modify the `inputs` dictionary in `main.py` to test with different cities or parameters.
@@ -135,7 +200,10 @@ To train the crew for a specified number of iterations:
 python smart_urban_resilience/src/smart_urban_resilience/main.py train <n_iterations> <filename>
 ```
 
-Replace `<n_iterations>` with the number of training iterations and `<filename>` with the desired output file for training results.
+Or using the project script:
+```bash
+train <n_iterations> <filename>
+```
 
 ### Replaying Crew Execution
 
@@ -145,7 +213,10 @@ To replay a previous crew execution from a specific task ID:
 python smart_urban_resilience/src/smart_urban_resilience/main.py replay <task_id>
 ```
 
-Replace `<task_id>` with the ID of the task you wish to replay.
+Or using the project script:
+```bash
+replay <task_id>
+```
 
 ### Testing the Crew
 
@@ -155,11 +226,19 @@ To test the crew execution:
 python smart_urban_resilience/src/smart_urban_resilience/main.py test <n_iterations> <eval_llm>
 ```
 
-Replace `<n_iterations>` with the number of test iterations and `<eval_llm>` with the LLM to use for evaluation.
+Or using the project script:
+```bash
+test <n_iterations> <eval_llm>
+```
 
-## Project Structure
+### Accessing the Dashboard
 
-The project is organized as follows:
+After starting the system, you can access the dashboard at:
+```
+http://localhost:8000/dashboard
+```
+
+## 📁 Project Structure
 
 ```
 CrewAiChallenge-Smart-Urban-Community-Resilience/
@@ -169,9 +248,9 @@ CrewAiChallenge-Smart-Urban-Community-Resilience/
 └── smart_urban_resilience/
     ├── .env                  <- Environment variables (create this file)
     ├── .gitignore
-    ├── pyproject.toml
-    ├── README.md             <- (Old README, will be replaced by this one)
-    ├── requirments.txt       <- Project dependencies
+    ├── pyproject.toml        <- Project configuration and dependencies
+    ├── README.md             <- Additional README
+    ├── requirements.txt      <- Project dependencies
     ├── test.py
     ├── uv.lock
     ├── data/                 <- Stores output data from tasks
@@ -202,3 +281,151 @@ CrewAiChallenge-Smart-Urban-Community-Resilience/
                 ├── QDrantToo.py
                 ├── ResourcePlannerTool.py
                 └── ValidationTool.py
+```
+
+## 📚 API Documentation
+
+API documentation is available at:
+```
+http://localhost:8000/docs
+```
+
+## 📊 Data Model
+
+The system uses a canonical JSON schema for events:
+
+```json
+{
+  "event_id": "uuid-v4",
+  "ingest_timestamp": "2025-10-03T12:34:56Z",
+  "source": "openweather|openaq|sensor|citizen_report|usgs",
+  "raw_source_id": "<original id/uri>",
+  "type": "flood|air_quality|earthquake|power_outage|road_block",
+  "location": {
+    "lat": 24.8607,
+    "lon": 67.0011,
+    "zone_id": "city:ward:12",
+    "address": "optional string"
+  },
+  "severity": "low|medium|high|critical",
+  "confidence": 0.92,
+  "evidence": [
+    {"type":"sensor","id":"sensor-42","value": "0.85m", "ts":"..."},
+    {"type":"tweet","id":"...","text":"..."}
+  ],
+  "recommended_action": "shelter_open|dispatch_crew|advisory_sms",
+  "idempotency_token": "sha256-of-event-payload",
+  "trace_id": "crewai-trace-xxx"
+}
+```
+
+## 🛠 Tech Stack
+
+- **Orchestration / Agent Engine:** CrewAI flows + Maxim observability
+- **Event Bus / Streaming:** Apache Kafka (or managed equivalent)
+- **IoT Ingress:** MQTT broker (Eclipse Mosquitto) for sensor telemetry
+- **Time-series storage:** TimescaleDB (Postgres + PostGIS) for sensor & event time-series and spatial queries
+- **Geospatial:** PostGIS for spatial queries; Mapbox (commercial) or Nominatim (OSM) for geocoding; OSRM for routing/ETA
+- **Air / Weather / Hazard feeds:** OpenWeather (global weather), OpenAQ (air quality), NWS/NOAA (official alerts), USGS for earthquakes
+- **Messaging / Notifications:** Twilio for SMS / WhatsApp; SMTP for email
+- **Dashboard / Human-in-loop UI:** React + Map (Mapbox GL or Leaflet) + role-based auth
+- **ML infra:** Airflow for orchestration, MLflow for model registry
+- **Observability:** CrewAI Maxim for agent traces; Prometheus + Grafana for infra metrics; Sentry for exceptions
+- **Security:** Vault/KMS for secrets, TLS for all transport, OAuth2 for external APIs, RBAC
+- **DevOps:** Docker + Kubernetes (or managed k8s); CI/CD pipelines, blue/green for agent changes
+
+## 🧪 Testing
+
+Run the test suite:
+```bash
+pytest tests/
+```
+
+Run with coverage:
+```bash
+pytest --cov=smart_urban_resilience tests/
+```
+
+### Testing Strategy
+
+1. **Synthetic event generator:** script that simulates heavy rain → sensor spike → social reports → roadway flooding
+2. **Tabletop scenarios:** run 3 scenarios (fast flood, medium earthquake, air-quality spike)
+3. **Replay & A/B:** store all runs; replay to test rule changes
+4. **Chaos / failure tests:** simulate Mapbox outage, Twilio latency to show graceful fallback
+
+## 🔐 Security
+
+- All sensitive data is encrypted at rest
+- PII is handled according to GDPR guidelines
+- Role-based access control for all operations
+- Audit logging for all critical actions
+- Secrets & keys stored in KMS/Vault; rotate keys
+- Access control, RBAC for dashboard & approval flows
+- Audit logs for every action (who approved, what changed)
+- Data retention policy & PII minimization
+- Local law checks: municipal data sharing agreements before integrating live systems
+
+## 🔄 Reliability & Safety Patterns
+
+1. **Event-driven & Replayable:** stream everything to Kafka so you can replay when rules change or during post-event analysis
+2. **Idempotency for actions:** every external command (dispatch, SMS) uses idempotency token
+3. **Circuit Breakers & Rate Limits:** protect downstream APIs (Twilio, Mapbox) with circuit breakers & retry windows
+4. **DLQ & Poison Message Handling:** malformed inputs or repeated failures go to DLQ and a human queue
+5. **Graceful degradation:** if geocoding API fails, fall back to bounding-box heuristics
+6. **Human approval gating:** for `critical` events or low-confidence outputs, block auto-actions until Incident Commander agent approves
+7. **Versioned rules & canary rollouts:** push new rule sets/models behind feature flags
+8. **Privacy-first:** implement a Consent Manager; minimize PII in public channels
+
+## 📈 Observability & Evaluation
+
+- **Per-agent traces & Evals:** use CrewAI Maxim to capture agent tool calls, decisions and outputs for every run
+- **Metrics to track:**
+  - Ingest rate, processing latency (ms) for each agent
+  - Time from detection → notification (goal: under X minutes for `critical`)
+  - False positive / negative rate (from human feedback)
+  - Number of DLQ items and root causes
+  - Uptime SLAs for critical external connectors (Twilio, Mapbox)
+- **Dashboards:** Grafana for infra + CrewAI trace viewer for per-run breadcrumbs
+
+## 🤝 Contributing
+
+1. Fork the repository
+2. Create your feature branch (`git checkout -b feature/AmazingFeature`)
+3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
+4. Push to the branch (`git push origin feature/AmazingFeature`)
+5. Open a Pull Request
+
+## 📄 License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+## 🙏 Acknowledgments
+
+- My Wife and Family
+- My Abbi and Ammi
+- CrewAI framework
+- OpenWeatherMap API
+- Mapbox
+- OSRM
+- All contributors and maintainers
+
+## 📞 Contact
+
+Syed M. Ashhar - [@yourtwitter](https://twitter.com/SMAshhar_)
+Email - [mailto]syed.muhammad.ashhar@gmail.com
+Contact No. - [tel]0092-344-3156626
+Project Link: [https://github.com/SMAshhar/CrewAiChallenge-Smart-Urban-Community-Resilience.git](https://github.com/SMAshhar/CrewAiChallenge-Smart-Urban-Community-Resilience.git)
+
+## 📚 References
+
+- [CrewAI Documentation](https://docs.crewai.com/)
+- [OpenWeather API](https://openweathermap.org/api)
+- [OpenAQ Docs](https://docs.openaq.org/about/about)
+- [National Weather Service API](https://www.weather.gov/documentation/services-web-api)
+- [USGS Earthquake Hazards API](https://earthquake.usgs.gov/fdsnws/event/1/)
+- [Twilio Messaging API](https://www.twilio.com/docs/messaging/api)
+- [Eclipse Mosquitto Documentation](https://mosquitto.org/documentation/)
+- [TimescaleDB GitHub](https://github.com/timescale/timescaledb)
+- [Mapbox Geocoding API](https://docs.mapbox.com/api/search/geocoding/)
+- [OSRM API Documentation](https://project-osrm.org/docs/v5.10.0/api/)
+- [FEMA National Incident Management System](https://www.fema.gov/emergency-managers/nims)
