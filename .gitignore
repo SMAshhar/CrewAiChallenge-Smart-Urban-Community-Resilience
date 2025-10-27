@@ -1,2 +1,14 @@
 .env
+__pycache__/
+.DS_Store
 .venv
+1-normalized_data.json
+2-validation_report.md
+3-detected_events.json
+4-impact_assessment.json
+5-resource_recommendations.json
+6-logistics_plan.json
+7-communications.md
+8-incident_report.md
+9-feedback_report.md
+10-privacy_audit.md
