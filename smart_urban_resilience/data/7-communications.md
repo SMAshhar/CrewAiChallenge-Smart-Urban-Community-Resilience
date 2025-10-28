@@ -1,25 +1,26 @@
-```json
 [
   {
+    "id": "1",
     "channel": "sms",
-    "text": "Attention Residents: Elevated ozone levels detected. Sensitive groups should take precautions. More info at [link]",
-    "recipients": [
-      "affected_residents"
-    ]
+    "text": "High Temperature Alert for Suining County: Take precautions to stay cool and hydrated. Limit outdoor activities during peak heat hours.",
+    "to": "+15551234567"
   },
   {
+    "id": "2",
     "channel": "sms",
-    "text": "Attention Residents: High wildfire risk. Avoid open flames and report any smoke or fire. Prepare for potential evacuations. More info at [link]",
-    "recipients": [
-      "affected_residents"
-    ]
+    "text": "High Temperature Alert for Suining County: Take precautions to stay cool and hydrated. Limit outdoor activities during peak heat hours.",
+    "to": "+15557654321"
   },
   {
+    "id": "3",
     "channel": "sms",
-    "text": "Attention Residents: High flood risk. Assess flood defenses and prepare for potential flooding. Stay informed. More info at [link]",
-    "recipients": [
-      "affected_residents"
-    ]
+    "text": "Pollen Alert for Suining County: Elevated pollen levels detected. Residents with allergies should take appropriate precautions.",
+    "to": "+15551234567"
+  },
+  {
+    "id": "4",
+    "channel": "sms",
+    "text": "Pollen Alert for Suining County: Elevated pollen levels detected. Residents with allergies should take appropriate precautions.",
+    "to": "+15557654321"
   }
 ]
-```

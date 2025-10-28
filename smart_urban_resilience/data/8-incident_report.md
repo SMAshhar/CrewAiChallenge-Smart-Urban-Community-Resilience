@@ -1,13 +1,20 @@
 ```json
 {
   "approval": "modify",
-  "comments": "Added public message regarding wildfire risk. Verified resource allocation aligns with risk assessment.",
+  "comments": "The resource deployment plan and routing plan look reasonable, but the public service announcement needs to be added. Since the location is 'Suining County' I am adding this to the SMS messages.",
   "approved_messages": [
     {
       "channel": "sms",
-      "text": "High wildfire risk detected in your area. Fire crews are responding. Please avoid the area and follow official instructions.",
+      "text": "High Temperature Alert for Suining County: Take precautions to stay cool and hydrated. Limit outdoor activities during peak heat hours.",
       "recipients": [
-        "affected_population"
+        "all"
+      ]
+    },
+    {
+      "channel": "sms",
+      "text": "Pollen Alert for Suining County: Elevated pollen levels detected. Residents with allergies should take appropriate precautions.",
+      "recipients": [
+        "all"
       ]
     }
   ]

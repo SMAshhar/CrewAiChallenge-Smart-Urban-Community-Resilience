@@ -69,12 +69,11 @@ incident_command_task:
 
 communication_task:
   description: >
-    Generate clear, concise, and localized updates for citizens and departments regarding ongoing or resolved incidents.
-    Disseminate updates through appropriate channels such as apps, SMS, or social platforms.
+    Generate final messages for citizens and deparmtents from the approved drafts and send them through
+    the configured channels. This task MUST check the output  of the incident_command_task andony send when approval == "approve".
   expected_output: >
-    A set of citizen-ready message templates or alerts with approved language, recipients, and distribution channels.
+    A JSON log of messages generated and (if sent) the sending results (dry-run mode recommended for demos).
   agent: communicator
-  context: ['event_detection_task','logistics_planning_task','incident_command_task']
 
 learning_feedback_task:
   description: >

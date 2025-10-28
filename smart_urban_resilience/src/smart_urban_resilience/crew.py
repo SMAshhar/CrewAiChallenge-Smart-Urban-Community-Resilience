@@ -180,7 +180,8 @@ class SmartUrbanResilience():
     def resource_recommendation_task(self) -> Task:
         return Task(
             config=self.tasks_config['resource_recommendation_task'],  # type: ignore[index]
-            # output_file="./data/5-resource_recommendations.json"
+            # output_file="./data/5-resource_recommendations.json",
+            max_retries=3
         )
 
     @task

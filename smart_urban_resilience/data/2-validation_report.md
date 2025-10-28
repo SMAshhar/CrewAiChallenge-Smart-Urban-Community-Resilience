@@ -4,14 +4,14 @@
     {
       "id": "unknown",
       "event_id": "unknown",
-      "lat": 24.0,
-      "lon": 67.0,
-      "timestamp": "2025-10-27T20:31:08.282177+00:00",
-      "temperature_c": NaN,
+      "lat": 34.0,
+      "lon": 118.0,
+      "timestamp": "2025-10-28T10:19:05.170050+00:00",
+      "temperature_c": null,
       "location": {
-        "latitude": 24.0,
-        "longitude": 67.0,
-        "city": "Unknown"
+        "latitude": 34.0,
+        "longitude": 118.0,
+        "city": "Suining County"
       },
       "raw_temperature": {
         "temp_f": null,
@@ -44,7 +44,7 @@
       "temperature_c": {
         "method": "median",
         "filled": 0,
-        "value": NaN
+        "value": null
       }
     },
     "removed_by_missing": 0,

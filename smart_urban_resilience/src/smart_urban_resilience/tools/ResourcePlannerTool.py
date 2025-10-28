@@ -298,6 +298,7 @@ class ResourcePlannerTool(BaseTool):
             for j in range(n_ev):
                 elat, elon = event_locs[j]
                 if rlat is None or elat is None:
+                    etas[i][j] = float("inf")
                     continue
                 # try OSRM
                 eta_min = None
@@ -315,6 +316,10 @@ class ResourcePlannerTool(BaseTool):
                 if eta_min is None:
                     eta_min = haversine_minutes(rlat, rlon, elat, elon, speed_kmph=avg_speed_kmph)
                 etas[i][j] = max(0.0, float(eta_min))
+            for row in etas:
+                for val in row:
+                    if val is None:
+                        val = float("inf")
 
         # Resource availability & capacity
         available_idx = []
@@ -365,8 +370,8 @@ class ResourcePlannerTool(BaseTool):
                     prob += pulp.lpSum([x[(i, j)] for j in range(n_ev)]) <= cap
                 for i in range(n_res):
                     for j in range(n_ev):
-                        if etas[i][j] is None or etas[i][j] > max_travel:
-                            prob += x[(i, j)] == 0
+                        if etas[i][j] is None or safe_float(etas[i][j], 9999999.0) > max_travel:
+                            prob += x[(i, j)] == 0      
                 solver_cmd = pulp.PULP_CBC_CMD(msg=False, timeLimit=int(time_limit_s or 8))
                 prob.solve(solver_cmd)
                 status = pulp.LpStatus.get(prob.status, str(prob.status))

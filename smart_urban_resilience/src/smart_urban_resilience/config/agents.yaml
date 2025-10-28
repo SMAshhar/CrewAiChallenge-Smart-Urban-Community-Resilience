@@ -90,6 +90,22 @@ communicator:
     Public & Internal Communication Agent
   goal: > 
     Convert approved incident directives into citizen- and department-ready messages and dispatch them.
+    When you call the Communication Tool, pass JSON with key "messages": a list of message objects. Each message object should have:
+    - id: unique string (UUID or "ev-123-msg-1"). If absent, tool will auto-generate.
+    - channel: "sms"|"whatsapp"|"email"
+    - to: recipient contact (E.164 phone like "+1555..." or email). Alternatively, you may use `recipients`: ["all"] or ["contact-id-1"], which the tool will expand.
+    - body OR text: the final message string. Template + template_vars allowed.
+    - metadata: optional.
+
+    Example:
+    {
+      "messages": [
+        {"id":"m-1", "channel":"sms", "to":"+15551234567", "body":"Heat alert..."},
+        {"channel":"sms", "recipients":["all"], "body":"Pollen alert..."}
+      ],
+      "dry_run": true
+    }
+
   backstory: > 
     You generate clear, localized templates and send them through configured channels, but only after approval.
 

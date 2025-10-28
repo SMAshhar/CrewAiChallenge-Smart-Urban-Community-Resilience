@@ -1,39 +1,63 @@
 ```json
 {
-  "dispatch_results": [
-    {
-      "command": {
-        "resource_id": "flood_team_1",
-        "event_id": "ev-adfa5eb779",
-        "eta_min": null,
-        "route": null,
-        "metadata": {
-          "resource_type": null,
-          "resource_contact": null,
-          "event_summary": null,
-          "raw_assignment": {
-            "event_id": "ev-adfa5eb779",
-            "resource_id": "flood_team_1",
-            "resource_type": "flood_response_team",
-            "location": {
-              "latitude": 24,
-              "longitude": 67
-            },
-            "estimated_time_of_arrival_minutes": 22.59
-          },
-          "idempotency_token": "98764a96c1ceef055763857e4dfc7844fd6b8a7b30f3c8da84209c64978e047c"
+  "routing_plan": {
+    "priority_event": {
+      "event_id": "ev-8b6b5d9e6f",
+      "resource": {
+        "resource_id": "fire_truck_1",
+        "type": "fire_truck",
+        "location": {
+          "latitude": 34,
+          "longitude": 118
         },
-        "status": "dry_run",
-        "response": null
+        "contact": "fire_department",
+        "capacity": 1000
+      },
+      "route": null,
+      "estimated_travel_time_minutes": 0.0,
+      "schedule": "Immediately dispatch fire_truck_1 to latitude 34, longitude 118 for Moderate Wildfire Risk (ev-8b6b5d9e6f)."
+    },
+    "secondary_events": [
+      {
+        "event_id": "ev-f7a811a0de",
+        "resource": {
+          "resource_id": "paramedics_1",
+          "type": "paramedics",
+          "location": {
+            "latitude": 34,
+            "longitude": 118
+          },
+          "contact": "ems",
+          "capacity": 2
+        },
+        "route": null,
+        "estimated_travel_time_minutes": 0.0,
+        "schedule": "Paramedics_1 should be prepared to respond to heat-related emergencies at latitude 34, longitude 118 related to High Temperature event (ev-f7a811a0de)."
+      },
+      {
+        "event_id": "ev-0d2cef3d40",
+        "resource": {
+          "resource_id": "paramedics_1",
+          "type": "paramedics",
+          "location": {
+            "latitude": 34,
+            "longitude": 118
+          },
+          "contact": "ems",
+          "capacity": 2
+        },
+        "route": null,
+        "estimated_travel_time_minutes": 0.0,
+        "schedule": "Paramedics_1 should be prepared to respond to allergy-related emergencies at latitude 34, longitude 118 related to Elevated Pollen Levels event (ev-0d2cef3d40)."
       }
-    }
-  ],
+    ]
+  },
   "diagnostic": {
-    "commands": 1,
+    "commands": 3,
     "sent": 0,
     "failed": 0,
     "dry_run": true
   },
-  "elapsed_s": 0.0
+  "disclaimer": "This is a dry run and no actual dispatch commands were sent."
 }
 ```
