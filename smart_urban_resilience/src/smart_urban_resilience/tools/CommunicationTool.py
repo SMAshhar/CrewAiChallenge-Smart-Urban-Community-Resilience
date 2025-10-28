@@ -24,7 +24,9 @@ from crewai.tools import BaseTool
 # Guarded external libs
 try:
     from twilio.rest import Client as TwilioClient
+    print("Twilio successfully imported. ")
 except Exception:
+    print("Failed to import Twilio")
     TwilioClient = None
 
 try:
