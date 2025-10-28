@@ -98,6 +98,8 @@ def estimate_population_simple(lat: float, lon: float, radius_m: float, grid: Li
 
 # ----------------- Tool -----------------
 class ImpactAssessmentTool(BaseTool):
+
+    
     name: str = "Impact Assessment Tool"
     description: str = (
         "Estimate spatial impact of detected events. Uses PostGIS when configured, falls back to GeoPandas/Shapely, "

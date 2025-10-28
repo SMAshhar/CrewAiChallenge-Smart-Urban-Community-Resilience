@@ -14,6 +14,7 @@ from .tools.ImpactAcessorTool import ImpactAssessmentTool
 from .tools.ResourcePlannerTool import ResourcePlannerTool
 from .tools.Logistics_RoutingTool import LogisticsRoutingTool
 from .tools.CommunicationTool import CommunicationTool
+from .tools.LearningTool import LearningTool
 
 # Import Schemas
 
@@ -29,6 +30,7 @@ impact_assessment_tool = ImpactAssessmentTool()
 resource_planner_tool = ResourcePlannerTool()  
 logistics_routing_tool = LogisticsRoutingTool() 
 communication_tool = CommunicationTool()
+learning_tool = LearningTool()
 
 
 @CrewBase
@@ -128,7 +130,9 @@ class SmartUrbanResilience():
         """Learns from feedback and retrains the system for continuous improvement."""
         return Agent(
             config=self.agents_config['learning_agent'],  # type: ignore[index]
-            verbose=True
+            verbose=True,
+            tools=[learning_tool],
+            max_iter=3
         )
 
     @agent

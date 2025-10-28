@@ -1,18 +1,4 @@
 # src/smart_urban_resilience/tools/CommunicationTool.py
-"""
-CommunicationTool — CrewAI BaseTool
-
-Purpose:
-- Format templated messages for events and resource dispatches.
-- Deliver via Twilio (SMS/WhatsApp) or SMTP email (both guarded).
-- Dry-run mode by default for reproducible demos.
-- Returns per-message status and diagnostics.
-
-Usage:
-- Provide messages list (target, channel, text/template data).
-- Provide twilio_config or smtp_config to actually send (otherwise dry-run).
-"""
-
 from __future__ import annotations
 import logging
 import time
@@ -32,6 +18,7 @@ except Exception:
 try:
     import smtplib
     from email.message import EmailMessage
+    print("smtplib successfully imported. ")
 except Exception:
     smtplib = None
     EmailMessage = None
@@ -77,6 +64,175 @@ class CommunicationInput(BaseModel):
 
 # ---------- tool
 class CommunicationTool(BaseTool):
+
+    """
+        CommunicationTool — A message formatting and delivery utility for agentic workflows.
+        ===================================================================================
+
+        Purpose:
+        --------
+        This tool enables CrewAI agents to **compose and send communication messages**
+        (such as alerts, notifications, and approvals) to human or system recipients
+        via **Twilio** (SMS/WhatsApp) or **SMTP** (Email). It supports **templated messages**, 
+        **dry-run simulations**, and **diagnostic tracking** for traceable operations.
+
+        It is primarily used by the *Communication Agent* in Smart Urban Resilience systems
+        to deliver real-time dispatches, incident alerts, and operator notifications.
+
+        Key Capabilities:
+        -----------------
+        1. Format messages dynamically using Python-style templates.
+        2. Dispatch through Twilio (SMS/WhatsApp) or SMTP (Email).
+        3. Support dry-run mode (default) for simulation/testing.
+        4. Implement retry and backoff for resilient delivery.
+        5. Return per-message diagnostics for observability and replay.
+
+        -------------------------------------------------------------------------------------
+        INPUT SCHEMA (CommunicationInput)
+        -------------------------------------------------------------------------------------
+
+        messages: List[MessageSpec]
+            • List of message instructions to send.
+            • Each message includes ID, channel, target, body/template, and optional metadata.
+
+        twilio: Optional[TwilioConfig]
+            • Twilio credentials (account_sid, auth_token, from_number).
+            • Required if sending via 'sms' or 'whatsapp'.
+
+        smtp: Optional[SMTPConfig]
+            • SMTP credentials and server details.
+            • Required if sending via 'email'.
+
+        dry_run: Optional[bool] = True
+            • If True, messages are not actually sent — useful for simulation/testing.
+
+        max_retry: Optional[int] = 1
+            • Number of retry attempts for failed sends (with exponential backoff).
+
+        retry_backoff_s: Optional[int] = 2
+            • Base seconds for exponential retry backoff.
+
+        -------------------------------------------------------------------------------------
+        MESSAGE SPEC SCHEMA (MessageSpec)
+        -------------------------------------------------------------------------------------
+
+        id: str
+            • Unique ID for message (traceable and idempotent).
+
+        channel: str
+            • One of: "sms" | "whatsapp" | "email".
+
+        to: str
+            • Recipient contact (e.g., phone number "+1555123456" or email address).
+
+        body: Optional[str]
+            • Direct message content (if not templated).
+
+        template: Optional[str]
+            • Message body template (Python format string, e.g. "Dispatch {resource} → {place}").
+
+        template_vars: Optional[Dict[str, Any]]
+            • Variables to fill into the template (e.g. {"resource": "Ambulance A1"}).
+
+        metadata: Optional[Dict[str, Any]]
+            • Any auxiliary metadata to include in the output (e.g. {"incident_id": 42}).
+
+        -------------------------------------------------------------------------------------
+        RUNTIME LOGIC
+        -------------------------------------------------------------------------------------
+
+        1. **Normalize Input**  
+        Converts all messages to validated `MessageSpec` objects. Invalid ones are skipped.
+
+        2. **Dry-Run Handling**  
+        If `dry_run=True`, the tool only renders and returns the formatted messages
+        with status "dry_run", without performing any external API calls.
+
+        3. **Twilio Setup (Optional)**  
+        If Twilio config is provided, it initializes a Twilio client for SMS/WhatsApp.
+
+        4. **SMTP Setup (Optional)**  
+        If SMTP config is provided, sets up for email delivery.
+
+        5. **Message Sending Loop**  
+        For each message:
+        - Renders message body (from `body` or `template`).
+        - Dispatches using `_send_twilio()` or `_send_smtp()` depending on the channel.
+        - Retries failed sends with exponential backoff until `max_retry` is reached.
+
+        6. **Diagnostics Summary**  
+        After all messages are processed, returns:
+            {
+            "results": [ ... per-message results ... ],
+            "diagnostic": { "total": N, "sent": X, "failed": Y, "dry_run": True/False },
+            "elapsed_s": <execution_time_seconds>
+            }
+
+                
+        -------------------------------------------------------------------------------------
+        RETURN STRUCTURE
+        -------------------------------------------------------------------------------------
+
+        {
+        "results": [
+        {
+        "id": "m1",
+        "status": "ok" | "failed" | "dry_run",
+        "channel": "sms" | "whatsapp" | "email",
+        "to": "<recipient>",
+        "body": "<rendered body>",
+        "response": { ... Twilio or SMTP response ... },
+        "metadata": { ... optional metadata ... },
+        "error": "<error message if failed>"
+        },
+        ...
+        ],
+        "diagnostic": {
+        "total": <count>,
+        "sent": <count>,
+        "failed": <count>,
+        "dry_run": true | false
+        },
+        "elapsed_s": <float>
+        }
+
+        -------------------------------------------------------------------------------------
+        AGENT USAGE EXAMPLE
+        -------------------------------------------------------------------------------------
+
+        ```python
+        from smart_urban_resilience.tools.CommunicationTool import CommunicationTool, MessageSpec
+
+        tool = CommunicationTool()
+
+        messages = [
+        MessageSpec(
+            id="alert_001",
+            channel="sms",
+            to="+1555123456",
+            template="🚨 Alert: {incident} reported at {location}",
+            template_vars={"incident": "Fire", "location": "Sector 7G"}
+        ),
+        MessageSpec(
+            id="email_002",
+            channel="email",
+            to="ops_center@example.com",
+            body="Incident report pending approval.",
+            metadata={"incident_id": "INC-045"}
+        )
+        ]
+
+        # Run in dry-run mode for simulation
+        result = tool._run(messages=messages, dry_run=True)
+        print(result)
+
+        NOTES FOR AI AGENTS
+        • This tool is idempotent — each message is uniquely tracked via id.
+        • When integrated into a CrewAI workflow, it can be used safely in simulation or production modes.
+        • To send real messages, ensure Twilio/SMTP credentials are securely injected into the agent environment.
+        • Ideal for alerting, incident escalation, dispatch confirmation, or operator communication steps in multi-agent workflows.
+
+   """
     name: str = "Communication Tool"
     description: str = "Format and deliver messages via Twilio or SMTP. Dry-run by default."
     args_schema: Type[BaseModel] = CommunicationInput
