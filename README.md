@@ -4,7 +4,7 @@
 
 A sophisticated AI-powered system for urban emergency management and community resilience using CrewAI. This project implements an intelligent system that monitors, analyzes, and responds to urban emergencies through a network of specialized AI agents.
 
-System description [link]("https://github.com/SMAshhar/CrewAiChallenge-Smart-Urban-Community-Resilience/blob/main/Smart%20Urban%20Community%20Resilience.pdf")
+System description [link](https://github.com/SMAshhar/CrewAiChallenge-Smart-Urban-Community-Resilience/blob/main/Smart%20Urban%20Community%20Resilience.pdf)
 
 ## 🌟 Features
 
