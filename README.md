@@ -2,15 +2,18 @@
 
 # Smart Urban Community Resilience System
 
+[![Python](https://img.shields.io/badge/python-3.10%2B-blue)]()
+[![License: MIT](https://img.shields.io/badge/license-MIT-green)]()
+[![CI](https://img.shields.io/badge/ci-pending-yellow)]()
+
 A sophisticated AI-powered system for urban emergency management and community resilience using CrewAI. This project implements an intelligent system that monitors, analyzes, and responds to urban emergencies through a network of specialized AI agents.
 
 Vision [link](https://github.com/SMAshhar/CrewAiChallenge-Smart-Urban-Community-Resilience/blob/main/Smart%20Urban%20Community%20Resilience.pdf)
 
-## NOTE:-
-- This repo only has Agentic Ai (GenAI) part of the product. Event driven architecture is not worked upon yet.
-- Some tools (like communication tool) don't have their pipeline complete, meaning, agent might have to call them multiple times to get them right. Once the pipeline is complete, these calls will be optemized enough for single attempt success.
-- Due to this problem, token usage has also significantly increased. Will continuously optimize to make it more efficient. NOTE: least token usage noticed yet is 67k tokens per call, max token usage noticed yet is ~240k per call. Average token usage is ~115k
-- Polishing for redundancy in progress.
+## ⚠️ NOTE:-
+- This repo contains the **Agentic / GenAI** portion only. Event-driven infra is planned but not fully implemented.
+- Some tools (for example the Communicator) are partially implemented — agent calls may be iterative until tool pipelines are completed. We are optimizing for fewer calls.
+- Performance: experimental runs show **high token usage** with the current agent traces. See `PERFORMANCE.md` for measured values and mitigations.
 
 ## 🌟 Features
 
@@ -54,72 +57,19 @@ Data Sources -> Ingest Layer -> Event Bus -> Agent Runtimes (Crews) -> Action & 
 
 ## 🤖 Agent System
 
-The system comprises 11 specialized agents:
+**11 specialized agents** — short form. See `config/agents.md` for configs and detailed I/O.
 
-1. **Feed Collector (ingestor)**
-   - **Trigger:** schedule + webhooks + MQTT topics
-   - **Inputs:** Weather APIs (OpenWeather/NWS), air-quality (OpenAQ), USGS quake feed, IoT MQTT topics, citizen reports webhooks
-   - **Outputs:** raw event messages to Event Bus (topic: `raw.feeds`)
-   - **Tools:** HTTP clients, MQTT client, rate-limiter
-
-2. **Data Normalizer & Enricher**
-   - **Trigger:** `raw.feeds` messages
-   - **Inputs:** raw messages
-   - **Outputs:** structured events (geo-normalized, timestamped, enriched with reverse geocode & zone id) to `events.normalized`
-   - **Tools:** JSON schema validator, geocoder (Mapbox or Nominatim), timezone resolver, dedupe engine
-
-3. **Data Validator**
-   - Validates data integrity and accuracy
-   - Ensures data conforms to expected schemas
-   - Filters out invalid or corrupted data
-
-4. **Event Detector & Classifier**
-   - **Trigger:** `events.normalized`
-   - **Inputs:** normalized event stream
-   - **Outputs:** `events.detected` (type, confidence, short rationale)
-   - **Functions:** rule engine + lightweight ML model for spikes, threshold crossings, pattern matches
-
-5. **Impact Assessor (spatial + population impact)**
-   - **Trigger:** `events.detected`
-   - **Inputs:** detected event, PostGIS / city map data, demographic layers
-   - **Outputs:** `events.assessed` (severity score, affected polygons, estimated population, critical infrastructure impacted)
-   - **Tools:** PostGIS + spatial queries, reverse geocoding, OSRM for accessibility / routing impact
-
-6. **Resource Recommender & Prioritizer**
-   - **Trigger:** `events.assessed`
-   - **Inputs:** available resources DB, SLA rules, budget constraints
-   - **Outputs:** `plans.recommended` (resource assignments, priorities, ETA)
-   - **Tools:** heuristic optimizer, constraints engine, OSRM routing for ETAs
-
-7. **Logistics & Routing Agent**
-   - **Trigger:** approved or auto-approved `plans.recommended`
-   - **Inputs:** selected plan, routing info
-   - **Outputs:** dispatch commands and route details for crews; `plans.executed`
-   - **Tools:** OSRM / external routing, Twilio for SMS, webhook to municipal dispatch API
-
-8. **Communicator (public / internal messaging)**
-   - **Trigger:** `events.assessed` or `plans.executed`
-   - **Inputs:** event summary, target audience profiles
-   - **Outputs:** formatted messages for dashboard, SMS, email, social post draft
-   - **Tools:** Twilio SMS/API, SMTP, templating engine, multi-language templates
-
-9. **Human-in-the-loop Validator (Incident Commander agent)**
-   - **Trigger:** `events.assessed` with severity > threshold or low confidence
-   - **Inputs:** full event trace + recommended plan + evidence
-   - **Outputs:** Approve / Modify / Reject decisions; once approved, emits command to Logistics Agent
-   - **Tools:** Web dashboard (map + timeline + evidence), push notifications to on-call staff
-
-10. **Learning & Feedback Agent**
-    - **Trigger:** `plans.executed` + post-event logs + human feedback
-    - **Inputs:** execution logs, outcome metrics
-    - **Outputs:** training datasets, updated thresholds/rules, retraining tasks queued
-    - **Tools:** MLflow (model registry), Airflow (pipelines), model monitoring
-
-11. **Privacy & Consent Manager (cross-cutting)**
-    - **Trigger:** any data ingest that contains personal info
-    - **Inputs:** PII flags, consent store
-    - **Outputs:** anonymized / filtered payloads, consent audits
-    - **Tools:** encryption-at-rest, key management, consent DB
+1. **Feed Collector** — gathers weather, OpenAQ, USGS, MQTT, citizen webhooks → `raw.feeds`.
+2. **Data Normalizer & Enricher** — schema validation, geocoding, dedupe → `events.normalized`.
+3. **Data Validator** — integrity checks and schema enforcement.
+4. **Event Detector & Classifier** — rules + lightweight ML → `events.detected` (type, confidence).
+5. **Impact Assessor** — maps affected polygons, population, infra impact → `events.assessed`.
+6. **Resource Recommender & Prioritizer** — resource assignments & ETA → `plans.recommended`.
+7. **Logistics & Routing Agent** — dispatch routing + commands → `plans.executed`.
+8. **Communicator** — formats messages for dashboard, SMS, email, social drafts.
+9. **Human-in-the-loop Validator (Incident Commander)** — approval/modification UI.
+10. **Learning & Feedback Agent** — creates training datasets, queues retraining.
+11. **Privacy & Consent Manager** — PII handling, anonymization, consent audits.
 
 ## 🚀 Getting Started
 
@@ -129,10 +79,6 @@ The system comprises 11 specialized agents:
 - PostgreSQL with PostGIS extension
 - Redis (for caching)
 - Docker (optional)
-
-
-
-Of course. Here is the rewritten "Installation and Running" portion of the README.md file, based on your simplified instructions.
 
 ---
 
@@ -265,13 +211,17 @@ CrewAiChallenge-Smart-Urban-Community-Resilience/
             │   └── DataNormalizationSchema.py <- Pydantic schemas for data validation
             └── tools/            <- Custom tools used by agents
                 ├── __init__.py
+                ├── CommunicationTool.py
                 ├── custom_tool.py
                 ├── DataFetchTool.py
                 ├── DataNormalizationTool.py
                 ├── EventDetectionTool.py
                 ├── FileStorageTool.py
                 ├── ImpactAcessorTool.py
+                ├── LearningTool.py
                 ├── Logistics_RoutingTool.py
+                ├── MessageNormalizationTool.py
+                ├── PrivacyTool.py
                 ├── QDrantToo.py
                 ├── ResourcePlannerTool.py
                 └── ValidationTool.py
@@ -405,10 +355,20 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ## 📞 Contact
 
-Syed M. Ashhar - [@yourtwitter](https://twitter.com/SMAshhar_)
+Syed M. Ashhar - [GitHub](https://github.com/SMAshhar)
 Email - [mailto]syed.muhammad.ashhar@gmail.com
 Contact No. - [tel]0092-344-3156626
 Project Link: [https://github.com/SMAshhar/CrewAiChallenge-Smart-Urban-Community-Resilience.git](https://github.com/SMAshhar/CrewAiChallenge-Smart-Urban-Community-Resilience.git)
+
+
+# Extra recommended files to add (quick list)
+- `docs/agents.md` (detailed I/O, sample messages, failure modes)
+- `PERFORMANCE.md` (measurements + mitigation checklist)
+- `SECURITY.md` (threat model + PII flows)
+- `CONTRIBUTING.md`, `CODE_OF_CONDUCT.md`, `ISSUE_TEMPLATE.md`, `PULL_REQUEST_TEMPLATE.md`
+- `docker-compose.yml` and `scripts/bootstrap.sh`
+- `.env.example` with keys/format
+- `examples/` containing one runnable synthetic scenario + expected artifacts
 
 ## 📚 References
 
@@ -423,3 +383,5 @@ Project Link: [https://github.com/SMAshhar/CrewAiChallenge-Smart-Urban-Community
 - [Mapbox Geocoding API](https://docs.mapbox.com/api/search/geocoding/)
 - [OSRM API Documentation](https://project-osrm.org/docs/v5.10.0/api/)
 - [FEMA National Incident Management System](https://www.fema.gov/emergency-managers/nims)
+
+
