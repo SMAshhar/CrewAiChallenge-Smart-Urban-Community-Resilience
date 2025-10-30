@@ -71,7 +71,7 @@ incident_command_task:
 communication_task:
   description: >
     Generate final messages for citizens and deparmtents from the approved drafts and send them through
-    the configured channels. 
+    the configured channels. Use the "message_normalizing_tool" provided to get the input for "communication_tool"
     When you call the Communication Tool, pass JSON with key "messages": a list of message objects. Each message object should have:
     - id: unique string (UUID or "ev-123-msg-1"). If absent, tool will auto-generate.
     - channel: "sms"|"whatsapp"|"email"
@@ -104,6 +104,7 @@ learning_feedback_task:
 privacy_compliance_task:
   description: >
     Continuously monitor data pipelines for compliance with privacy, consent, and data protection rules.
+    Try the privacy tool if need to redact information.
     Anonymize sensitive fields and ensure secure storage of personal data.
   expected_output: >
     A compliance report confirming anonymization, consent adherence, and privacy safeguards.

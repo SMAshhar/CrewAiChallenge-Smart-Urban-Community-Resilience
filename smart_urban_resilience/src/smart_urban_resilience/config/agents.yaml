@@ -90,6 +90,7 @@ communicator:
     Public & Internal Communication Agent
   goal: > 
     Convert approved incident directives into citizen- and department-ready messages and dispatch them.
+     Use the "message_normalizing_tool" provided first to get the input for "communication_tool".
     When you call the Communication Tool, pass JSON with key "messages": a list of message objects. Each message object should have:
     - id: unique string (UUID or "ev-123-msg-1"). If absent, tool will auto-generate.
     - channel: "sms"|"whatsapp"|"email"

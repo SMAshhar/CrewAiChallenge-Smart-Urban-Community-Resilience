@@ -4,7 +4,13 @@
 
 A sophisticated AI-powered system for urban emergency management and community resilience using CrewAI. This project implements an intelligent system that monitors, analyzes, and responds to urban emergencies through a network of specialized AI agents.
 
-System description [link](https://github.com/SMAshhar/CrewAiChallenge-Smart-Urban-Community-Resilience/blob/main/Smart%20Urban%20Community%20Resilience.pdf)
+Vision [link](https://github.com/SMAshhar/CrewAiChallenge-Smart-Urban-Community-Resilience/blob/main/Smart%20Urban%20Community%20Resilience.pdf)
+
+## NOTE:-
+- This repo only has Agentic Ai (GenAI) part of the product. Event driven architecture is not worked upon yet.
+- Some tools (like communication tool) don't have their pipeline complete, meaning, agent might have to call them multiple times to get them right. Once the pipeline is complete, these calls will be optemized enough for single attempt success.
+- Due to this problem, token usage has also significantly increased. Will continuously optimize to make it more efficient. NOTE: least token usage noticed yet is 67k tokens per call, max token usage noticed yet is ~240k per call. Average token usage is ~115k
+- Polishing for redundancy in progress.
 
 ## 🌟 Features
 

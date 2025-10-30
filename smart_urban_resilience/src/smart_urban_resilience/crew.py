@@ -15,6 +15,8 @@ from .tools.ResourcePlannerTool import ResourcePlannerTool
 from .tools.Logistics_RoutingTool import LogisticsRoutingTool
 from .tools.CommunicationTool import CommunicationTool
 from .tools.LearningTool import LearningTool
+from .tools.PrivacyTool import PrivacyTool
+from .tools.MessageNormalizationTool import MessageNormalizationTool
 
 # Import Schemas
 
@@ -31,6 +33,8 @@ resource_planner_tool = ResourcePlannerTool()
 logistics_routing_tool = LogisticsRoutingTool() 
 communication_tool = CommunicationTool()
 learning_tool = LearningTool()
+privacy_tool = PrivacyTool()
+message_normalizing_tool = MessageNormalizationTool()
 
 
 @CrewBase
@@ -140,7 +144,8 @@ class SmartUrbanResilience():
         """Ensures data privacy, consent management, and anonymization."""
         return Agent(
             config=self.agents_config['privacy_manager'],  # type: ignore[index]
-            verbose=True
+            verbose=True,
+            tools=[privacy_tool,storage_tool]
         )
 
     # ============ TASKS ============

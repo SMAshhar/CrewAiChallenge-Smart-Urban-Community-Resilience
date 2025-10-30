@@ -27,6 +27,7 @@ dependencies = [
     "sqlalchemy>=2.0.44",
     "timezonefinder>=8.1.0",
     "twilio>=9.8.5",
+    "mlflow>=3.5.1",
 ]
 
 [project.scripts]
