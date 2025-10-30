@@ -356,8 +356,8 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 ## 📞 Contact
 
 Syed M. Ashhar - [GitHub](https://github.com/SMAshhar)
-Email - [mailto]syed.muhammad.ashhar@gmail.com
-Contact No. - [tel]0092-344-3156626
+Email - [mailto] syed.muhammad.ashhar@gmail.com
+Contact No. - [tel] 0092-344-3156626
 Project Link: [https://github.com/SMAshhar/CrewAiChallenge-Smart-Urban-Community-Resilience.git](https://github.com/SMAshhar/CrewAiChallenge-Smart-Urban-Community-Resilience.git)
 
 
