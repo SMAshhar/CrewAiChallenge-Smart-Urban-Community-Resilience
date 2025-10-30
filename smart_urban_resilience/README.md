@@ -33,13 +33,13 @@ Vision: https://github.com/SMAshhar/CrewAiChallenge-Smart-Urban-Community-Resili
 `Data Sources -> Ingest Layer -> Event Bus -> Agent Runtimes (Crews) -> Action & Execution -> Human-in-loop UI -> Storage & ML -> Observability/Security`
 
 ### Key components (short)
-- **Ingest:** Collectors, schedulers, MQTT, webhooks
-- **Normalizer:** JSON schema validation, geocoding, timezone resolution
-- **Event Bus:** Kafka / managed streaming (durable, replayable)
-- **Agents:** CrewAI-managed agent runtimes grouped by Monitor → Analyze → Respond
-- **Execution:** Dispatchers for SMS/email, municipal APIs, volunteer platforms
-- **Storage:** TimescaleDB/Timescale for time-series, PostGIS for spatial
-- **Observability:** Prometheus/Grafana + CrewAI Maxim for per-execution traces
+1. **Data Ingestion Layer**: Collects data from various sources
+2. **Processing Pipeline**: Normalizes and validates data
+3. **Event Detection System**: Identifies and classifies urban incidents
+4. **Response Planning**: Assesses impact and allocates resources
+5. **Execution Layer**: Handles logistics and communications
+6. **Learning System**: Provides continuous improvement
+7. **Privacy Layer**: Ensures data protection and compliance
 
 ---
 

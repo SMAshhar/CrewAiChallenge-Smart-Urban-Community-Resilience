@@ -1,5 +1,3 @@
-
-
 # Smart Urban Community Resilience System
 
 [![Python](https://img.shields.io/badge/python-3.10%2B-blue)]()
@@ -8,9 +6,9 @@
 
 A sophisticated AI-powered system for urban emergency management and community resilience using CrewAI. This project implements an intelligent system that monitors, analyzes, and responds to urban emergencies through a network of specialized AI agents.
 
-Vision [link](https://github.com/SMAshhar/CrewAiChallenge-Smart-Urban-Community-Resilience/blob/main/Smart%20Urban%20Community%20Resilience.pdf)
+# Vision >>> [link](https://github.com/SMAshhar/CrewAiChallenge-Smart-Urban-Community-Resilience/blob/main/Smart%20Urban%20Community%20Resilience.pdf) <<<
 
-## ⚠️ NOTE:-
+#### ⚠️ NOTE:-
 - This repo contains the **Agentic / GenAI** portion only. Event-driven infra is planned but not fully implemented.
 - Some tools (for example the Communicator) are partially implemented — agent calls may be iterative until tool pipelines are completed. We are optimizing for fewer calls.
 - Performance: experimental runs show **high token usage** with the current agent traces. See `PERFORMANCE.md` for measured values and mitigations.
