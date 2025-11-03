@@ -121,7 +121,7 @@ Edit the newly created `.env` file with your specific API keys and configuration
 
 ### 5. Run the System
 
-You are now ready to run the system. Execute the following command from the root folder of the project:
+You are now ready to run the system. Set the coordinates in the main.py (currently set for LA and Karachi) file and execute the following command from the root folder of the project:
 
 ```bash
 crewai run
