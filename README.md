@@ -89,7 +89,7 @@ Follow these simple steps to get the Smart Urban Resilience System up and runnin
 First, clone the project repository to your local machine:
 
 ```bash
-git clone https://github.com/yourusername/smart-urban-resilience.git
+ git clone https://github.com/SMAshhar/CrewAiChallenge-Smart-Urban-Community-Resilience.git
 cd smart-urban-resilience
 ```
 
@@ -98,7 +98,15 @@ cd smart-urban-resilience
 Ensure you have `uv`, the fast Python package installer, installed on your system. If you don't have it, you can install it with the following command:
 
 ```bash
+wget -qO- https://astral.sh/uv/install.sh | sh
+```
+OR
+```
 curl -LsSf https://astral.sh/uv/install.sh | sh
+```
+OR
+```
+powershell -ExecutionPolicy ByPass -c "irm https://astral.sh/uv/install.ps1 | iex"
 ```
 
 ### 3. Install CrewAI
@@ -106,7 +114,7 @@ curl -LsSf https://astral.sh/uv/install.sh | sh
 Make sure the CrewAI command-line tool is installed. If it's not already installed globally, you can add it with pip:
 
 ```bash
-pip install crewai
+uv tool install crewai
 ```
 
 ### 4. Set Up Environment Variables
@@ -225,12 +233,6 @@ CrewAiChallenge-Smart-Urban-Community-Resilience/
                 └── ValidationTool.py
 ```
 
-## 📚 API Documentation
-
-API documentation is available at:
-```
-http://localhost:8000/docs
-```
 
 ## 📊 Data Model
 

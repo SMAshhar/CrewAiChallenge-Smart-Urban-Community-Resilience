@@ -1,57 +1,29 @@
-**Routing Plan for Extreme UV Alert (Latitude: 24, Longitude: 67)**
+**Routing Plan and Scheduling Recommendations:**
 
-This routing plan outlines the optimized paths, estimated travel times, and scheduling recommendations for the deployment of resources in response to the detected "Extreme UV Alert" events at latitude 24, longitude 67. Given that all assigned resources are assumed to be located at or very near the event coordinates, the travel paths are highly localized, resulting in minimal travel times.
+Based on the resource deployment plan for the "High Flood Risk" event, the following resources are assigned:
 
-**I. Resource Assignments and Estimated Travel Times:**
+*   **Resource:** `resource_pump_1` (Pump Unit)
+    *   **Current Location:** Latitude 24.1, Longitude 67.1
+    *   **Destination:** Latitude 24.0, Longitude 67.0 (High Flood Risk Event Site)
+    *   **Purpose:** Rapid response for water mitigation.
 
-1.  **Resource:** Public Health Team 1 (PHT1)
-    *   **Destination:** Event location (latitude: 24, longitude: 67)
-    *   **Assigned Event:** Extreme UV Alert (ev-b502513489)
-    *   **Optimized Path:** Direct path from assumed current location (24, 67) to event location (24, 67).
-    *   **Estimated Travel Time:** 3 minutes
-    *   **Scheduling Recommendation:**
-        *   **Start Time:** Immediately upon dispatch.
-        *   **Arrival Time:** Target 3 minutes from dispatch.
-        *   **Objective:** Provide public guidance, health monitoring, and coordinate response efforts related to UV exposure.
+*   **Resource:** `resource_boat_1` (Boat Unit)
+    *   **Current Location:** Latitude 24.05, Longitude 67.05
+    *   **Destination:** Latitude 24.0, Longitude 67.0 (High Flood Risk Event Site)
+    *   **Purpose:** Essential for rescue, transport, or reconnaissance in flooded areas.
 
-2.  **Resource:** Awareness Campaign Unit 1 (ACU1)
-    *   **Destination:** Event location (latitude: 24, longitude: 67)
-    *   **Assigned Event:** Extreme UV Alert (ev-b502513489)
-    *   **Optimized Path:** Direct path from assumed current location (24, 67) to event location (24, 67).
-    *   **Estimated Travel Time:** 3 minutes
-    *   **Scheduling Recommendation:**
-        *   **Start Time:** Immediately upon dispatch, concurrent with PHT1.
-        *   **Arrival Time:** Target 3 minutes from dispatch.
-        *   **Objective:** Disseminate information regarding UV protection, health risks, and preventive measures.
+**Optimized Paths and Estimated Travel Times:**
 
-3.  **Resource:** Sunscreen Distribution Kit A (SDK1)
-    *   **Destination:** Event location (latitude: 24, longitude: 67)
-    *   **Assigned Event:** Extreme UV Alert (ev-b502513489)
-    *   **Optimized Path:** No significant travel path; assumed to be on-site or in immediate vicinity.
-    *   **Estimated Travel Time:** 0 minutes
-    *   **Scheduling Recommendation:**
-        *   **Start Time:** Immediately upon confirmation.
-        *   **Arrival Time:** Instant (already at or very near the alert point).
-        *   **Objective:** Immediate distribution of sunscreen and related protective gear to the affected population.
+The system was unable to provide optimized paths and estimated travel times (`eta_min` and `route` are `None` in the tool's output). This is because a routing service URL (e.g., `osrm_url`) was not provided, which is necessary for calculating detailed routes, factoring in traffic, road closures, and proximity.
 
-**II. Overall Scheduling and Coordination:**
+**Scheduling Recommendations:**
 
-*   **Synchronized Deployment:** All active resources are scheduled for immediate deployment to the same central location. PHT1 and ACU1 are expected to arrive within 3 minutes, while SDK1 is already on-site for instant activation.
-*   **Resource Coordination:** Resources are tasked to operate collaboratively at the single event location. PHT1 will oversee health and overall coordination, ACU1 will support with public education, and SDK1 will handle direct supply distribution.
-*   **Traffic and Road Closures:** Without a live OSRM (Open Source Routing Machine) URL, real-time traffic and road closure data could not be explicitly factored into dynamic route adjustments. However, given the immediate proximity (implied by low ETAs) and the consolidated nature of the event, significant detours are unlikely. For future scenarios involving dynamic routing needs, integration with an OSRM service is recommended.
-*   **Proximity to Event Sites:** All resources are positioned ideally with zero or minimal travel distance, ensuring rapid response to the Extreme UV Alert.
+Without estimated travel times, precise scheduling recommendations are limited. However, based on the proximity of the assigned resources to the event location:
 
-**III. Summary of Events Addressed:**
+1.  **Immediate Dispatch:** Both `resource_pump_1` and `resource_boat_1` should be dispatched immediately to the High Flood Risk event at Latitude 24.0, Longitude 67.0.
+2.  **Continuous Monitoring:** Personnel should continuously monitor the event site for any changes in flood levels or additional hazards.
+3.  **Communication:** Establish direct communication channels between the dispatched units and the command center for real-time updates and coordination.
 
-This plan addresses the following Extreme UV Alert events, all located at latitude 24, longitude 67:
-*   ev-b502513489
-*   ev-0b8c14f20a
-*   ev-7fb9901733
-*   ev-c56bff2acb
-*   ev-5b4bd06c52
-*   ev-6865338a37
+**Further Action Required:**
 
-**IV. Future Recommendations:**
-
-*   Integrate a live OSRM service or similar routing engine to enable dynamic route optimization based on real-time traffic conditions and road closures for more complex, dispersed events.
-*   Establish precise initial locations for all resources within the system to allow for accurate calculation of travel distances and times.
+To generate a complete routing plan with optimized paths, estimated travel times, and more granular scheduling recommendations, an OSRM URL or similar routing service endpoint must be provided to the `Logistics & Routing Tool`.
