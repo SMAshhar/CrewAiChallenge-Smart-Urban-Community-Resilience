@@ -129,6 +129,7 @@ Edit the newly created `.env` file with your specific API keys and configuration
 
 ### 5. Run the System
 
+Go to the "main.py" file and set the location coordinates as you like . (KHI and LA are ready to test)
 You are now ready to run the system. Set the coordinates in the main.py (currently set for LA and Karachi) file and execute the following command from the root folder of the project:
 
 ```bash
