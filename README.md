@@ -138,19 +138,6 @@ crewai run
 
 This command will automatically handle the project dependencies (using `uv` and the `pyproject.toml` file) and start the Smart Urban Resilience System.
 
-### Training the Crew
-
-To train the crew for a specified number of iterations:
-
-```bash
-python smart_urban_resilience/src/smart_urban_resilience/main.py train <n_iterations> <filename>
-```
-
-Or using the project script:
-```bash
-train <n_iterations> <filename>
-```
-
 ### Replaying Crew Execution
 
 To replay a previous crew execution from a specific task ID:
